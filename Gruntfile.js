@@ -27,7 +27,7 @@ module.exports =
                         disallowSpacesInsideParentheses: true,
                         disallowTrailingWhitespace: 'ignoreEmptyLines',
                         disallowYodaConditions: true,
-                        requireBlocksOnNewline: 1,
+                        requireBlocksOnNewline: true,
                         requireKeywordsOnNewLine:
                         [
                             'break',
@@ -39,27 +39,22 @@ module.exports =
                             'else',
                             'finally',
                             'for',
+                            'return',
                             'switch',
                             'throw',
-                            'try'
+                            'try',
+                            'while'
                         ],
                         requireLineBreakAfterVariableAssignment: true,
                         requireLineFeedAtFileEnd: true,
+                        requireNewlineBeforeBlockStatements: true,
                         requirePaddingNewLinesAfterUseStrict: true,
                         requireSpaceAfterBinaryOperators: true,
                         requireSpaceAfterKeywords: true,
                         requireSpaceAfterLineComment: true,
                         requireSpaceBeforeBinaryOperators: true,
                         requireSpaceBeforeBlockStatements: true,
-                        requireSpaceBeforeKeywords:
-                        [
-                            'delete',
-                            'if',
-                            'in',
-                            'instanceof',
-                            'return',
-                            'while'
-                        ],
+                        requireSpaceBeforeKeywords: ['delete', 'if', 'in', 'instanceof'],
                         requireSpaceBeforeObjectValues: true,
                         requireSpaceBetweenArguments: true,
                         requireSpacesInAnonymousFunctionExpression:
