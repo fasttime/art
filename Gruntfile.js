@@ -11,7 +11,7 @@ module.exports =
                 clean: { default: ['coverage', 'lib/**/*.min.js', 'art.md'] },
                 jscs:
                 {
-                    default: ['*.js', 'lib/**/*.js'],
+                    default: ['*.js', 'lib/**/*.js', 'test/**/*.js'],
                     options:
                     {
                         // Encourage use of abbreviations: "char", "obj", "str".
@@ -74,7 +74,7 @@ module.exports =
                 jsdoc2md: { default: { dest: 'art.md', src: 'lib/art.js' } },
                 jshint:
                 {
-                    default: ['*.js', 'lib/**/*.js'],
+                    default: ['*.js', 'lib/**/*.js', 'test/**/*.js'],
                     options:
                     {
                         curly: true,
@@ -100,6 +100,7 @@ module.exports =
                         '-W018': true,
                     }
                 },
+                mocha_istanbul: { default: 'test/**/*.spec.js' },
                 uglify:
                 {
                     default: { files: { 'lib/art.min.js': 'lib/art.js' } },
@@ -113,7 +114,8 @@ module.exports =
         grunt.loadNpmTasks('grunt-contrib-jshint');
         grunt.loadNpmTasks('grunt-contrib-uglify');
         grunt.loadNpmTasks('grunt-jscs');
+        grunt.loadNpmTasks('grunt-mocha-istanbul');
         
         // Default task.
-        grunt.registerTask('default', ['clean', 'jshint', 'jscs', 'uglify']);
+        grunt.registerTask('default', ['clean', 'jshint', 'jscs', 'mocha_istanbul', 'uglify']);
     };
