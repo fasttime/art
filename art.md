@@ -8,7 +8,7 @@ Creates or modifies a node.
 | Param | Description |
 | --- | --- |
 | target | A node, a function returning a node, or a string specifying the type of element to be created using `document.createElement()`. |
-| [...args] | Optional arguments. Each of these may be a node to be appended to the taget node, a function to be called with the target node as only argument, an object whose properties shall be assigned to the taget node, or a string of text to be appended to the target node. |
+| [...args] | Optional arguments. Each of these may be a node to be appended to the taget node, a function to be called with the target node as its only argument, an object whose properties shall be assigned to the taget node, or a string of text to be appended to the target node. Note that `null` and `undefined` arguments are simply ignored. |
 
 <a name="art.on"></a>
 ### art.on(type, listener, useCapture) ⇒ <code>function</code>
