@@ -114,8 +114,12 @@ module.exports =
         grunt.loadNpmTasks('grunt-contrib-jshint');
         grunt.loadNpmTasks('grunt-contrib-uglify');
         grunt.loadNpmTasks('grunt-jscs');
+        grunt.loadNpmTasks('grunt-jsdoc-to-markdown');
         grunt.loadNpmTasks('grunt-mocha-istanbul');
         
         // Default task.
-        grunt.registerTask('default', ['clean', 'jshint', 'jscs', 'mocha_istanbul', 'uglify']);
+        grunt.registerTask(
+            'default',
+            ['clean', 'jshint', 'jscs', 'jsdoc2md', 'mocha_istanbul', 'uglify']
+        );
     };
