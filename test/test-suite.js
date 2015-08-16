@@ -90,17 +90,58 @@
                         assert.deepEqual(calls, [fn1, fn2]);
                     }
                 );
-                it(
-                    'imports properties from object arguments in a specific order',
+                describe(
+                    'imports properties from object arguments',
                     function ()
                     {
-                        var div =
-                            art(
-                                'DIV',
-                                { style: { color: 'red' } },
-                                { style: { color: 'blue' } }
-                            );
-                        assert.strictEqual(div.style.color, 'blue');
+                        it(
+                            'in a specific order',
+                            function ()
+                            {
+                                var input = art('INPUT', { value: 'foo' }, { value: 'bar' });
+                                assert.strictEqual(input.value, 'bar');
+                            }
+                        );
+                        it(
+                            'even if missing in the target',
+                            function ()
+                            {
+                                var div = art('DIV', { 'data-id': 12345 });
+                                assert.strictEqual(div['data-id'], 12345);
+                            }
+                        );
+                        it(
+                            'but not inherited source properties',
+                            function ()
+                            {
+                                var source = Object.create({ a: 1 });
+                                var div = art('DIV', source);
+                                assert(!('a' in div));
+                            }
+                        );
+                        it(
+                            'traversing source object value type properties',
+                            function ()
+                            {
+                                var div =  art('DIV', { style: { color: 'red' } });
+                                assert.strictEqual(div.style.color, 'red');
+                            }
+                        );
+                        it(
+                            'not traversing source object get/set type properties',
+                            function ()
+                            {
+                                var getter = Function();
+                                var source =
+                                    Object.create(
+                                        null,
+                                        { prop: { enumerable: true, get: getter } }
+                                    );
+                                var div = art('DIV', source);
+                                var descriptor = Object.getOwnPropertyDescriptor(div, 'prop');
+                                assert.strictEqual(descriptor.get, getter);
+                            }
+                        );
                     }
                 );
                 it(
