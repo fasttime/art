@@ -1,0 +1,12 @@
+/* jshint node: true */
+
+'use strict';
+
+global.assert = require('assert');
+var jsdom = require('jsdom').jsdom;
+var document = jsdom();
+var window = document.parentWindow;
+Object.setPrototypeOf(global, window);
+require('../lib/art.js');
+var TestSuite = require('./test-suite.js');
+TestSuite.init();
