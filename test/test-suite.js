@@ -120,7 +120,7 @@
                             }
                         );
                         it(
-                            'traversing source object value type properties',
+                            'branching into source object value type properties',
                             function ()
                             {
                                 var div =  art('DIV', { style: { color: 'red' } });
@@ -128,7 +128,7 @@
                             }
                         );
                         it(
-                            'not traversing source object get/set type properties',
+                            'not branching into source object get/set type properties',
                             function ()
                             {
                                 var getter = Function();
