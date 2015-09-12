@@ -1,3 +1,9 @@
+<a name="0.2.2"></a>
+## [0.2.2](https://github.com/fasttime/art/releases/tag/0.2.2) (2015-09-12)
+
+* Build now requires Node.js 4.
+* Switched to Mocha matrix test reporter.
+
 <a name="0.2.1"></a>
 ## [0.2.1](https://github.com/fasttime/art/releases/tag/0.2.1) (2015-08-17)
 
