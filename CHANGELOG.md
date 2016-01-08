@@ -1,3 +1,9 @@
+<a name="0.2.3"></a>
+## [0.2.3](https://github.com/fasttime/art/releases/tag/0.2.3) (2015-01-08)
+
+* Updated documentation.
+* Fixed test reporter icons.
+
 <a name="0.2.2"></a>
 ## [0.2.2](https://github.com/fasttime/art/releases/tag/0.2.2) (2015-09-12)
 
