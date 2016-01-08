@@ -2,6 +2,90 @@
 
 'use strict';
 
+var JSCS_OPTIONS =
+{
+    // Encourage use of abbreviations: "char", "obj", "str".
+    disallowIdentifierNames: ['character', 'object', 'string'],
+    disallowMixedSpacesAndTabs: true,
+    disallowNamedUnassignedFunctions: true,
+    disallowSpaceAfterObjectKeys: true,
+    disallowSpaceAfterPrefixUnaryOperators: true,
+    disallowSpaceBeforePostfixUnaryOperators: true,
+    disallowSpacesInCallExpression: true,
+    disallowSpacesInFunctionDeclaration: { beforeOpeningRoundBrace: true },
+    disallowSpacesInNamedFunctionExpression: { beforeOpeningRoundBrace: true },
+    disallowSpacesInsideBrackets: true,
+    disallowSpacesInsideParentheses: true,
+    disallowTrailingWhitespace: 'ignoreEmptyLines',
+    disallowYodaConditions: true,
+    requireBlocksOnNewline: true,
+    requireKeywordsOnNewLine:
+    [
+        'break',
+        'case',
+        'catch',
+        'continue',
+        'default',
+        'do',
+        'else',
+        'finally',
+        'for',
+        'return',
+        'switch',
+        'throw',
+        'try',
+        'while'
+    ],
+    requireLineBreakAfterVariableAssignment: true,
+    requireLineFeedAtFileEnd: true,
+    requireNewlineBeforeBlockStatements: true,
+    requirePaddingNewLinesAfterUseStrict: true,
+    requireSpaceAfterBinaryOperators: true,
+    requireSpaceAfterKeywords: true,
+    requireSpaceAfterLineComment: true,
+    requireSpaceBeforeBinaryOperators: true,
+    requireSpaceBeforeBlockStatements: true,
+    requireSpaceBeforeKeywords: ['delete', 'if', 'in', 'instanceof'],
+    requireSpaceBeforeObjectValues: true,
+    requireSpaceBetweenArguments: true,
+    requireSpacesInAnonymousFunctionExpression: { beforeOpeningRoundBrace: true },
+    requireSpacesInConditionalExpression: true,
+    requireSpacesInForStatement: true,
+    requireSpacesInFunctionDeclaration: { beforeOpeningCurlyBrace: true },
+    requireSpacesInFunctionExpression: { beforeOpeningCurlyBrace: true },
+    requireSpacesInsideObjectBrackets: 'all',
+    validateAlignedFunctionParameters: true,
+    validateIndentation: { includeEmptyLines: true, value: 4 },
+    validateParameterSeparator: ', '
+};
+
+var JSHINT_OPTIONS =
+{
+    // Enforcing options
+    curly: true,
+    eqeqeq: true,
+    immed: true,
+    latedef: 'nofunc',
+    maxlen: 100,
+    newcap: false,
+    noarg: true,
+    noempty: true,
+    quotmark: true,
+    singleGroups: true,
+    strict: true,
+    trailing: true,
+    undef: true,
+    unused: true,
+    
+    // Relaxing options
+    boss: true,
+    elision: true,
+    eqnull: true,
+    evil: true,
+    validthis: true,
+    '-W018': true,
+};
+
 module.exports =
     function (grunt)
     {
@@ -12,94 +96,13 @@ module.exports =
                 jscs:
                 {
                     default: ['*.js', 'lib/**/*.js', 'test/**/*.js'],
-                    options:
-                    {
-                        // Encourage use of abbreviations: "char", "obj", "str".
-                        disallowIdentifierNames: ['character', 'object', 'string'],
-                        disallowMixedSpacesAndTabs: true,
-                        disallowNamedUnassignedFunctions: true,
-                        disallowSpaceAfterObjectKeys: true,
-                        disallowSpaceAfterPrefixUnaryOperators: true,
-                        disallowSpaceBeforePostfixUnaryOperators: true,
-                        disallowSpacesInCallExpression: true,
-                        disallowSpacesInFunctionDeclaration: { beforeOpeningRoundBrace: true },
-                        disallowSpacesInNamedFunctionExpression: { beforeOpeningRoundBrace: true },
-                        disallowSpacesInsideBrackets: true,
-                        disallowSpacesInsideParentheses: true,
-                        disallowTrailingWhitespace: 'ignoreEmptyLines',
-                        disallowYodaConditions: true,
-                        requireBlocksOnNewline: true,
-                        requireKeywordsOnNewLine:
-                        [
-                            'break',
-                            'case',
-                            'catch',
-                            'continue',
-                            'default',
-                            'do',
-                            'else',
-                            'finally',
-                            'for',
-                            'return',
-                            'switch',
-                            'throw',
-                            'try',
-                            'while'
-                        ],
-                        requireLineBreakAfterVariableAssignment: true,
-                        requireLineFeedAtFileEnd: true,
-                        requireNewlineBeforeBlockStatements: true,
-                        requirePaddingNewLinesAfterUseStrict: true,
-                        requireSpaceAfterBinaryOperators: true,
-                        requireSpaceAfterKeywords: true,
-                        requireSpaceAfterLineComment: true,
-                        requireSpaceBeforeBinaryOperators: true,
-                        requireSpaceBeforeBlockStatements: true,
-                        requireSpaceBeforeKeywords: ['delete', 'if', 'in', 'instanceof'],
-                        requireSpaceBeforeObjectValues: true,
-                        requireSpaceBetweenArguments: true,
-                        requireSpacesInAnonymousFunctionExpression:
-                        {
-                            beforeOpeningRoundBrace: true
-                        },
-                        requireSpacesInConditionalExpression: true,
-                        requireSpacesInForStatement: true,
-                        requireSpacesInFunctionDeclaration: { beforeOpeningCurlyBrace: true },
-                        requireSpacesInFunctionExpression: { beforeOpeningCurlyBrace: true },
-                        requireSpacesInsideObjectBrackets: 'all',
-                        validateAlignedFunctionParameters: true,
-                        validateIndentation: { includeEmptyLines: true, value: 4 },
-                        validateParameterSeparator: ', '
-                    }
+                    options: JSCS_OPTIONS
                 },
                 jsdoc2md: { default: { dest: 'art.md', src: 'lib/art.js' } },
                 jshint:
                 {
                     default: ['*.js', 'lib/**/*.js', 'test/**/*.js'],
-                    options:
-                    {
-                        curly: true,
-                        eqeqeq: true,
-                        immed: true,
-                        latedef: 'nofunc',
-                        maxlen: 100,
-                        newcap: false,
-                        noarg: true,
-                        noempty: true,
-                        quotmark: true,
-                        singleGroups: true,
-                        strict: true,
-                        trailing: true,
-                        undef: true,
-                        unused: true,
-                        
-                        boss: true,
-                        elision: true,
-                        eqnull: true,
-                        evil: true,
-                        validthis: true,
-                        '-W018': true,
-                    }
+                    options: JSHINT_OPTIONS
                 },
                 mocha_istanbul: { default: 'test/**/*.spec.js' },
                 uglify:
