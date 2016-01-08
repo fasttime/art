@@ -1,5 +1,5 @@
 <a name="0.2.3"></a>
-## [0.2.3](https://github.com/fasttime/art/releases/tag/0.2.3) (2015-01-08)
+## [0.2.3](https://github.com/fasttime/art/releases/tag/0.2.3) (2016-01-08)
 
 * Updated documentation.
 * Fixed test reporter icons.
