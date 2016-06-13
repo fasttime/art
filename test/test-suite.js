@@ -1,5 +1,5 @@
+/* eslint-env mocha */
 /* global HTMLElement, art, assert, document, module, self */
-/* jshint mocha: true */
 
 (function ()
 {
@@ -148,7 +148,7 @@
                     'ignores null or undefined arguments',
                     function ()
                     {
-                        art('SCRIPT', undefined, null);
+                        art('SCRIPT', void 0, null);
                     }
                 );
             }
@@ -186,12 +186,8 @@
     var TestSuite = { init: init };
     
     if (typeof self !== 'undefined')
-    {
         self.TestSuite = TestSuite;
-    }
     if (typeof module !== 'undefined')
-    {
         module.exports = TestSuite;
-    }
 }
 )();

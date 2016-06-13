@@ -1,5 +1,5 @@
+/* eslint-env browser */
 /* global Matrix, TestSuite, mocha */
-/* jshint browser: true */
 
 (function ()
 {
@@ -13,9 +13,7 @@
             function ()
             {
                 if (runner.failures === 1)
-                {
                     setFavicon('favicon-fail.ico');
-                }
             }
         );
         runner.on(
@@ -23,9 +21,7 @@
             function ()
             {
                 if (!runner.failures)
-                {
                     setFavicon('favicon-pass.ico');
-                }
             }
         );
     }
