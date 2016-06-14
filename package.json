@@ -1,6 +1,6 @@
 {
   "name": "art-js",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "A really small DOM manipulation library",
   "keywords": [
     "art",
@@ -41,6 +41,6 @@
     "istanbul": "~0.4.3",
     "jsdom": "^9",
     "mocha": "~2.5.3",
-    "mocha-matrix": "~0.1.0"
+    "mocha-matrix": "~0.1.1"
   }
 }

@@ -1,3 +1,8 @@
+<a name="0.2.4"></a>
+## [0.2.4](https://github.com/fasttime/art/releases/tag/0.2.4) (2016-06-14)
+
+* Improved code style using ESLint.
+
 <a name="0.2.3"></a>
 ## [0.2.3](https://github.com/fasttime/art/releases/tag/0.2.3) (2016-01-08)
 
