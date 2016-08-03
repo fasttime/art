@@ -1,5 +1,5 @@
 art
-=======
+===
 
 A really small DOM manipulation library
 

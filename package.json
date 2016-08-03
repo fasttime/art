@@ -1,6 +1,6 @@
 {
   "name": "art-js",
-  "version": "0.2.4",
+  "version": "0.3.0",
   "description": "A really small DOM manipulation library",
   "keywords": [
     "art",
@@ -15,10 +15,8 @@
   "license": "ISC",
   "author": "Francesco Trotta <ft@fasttime.org> (https://github.com/fasttime)",
   "files": [
-    "lib",
-    "LICENSE.txt",
-    "package.json",
-    "*.md"
+    "*.md",
+    "lib"
   ],
   "main": "lib/art.js",
   "repository": {
@@ -33,14 +31,13 @@
     "grunt": "~1.0.1",
     "grunt-cli": "~1.2.0",
     "grunt-contrib-clean": "~1.0.0",
-    "grunt-contrib-uglify": "~1.0.1",
-    "grunt-eslint": "~18.1.0",
-    "grunt-jscs": "~3.0.0",
+    "grunt-contrib-uglify": "~2.0.0",
+    "grunt-fasttime-lint": "~0.0.2",
     "grunt-jsdoc-to-markdown": "~1.2.1",
     "grunt-mocha-istanbul": "~5.0.1",
-    "istanbul": "~0.4.3",
+    "istanbul": "~0.4.4",
     "jsdom": "^9",
-    "mocha": "~2.5.3",
+    "mocha": "~3.0.0",
     "mocha-matrix": "~0.1.1"
   }
 }
