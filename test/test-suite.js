@@ -1,9 +1,16 @@
 /* eslint-env mocha */
-/* global HTMLElement, art, assert, document, module, self */
+/* global CSSRule, HTMLElement, art, assert, document, module, self */
 
 (function ()
 {
     'use strict';
+    
+    function assertMatch(actual, expected)
+    {
+        var matches = actual.match(expected);
+        assert(matches, actual + ' not matched by ' + expected);
+        return matches;
+    }
     
     function init()
     {
@@ -177,6 +184,92 @@
                         evt.initEvent('input', true, false);
                         input.dispatchEvent(evt);
                         assert(dispatched);
+                    }
+                );
+                it(
+                    'registers several listeners',
+                    function ()
+                    {
+                        function test(evtInterface, evtType)
+                        {
+                            dispatched = false;
+                            var evt = document.createEvent(evtInterface);
+                            evt.initEvent(evtType, true, true);
+                            div.dispatchEvent(evt);
+                            assert(dispatched);
+                        }
+                        
+                        var div = document.createElement('DIV');
+                        var dispatched;
+                        art(
+                            div,
+                            art.on(
+                                ['mousedown', 'touchstart'],
+                                function ()
+                                {
+                                    dispatched = true;
+                                }
+                            )
+                        );
+                        test('MouseEvent', 'mousedown');
+                        test('Event', 'touchstart');
+                    }
+                );
+            }
+        );
+        describe(
+            'art.css',
+            function ()
+            {
+                it(
+                    'adds a style CSS rule',
+                    function ()
+                    {
+                        art.css('.art-test', { color: 'red', width: '0' });
+                        var styleSheets = document.styleSheets;
+                        var styleSheet = styleSheets[styleSheets.length - 1];
+                        var cssRules = styleSheet.cssRules;
+                        var cssRule = cssRules[cssRules.length - 1];
+                        var matches =
+                            assertMatch(cssRule.cssText, /^\.art-test \{ ?([\s\S]*?) ?\}$/);
+                        var styles =
+                            matches[1].split(/; ?/).filter(
+                                function (str)
+                                {
+                                    return str;
+                                }
+                            ).sort();
+                        assertMatch(styles[0], /^color: red$/);
+                        assertMatch(styles[1], /^width: 0(?:px)?$/);
+                        assert.equal(cssRule.type, CSSRule.STYLE_RULE);
+                    }
+                );
+                it(
+                    'adds a keyframes CSS rules',
+                    function ()
+                    {
+                        art.css.keyframes(
+                            'art-test',
+                            { from: { color: 'red' }, to: { color: 'blue' } }
+                        );
+                        var styleSheets = document.styleSheets;
+                        var styleSheet = styleSheets[styleSheets.length - 1];
+                        var cssRules = styleSheet.cssRules;
+                        var cssRule = cssRules[cssRules.length - 1];
+                        var matches =
+                            assertMatch(
+                                cssRule.cssText,
+                                /^@(?:-webkit-)?keyframes art-test \{\s*([\s\S]*?)\s*\}$/
+                            );
+                        var pattern =
+                            '^(?:0%|from) \\{ ?color: red; ?\\}' +
+                            '\\s*(?:100%|to) \\{ ?color: blue; ?\\}$';
+                        assertMatch(matches[1], RegExp(pattern));
+                        var cssRuleType = cssRule.type;
+                        assert(
+                            cssRuleType === CSSRule.KEYFRAME_RULE ||
+                            cssRuleType === CSSRule.KEYFRAMES_RULE
+                        );
                     }
                 );
             }

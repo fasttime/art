@@ -1,3 +1,10 @@
+<a name="0.3.0"></a>
+## [0.3.0](https://github.com/fasttime/art/releases/tag/0.3.0) (2016-08-04)
+
+* Added functions `art.css()` and `art.css.keyframes()`.
+* `art.on()` extended to support an array of event types as a first parameter.
+* Uncapitalized names of files in the root folder.
+
 <a name="0.2.4"></a>
 ## [0.2.4](https://github.com/fasttime/art/releases/tag/0.2.4) (2016-06-14)
 
@@ -21,7 +28,7 @@
 * Changelog file updated and moved to the root folder.
 
 <a name="0.2.0"></a>
-## [0.2.0](https://github.com/fasttime/art/releases/tag/0.2.0)  (2015-08-17)
+## [0.2.0](https://github.com/fasttime/art/releases/tag/0.2.0) (2015-08-17)
 
 * Modified `art()` property import behavior:
  * No branching into get/set type property values.
