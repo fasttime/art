@@ -57,6 +57,6 @@ The arguments are the same as in `EventTarget.addEventListener()`, except that t
 | Param | Type | Description |
 | --- | --- | --- |
 | type | <code>string</code> &#124; <code>Array.&lt;string&gt;</code> | A string or array of strings specifing the event types to listen for. |
-| listener | <code>function</code> &#124; <code>EventListener</code> | The event handler function to associate with the events. |
-| useCapture | <code>boolean</code> | `true` to register the event for the capturing phase, or `false` to register the event for the bubbling pahse. |
+| listener | <code>function</code> &#124; <code>EventListener</code> | The event handler to associate with the events. |
+| useCapture | <code>boolean</code> | `true` to register the events for the capturing phase, or `false` to register the events for the bubbling phase. |
 

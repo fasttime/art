@@ -1,3 +1,8 @@
+<a name="0.4.1"></a>
+## [0.4.1](https://github.com/fasttime/art/releases/tag/0.4.1) (2016-08-07)
+
+* Fixed documentation of `art.on()`.
+
 <a name="0.4.0"></a>
 ## [0.4.0](https://github.com/fasttime/art/releases/tag/0.4.0) (2016-08-07)
 
