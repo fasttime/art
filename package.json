@@ -31,13 +31,12 @@
     "grunt": "~1.0.1",
     "grunt-cli": "~1.2.0",
     "grunt-contrib-clean": "~1.0.0",
-    "grunt-contrib-uglify": "~2.0.0",
-    "grunt-fasttime-lint": "~0.0.3",
+    "grunt-fasttime-lint": "~0.0.5",
     "grunt-jsdoc-to-markdown": "~1.2.1",
     "grunt-mocha-istanbul": "~5.0.1",
     "istanbul": "~0.4.4",
     "jsdom": "^9",
-    "mocha": "~3.0.0",
+    "mocha": "~3.0.1",
     "mocha-matrix": "~0.1.1"
   }
 }

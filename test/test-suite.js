@@ -165,10 +165,11 @@
             function ()
             {
                 it(
-                    'registers a listener',
+                    'registers a listener function',
                     function ()
                     {
                         var dispatched = false;
+                        var actualEvt;
                         var input = document.createElement('INPUT');
                         art(
                             input,
@@ -177,6 +178,7 @@
                                 function ()
                                 {
                                     dispatched = true;
+                                    actualEvt = evt;
                                 }
                             )
                         );
@@ -184,6 +186,34 @@
                         evt.initEvent('input', true, false);
                         input.dispatchEvent(evt);
                         assert(dispatched);
+                        assert.strictEqual(actualEvt, evt);
+                    }
+                );
+                it(
+                    'registers a listener object',
+                    function ()
+                    {
+                        var dispatched = false;
+                        var actualEvt;
+                        var input = document.createElement('INPUT');
+                        art(
+                            input,
+                            art.on(
+                                'input',
+                                {
+                                    handleEvent: function (evt)
+                                    {
+                                        dispatched = true;
+                                        actualEvt = evt;
+                                    }
+                                }
+                            )
+                        );
+                        var evt = document.createEvent('UIEvent');
+                        evt.initEvent('input', true, false);
+                        input.dispatchEvent(evt);
+                        assert(dispatched);
+                        assert.strictEqual(actualEvt, evt);
                     }
                 );
                 it(
@@ -193,21 +223,25 @@
                         function test(evtInterface, evtType)
                         {
                             dispatched = false;
+                            actualEvt = void 0;
                             var evt = document.createEvent(evtInterface);
                             evt.initEvent(evtType, true, true);
                             div.dispatchEvent(evt);
                             assert(dispatched);
+                            assert.strictEqual(actualEvt, evt);
                         }
                         
                         var div = document.createElement('DIV');
                         var dispatched;
+                        var actualEvt;
                         art(
                             div,
                             art.on(
                                 ['mousedown', 'touchstart'],
-                                function ()
+                                function (evt)
                                 {
                                     dispatched = true;
+                                    actualEvt = evt;
                                 }
                             )
                         );
