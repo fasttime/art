@@ -1,3 +1,11 @@
+<a name="0.4.0"></a>
+## [0.4.0](https://github.com/fasttime/art/releases/tag/0.4.0) (2016-08-07)
+
+* Split library into function modules.
+* Removed minified version.
+* Documented all parameters of `art.on()`.
+* Improved unit tests of `art.on()`.
+
 <a name="0.3.0"></a>
 ## [0.3.0](https://github.com/fasttime/art/releases/tag/0.3.0) (2016-08-04)
 
