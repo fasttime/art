@@ -168,9 +168,9 @@
                     'registers a listener function',
                     function ()
                     {
+                        var input = document.createElement('INPUT');
                         var dispatched = false;
                         var actualEvt;
-                        var input = document.createElement('INPUT');
                         art(
                             input,
                             art.on(
@@ -193,9 +193,9 @@
                     'registers a listener object',
                     function ()
                     {
+                        var input = document.createElement('INPUT');
                         var dispatched = false;
                         var actualEvt;
-                        var input = document.createElement('INPUT');
                         art(
                             input,
                             art.on(
@@ -245,6 +245,78 @@
                                 }
                             )
                         );
+                        test('MouseEvent', 'mousedown');
+                        test('Event', 'touchstart');
+                    }
+                );
+            }
+        );
+        describe(
+            'art.off',
+            function ()
+            {
+                it(
+                    'unregisters a listener function',
+                    function ()
+                    {
+                        var input = document.createElement('INPUT');
+                        var dispatched = false;
+                        var listener =
+                            function ()
+                            {
+                                dispatched = true;
+                            };
+                        art(input, art.on('input', listener));
+                        art(input, art.off('input', listener));
+                        var evt = document.createEvent('UIEvent');
+                        evt.initEvent('input', true, false);
+                        input.dispatchEvent(evt);
+                        assert(!dispatched);
+                    }
+                );
+                it(
+                    'unregisters a listener object',
+                    function ()
+                    {
+                        var input = document.createElement('INPUT');
+                        var dispatched = false;
+                        var listener =
+                        {
+                            handleEvent: function ()
+                            {
+                                dispatched = true;
+                            }
+                        };
+                        art(input, art.on('input', listener));
+                        art(input, art.off('input', listener));
+                        var evt = document.createEvent('UIEvent');
+                        evt.initEvent('input', true, false);
+                        input.dispatchEvent(evt);
+                        assert(!dispatched);
+                    }
+                );
+                it(
+                    'unregisters several listeners',
+                    function ()
+                    {
+                        function test(evtInterface, evtType)
+                        {
+                            dispatched = false;
+                            var evt = document.createEvent(evtInterface);
+                            evt.initEvent(evtType, true, true);
+                            div.dispatchEvent(evt);
+                            assert(!dispatched);
+                        }
+                        
+                        var div = document.createElement('DIV');
+                        var dispatched;
+                        var listener =
+                            function ()
+                            {
+                                dispatched = true;
+                            };
+                        art(div, art.on(['mousedown', 'touchstart'], listener));
+                        art(div, art.off(['mousedown', 'touchstart'], listener));
                         test('MouseEvent', 'mousedown');
                         test('Event', 'touchstart');
                     }
