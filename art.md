@@ -13,9 +13,42 @@ Creates or modifies a node.
 
 
 * [art(target, [...args])](#art) ⇒ <code>Node</code>
+    * [.off(type, listener, useCapture)](#art.off) ⇒ <code>function</code>
+    * [.on(type, listener, useCapture)](#art.on) ⇒ <code>function</code>
     * [.css(selector, ruleObj)](#art.css)
         * [.keyframes(identifier, ruleObj)](#art.css.keyframes)
-    * [.on(type, listener, useCapture)](#art.on) ⇒ <code>function</code>
+
+<a name="art.off"></a>
+
+### art.off(type, listener, useCapture) ⇒ <code>function</code>
+Returns a callback that can be used to detach a listener from the target node in a call to
+[`art()`](#art).
+The arguments are the same as in `EventTarget.removeEventListener()`, except that the
+argument `type` may be an array specifying multiple event types.
+
+**Kind**: static method of <code>[art](#art)</code>  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| type | <code>string</code> &#124; <code>Array.&lt;string&gt;</code> | A string or array of strings specifing the event types listened for. |
+| listener | <code>function</code> &#124; <code>EventListener</code> | The event handler to dissociate from the events. |
+| useCapture | <code>boolean</code> | `true` to unregister the events for the capturing phase, or `false` to unregister the events for the bubbling phase. |
+
+<a name="art.on"></a>
+
+### art.on(type, listener, useCapture) ⇒ <code>function</code>
+Returns a callback that can be used to attach a listener to the target node in a call to
+[`art()`](#art).
+The arguments are the same as in `EventTarget.addEventListener()`, except that the argument
+`type` may be an array specifying multiple event types.
+
+**Kind**: static method of <code>[art](#art)</code>  
+
+| Param | Type | Description |
+| --- | --- | --- |
+| type | <code>string</code> &#124; <code>Array.&lt;string&gt;</code> | A string or array of strings specifing the event types to listen for. |
+| listener | <code>function</code> &#124; <code>EventListener</code> | The event handler to associate with the events. |
+| useCapture | <code>boolean</code> | `true` to register the events for the capturing phase, or `false` to register the events for the bubbling phase. |
 
 <a name="art.css"></a>
 
@@ -23,7 +56,6 @@ Creates or modifies a node.
 Creates a new CSS rule and adds it to the document.
 
 **Kind**: static method of <code>[art](#art)</code>  
-**Requires**: <code>module:art.css.js</code>  
 
 | Param | Type | Description |
 | --- | --- | --- |
@@ -36,27 +68,9 @@ Creates a new CSS rule and adds it to the document.
 Creates a new CSS keyframes rule and adds it to the document.
 
 **Kind**: static method of <code>[css](#art.css)</code>  
-**Requires**: <code>module:art.css.js</code>  
 
 | Param | Type | Description |
 | --- | --- | --- |
 | identifier | <code>string</code> | The new keyframes rule identifier. |
 | ruleObj | <code>object</code> | An object mapping selectors to rule definition objects. Rule definition objects map style names to their respective values. |
-
-<a name="art.on"></a>
-
-### art.on(type, listener, useCapture) ⇒ <code>function</code>
-Returns a callback that can be used to attach a listener to the target node in a call to
-[`art()`](#art).
-The arguments are the same as in `EventTarget.addEventListener()`, except that the argument
-`type` may be an array specifying multiple event types.
-
-**Kind**: static method of <code>[art](#art)</code>  
-**Requires**: <code>module:art.on.js</code>  
-
-| Param | Type | Description |
-| --- | --- | --- |
-| type | <code>string</code> &#124; <code>Array.&lt;string&gt;</code> | A string or array of strings specifing the event types to listen for. |
-| listener | <code>function</code> &#124; <code>EventListener</code> | The event handler to associate with the events. |
-| useCapture | <code>boolean</code> | `true` to register the events for the capturing phase, or `false` to register the events for the bubbling phase. |
 
