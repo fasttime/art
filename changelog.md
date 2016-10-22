@@ -1,3 +1,10 @@
+<a name="0.5.0"></a>
+## [0.5.0](https://github.com/fasttime/art/releases/tag/0.5.0) (2016-10-22)
+
+* Introduced customizable build.
+* Added function `art.off()`.
+* Improved unit testing.
+
 <a name="0.4.1"></a>
 ## [0.4.1](https://github.com/fasttime/art/releases/tag/0.4.1) (2016-08-07)
 
