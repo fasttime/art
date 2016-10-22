@@ -12,6 +12,18 @@
         return matches;
     }
     
+    function createCaptor(result)
+    {
+        function captor()
+        {
+            calls.push({ args: arguments, this: this });
+            return result;
+        }
+        
+        var calls = captor.calls = [];
+        return captor;
+    }
+    
     function init()
     {
         describe(
@@ -39,15 +51,11 @@
                     function ()
                     {
                         var expected = document;
-                        var target =
-                            function ()
-                            {
-                                assert.strictEqual(this, art);
-                                assert.strictEqual(arguments.length, 0);
-                                return expected;
-                            };
+                        var target = createCaptor(expected);
                         var actual = art(target);
                         assert.strictEqual(actual, expected);
+                        assert.strictEqual(target.calls[0].this, art);
+                        assert.equal(target.calls[0].args.length, 0);
                     }
                 );
                 it(
@@ -97,6 +105,7 @@
                         assert.deepEqual(calls, [fn1, fn2]);
                     }
                 );
+                
                 describe(
                     'imports properties from object arguments',
                     function ()
@@ -160,6 +169,7 @@
                 );
             }
         );
+        
         describe(
             'art.on',
             function ()
@@ -169,24 +179,12 @@
                     function ()
                     {
                         var input = document.createElement('INPUT');
-                        var dispatched = false;
-                        var actualEvt;
-                        art(
-                            input,
-                            art.on(
-                                'input',
-                                function ()
-                                {
-                                    dispatched = true;
-                                    actualEvt = evt;
-                                }
-                            )
-                        );
+                        var listener = createCaptor();
+                        art(input, art.on('input', listener));
                         var evt = document.createEvent('UIEvent');
                         evt.initEvent('input', true, false);
                         input.dispatchEvent(evt);
-                        assert(dispatched);
-                        assert.strictEqual(actualEvt, evt);
+                        assert.strictEqual(listener.calls[0].args[0], evt);
                     }
                 );
                 it(
@@ -194,63 +192,38 @@
                     function ()
                     {
                         var input = document.createElement('INPUT');
-                        var dispatched = false;
-                        var actualEvt;
-                        art(
-                            input,
-                            art.on(
-                                'input',
-                                {
-                                    handleEvent: function (evt)
-                                    {
-                                        dispatched = true;
-                                        actualEvt = evt;
-                                    }
-                                }
-                            )
-                        );
+                        var handleEvent = createCaptor();
+                        art(input, art.on('input', { handleEvent: handleEvent }));
                         var evt = document.createEvent('UIEvent');
                         evt.initEvent('input', true, false);
                         input.dispatchEvent(evt);
-                        assert(dispatched);
-                        assert.strictEqual(actualEvt, evt);
+                        assert.strictEqual(handleEvent.calls[0].args[0], evt);
                     }
                 );
                 it(
                     'registers several listeners',
                     function ()
                     {
-                        function test(evtInterface, evtType)
+                        function fireEvent(evtInterface, evtType)
                         {
-                            dispatched = false;
-                            actualEvt = void 0;
                             var evt = document.createEvent(evtInterface);
                             evt.initEvent(evtType, true, true);
                             div.dispatchEvent(evt);
-                            assert(dispatched);
-                            assert.strictEqual(actualEvt, evt);
+                            return evt;
                         }
                         
                         var div = document.createElement('DIV');
-                        var dispatched;
-                        var actualEvt;
-                        art(
-                            div,
-                            art.on(
-                                ['mousedown', 'touchstart'],
-                                function (evt)
-                                {
-                                    dispatched = true;
-                                    actualEvt = evt;
-                                }
-                            )
-                        );
-                        test('MouseEvent', 'mousedown');
-                        test('Event', 'touchstart');
+                        var listener = createCaptor();
+                        art(div, art.on(['mousedown', 'touchstart'], listener));
+                        var evt0 = fireEvent('MouseEvent', 'mousedown');
+                        var evt1 = fireEvent('Event', 'touchstart');
+                        assert.strictEqual(listener.calls[0].args[0], evt0);
+                        assert.strictEqual(listener.calls[1].args[0], evt1);
                     }
                 );
             }
         );
+        
         describe(
             'art.off',
             function ()
@@ -260,18 +233,12 @@
                     function ()
                     {
                         var input = document.createElement('INPUT');
-                        var dispatched = false;
-                        var listener =
-                            function ()
-                            {
-                                dispatched = true;
-                            };
-                        art(input, art.on('input', listener));
-                        art(input, art.off('input', listener));
+                        var listener = createCaptor();
+                        art(input, art.on('input', listener), art.off('input', listener));
                         var evt = document.createEvent('UIEvent');
                         evt.initEvent('input', true, false);
                         input.dispatchEvent(evt);
-                        assert(!dispatched);
+                        assert.equal(listener.calls.length, 0);
                     }
                 );
                 it(
@@ -279,50 +246,42 @@
                     function ()
                     {
                         var input = document.createElement('INPUT');
-                        var dispatched = false;
-                        var listener =
-                        {
-                            handleEvent: function ()
-                            {
-                                dispatched = true;
-                            }
-                        };
-                        art(input, art.on('input', listener));
-                        art(input, art.off('input', listener));
+                        var handleEvent = createCaptor();
+                        var listener = { handleEvent: handleEvent };
+                        art(input, art.on('input', listener), art.off('input', listener));
                         var evt = document.createEvent('UIEvent');
                         evt.initEvent('input', true, false);
                         input.dispatchEvent(evt);
-                        assert(!dispatched);
+                        assert.equal(handleEvent.calls.length, 0);
                     }
                 );
                 it(
                     'unregisters several listeners',
                     function ()
                     {
-                        function test(evtInterface, evtType)
+                        function fireEvent(evtInterface, evtType)
                         {
-                            dispatched = false;
                             var evt = document.createEvent(evtInterface);
                             evt.initEvent(evtType, true, true);
                             div.dispatchEvent(evt);
-                            assert(!dispatched);
                         }
                         
                         var div = document.createElement('DIV');
-                        var dispatched;
-                        var listener =
-                            function ()
-                            {
-                                dispatched = true;
-                            };
-                        art(div, art.on(['mousedown', 'touchstart'], listener));
-                        art(div, art.off(['mousedown', 'touchstart'], listener));
-                        test('MouseEvent', 'mousedown');
-                        test('Event', 'touchstart');
+                        var handleEvent = createCaptor();
+                        var listener = { handleEvent: handleEvent };
+                        art(
+                            div,
+                            art.on(['mousedown', 'touchstart'], listener),
+                            art.off(['mousedown', 'touchstart'], listener)
+                        );
+                        fireEvent('MouseEvent', 'mousedown');
+                        fireEvent('Event', 'touchstart');
+                        assert.equal(handleEvent.calls.length, 0);
                     }
                 );
             }
         );
+        
         describe(
             'art.css',
             function ()
