@@ -14,15 +14,56 @@ function createEmptyObj()
     return emptyObj;
 }
 
-function makeArt(destPath, context)
+function createOutput(data, context)
 {
-    if (destPath == null)
-        throw new Error('missing path');
-    var templatePath = path.resolve(__dirname, 'art.hbs');
-    var data = fs.readFileSync(templatePath);
     var template = Handlebars.compile(String(data));
     context = context || createEmptyObj();
     var output = template(context);
+    return output;
+}
+
+function getTemplatePath()
+{
+    var templatePath = path.resolve(__dirname, 'art.hbs');
+    return templatePath;
+}
+
+function makeArt(destPath, context)
+{
+    makeArtSync(destPath, context);
+}
+
+function makeArtAsync(destPath, context, callback)
+{
+    function readFileCallback(error, data)
+    {
+        if (error == null)
+        {
+            try
+            {
+                var output = createOutput(data, context);
+                fs.writeFile(destPath, output, callback);
+                return;
+            }
+            catch (newError)
+            {
+                error = newError;
+            }
+        }
+        callback(error);
+    }
+    
+    validateDestPath(destPath);
+    var templatePath = getTemplatePath();
+    fs.readFile(templatePath, readFileCallback);
+}
+
+function makeArtSync(destPath, context)
+{
+    validateDestPath(destPath);
+    var templatePath = getTemplatePath();
+    var data = fs.readFileSync(templatePath);
+    var output = createOutput(data, context);
     fs.writeFileSync(destPath, output);
 }
 
@@ -59,6 +100,12 @@ function processCommandLine()
     }
 }
 
+function validateDestPath(destPath)
+{
+    if (destPath == null)
+        throw new Error('missing path');
+}
+
 Handlebars.registerHelper(
     {
         or: function (v1, v2)
@@ -74,6 +121,8 @@ if (require.main === module)
     processCommandLine();
 else
 {
+    makeArt.async = makeArtAsync;
     makeArt.processCommandLine = processCommandLine;
+    makeArt.sync = makeArtSync;
     module.exports = makeArt;
 }

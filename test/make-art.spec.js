@@ -5,6 +5,9 @@
 var assert = require('assert');
 var proxyquire = require('proxyquire');
 
+var readFileMock;
+var writeFileArgs;
+var writeFileMock;
 var writeFileSyncArgs;
 var makeArt =
     proxyquire(
@@ -12,6 +15,16 @@ var makeArt =
         {
             fs:
             {
+                readFile: function ()
+                {
+                    readFileMock.apply(this, arguments);
+                },
+                writeFile: function ()
+                {
+                    writeFileArgs = arguments;
+                    if (writeFileMock)
+                        writeFileMock();
+                },
                 writeFileSync: function ()
                 {
                     writeFileSyncArgs = arguments;
@@ -23,7 +36,7 @@ var makeArt =
 afterEach(
     function ()
     {
-        writeFileSyncArgs = void 0;
+        readFileMock = writeFileArgs = writeFileMock = writeFileSyncArgs = void 0;
     }
 );
 
@@ -49,6 +62,89 @@ describe(
             {
                 assert.throws(makeArt, 'missing path');
                 assert(!writeFileSyncArgs);
+            }
+        );
+    }
+);
+
+describe(
+    'makeArt.async',
+    function ()
+    {
+        it(
+            'creates art.js',
+            function (done)
+            {
+                var expectedPath = 'test';
+                var expectedCallback = Function();
+                readFileMock =
+                    function (file, callback)
+                    {
+                        callback(null, 'DATA');
+                    };
+                writeFileMock =
+                    function ()
+                    {
+                        var actualPath = writeFileArgs[0];
+                        var actualData = writeFileArgs[1];
+                        var actualCallback = writeFileArgs[2];
+                        assert.strictEqual(actualPath, expectedPath);
+                        assert.equal(typeof actualData, 'string');
+                        assert.strictEqual(actualCallback, expectedCallback);
+                        done();
+                    };
+                makeArt.async(expectedPath, null, expectedCallback);
+            }
+        );
+        it(
+            'fails for missing path',
+            function ()
+            {
+                assert.throws(makeArt.async, 'missing path');
+                assert(!writeFileArgs);
+            }
+        );
+        it(
+            'fails on read error',
+            function (done)
+            {
+                function makeArtAsyncCallback(actualError)
+                {
+                    assert.strictEqual(actualError, expectedError);
+                    done();
+                }
+                
+                var expectedError = Error();
+                readFileMock =
+                    function (file, callback)
+                    {
+                        callback(expectedError);
+                    };
+                makeArt.async('test', null, makeArtAsyncCallback);
+            }
+        );
+        it(
+            'fails on write error',
+            function (done)
+            {
+                function makeArtAsyncCallback(actualError)
+                {
+                    assert.strictEqual(actualError, expectedError);
+                    done();
+                }
+                
+                readFileMock =
+                    function (file, callback)
+                    {
+                        callback(null, 'DATA');
+                    };
+                var expectedError = Error();
+                writeFileMock =
+                    function ()
+                    {
+                        throw expectedError;
+                    };
+                makeArt.async('test', null, makeArtAsyncCallback);
             }
         );
     }

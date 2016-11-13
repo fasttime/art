@@ -134,9 +134,9 @@
     {
         function processEventListener(target)
         {
-            function callback(type)
+            function callback(thisType)
             {
-                target[methodName](type, listener, useCapture);
+                target[methodName](thisType, listener, useCapture);
             }
             
             if (Array.isArray(type))
