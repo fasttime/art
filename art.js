@@ -13,7 +13,7 @@
      * A node, a function returning a node, or a string specifying the type of element to be created
      * using `document.createElement()`.
      *
-     * @param {...*} [args]
+     * @param {...*} [arguments]
      * Each additional argument may be a node to be appended to the taget node, a function to be
      * called with the target node as its only argument, an object whose properties shall be
      * assigned to the taget node, or a string of text to be appended to the target node.
@@ -80,17 +80,17 @@
      *
      * @function art.off
      *
-     * @param {string|string[]} type
+     * @param {string|Array<string>} type
      * A string or array of strings specifing the event types listened for.
      *
-     * @param {function|EventListener} listener
+     * @param {Function|EventListener} listener
      * The event handler to dissociate from the events.
      *
-     * @param {boolean} useCapture
+     * @param {boolean=} useCapture
      * `true` to unregister the events for the capturing phase, or `false` to unregister the events
      * for the bubbling phase.
      *
-     * @returns {function}
+     * @returns {Function}
      */
     
     art.off =
@@ -109,17 +109,17 @@
      *
      * @function art.on
      *
-     * @param {string|string[]} type
+     * @param {string|Array<string>} type
      * A string or array of strings specifing the event types to listen for.
      *
-     * @param {function|EventListener} listener
+     * @param {Function|EventListener} listener
      * The event handler to associate with the events.
      *
-     * @param {boolean} useCapture
+     * @param {boolean=} useCapture
      * `true` to register the events for the capturing phase, or `false` to register the events for
      * the bubbling phase.
      *
-     * @returns {function}
+     * @returns {Function}
      */
     
     art.on =
@@ -156,7 +156,7 @@
      * @param {string} selector
      * The selector of the new rule.
      *
-     * @param {object} ruleObj
+     * @param {Object} ruleObj
      * A rule definition object mapping style names to their respective values.
      */
     
@@ -175,7 +175,7 @@
      * @param {string} identifier
      * The new keyframes rule identifier.
      *
-     * @param {object} ruleObj
+     * @param {Object} ruleObj
      * An object mapping selectors to rule definition objects.
      * Rule definition objects map style names to their respective values.
      */
