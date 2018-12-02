@@ -4,27 +4,27 @@
 
 'use strict';
 
-var Handlebars = require('handlebars');
-var fs = require('fs');
-var path = require('path');
+const Handlebars = require('handlebars');
+const fs = require('fs');
+const path = require('path');
 
 function createEmptyObj()
 {
-    var emptyObj = Object.create(null);
+    const emptyObj = Object.create(null);
     return emptyObj;
 }
 
 function createOutput(data, context)
 {
-    var template = Handlebars.compile(String(data));
+    const template = Handlebars.compile(String(data));
     context = context || createEmptyObj();
-    var output = template(context);
+    const output = template(context);
     return output;
 }
 
 function getTemplatePath()
 {
-    var templatePath = path.resolve(__dirname, 'art.hbs');
+    const templatePath = path.resolve(__dirname, 'art.hbs');
     return templatePath;
 }
 
@@ -41,7 +41,7 @@ function makeArtAsync(destPath, context, callback)
         {
             try
             {
-                var output = createOutput(data, context);
+                const output = createOutput(data, context);
                 fs.writeFile(destPath, output, callback);
                 return;
             }
@@ -54,43 +54,36 @@ function makeArtAsync(destPath, context, callback)
     }
 
     validateDestPath(destPath);
-    var templatePath = getTemplatePath();
+    const templatePath = getTemplatePath();
     fs.readFile(templatePath, readFileCallback);
 }
 
 function makeArtSync(destPath, context)
 {
     validateDestPath(destPath);
-    var templatePath = getTemplatePath();
-    var data = fs.readFileSync(templatePath);
-    var output = createOutput(data, context);
+    const templatePath = getTemplatePath();
+    const data = fs.readFileSync(templatePath);
+    const output = createOutput(data, context);
     fs.writeFileSync(destPath, output);
 }
 
 function parseContext(processArgv)
 {
-    var context = createEmptyObj();
-    for (var index = 3, count = processArgv.length; index < count; ++index)
+    const context = createEmptyObj();
+    for (let index = 3, count = processArgv.length; index < count; ++index)
     {
-        var arg = processArgv[index];
+        const arg = processArgv[index];
         arg.split('.').reduce
-        (
-            function (target, part)
-            {
-                target = target[part] = target[part] || createEmptyObj();
-                return target;
-            },
-            context
-        );
+        ((target, part) => target[part] = target[part] || createEmptyObj(), context);
     }
     return context;
 }
 
 function processCommandLine()
 {
-    var processArgv = process.argv;
-    var dest = processArgv[2];
-    var context = parseContext(processArgv);
+    const processArgv = process.argv;
+    const [,, dest] = processArgv;
+    const context = parseContext(processArgv);
     try
     {
         makeArt(dest, context);
@@ -107,17 +100,7 @@ function validateDestPath(destPath)
         throw new Error('missing path');
 }
 
-Handlebars.registerHelper
-(
-    {
-        or:
-        function (v1, v2)
-        {
-            var result = v1 || v2;
-            return result;
-        },
-    }
-);
+Handlebars.registerHelper({ or: (v1, v2) => v1 || v2 });
 
 // istanbul ignore if
 if (require.main === module)

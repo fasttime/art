@@ -3,10 +3,9 @@
 'use strict';
 
 global.assert = require('assert');
-var jsdom = require('jsdom').jsdom;
-var document = jsdom();
-var window = document.defaultView;
+const jsdom = require('jsdom');
+const { window } = new jsdom.JSDOM();
 Object.setPrototypeOf(global, window);
 require('../art');
-var TestSuite = require('./test-suite');
+const TestSuite = require('./test-suite');
 TestSuite.init();
