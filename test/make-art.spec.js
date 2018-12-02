@@ -10,41 +10,48 @@ var writeFileArgs;
 var writeFileMock;
 var writeFileSyncArgs;
 var makeArt =
-    proxyquire(
-        '../make-art',
-        {
-            fs:
-            {
-                readFile: function ()
-                {
-                    readFileMock.apply(this, arguments);
-                },
-                writeFile: function ()
-                {
-                    writeFileArgs = arguments;
-                    if (writeFileMock)
-                        writeFileMock();
-                },
-                writeFileSync: function ()
-                {
-                    writeFileSyncArgs = arguments;
-                }
-            }
-        }
-    );
-
-afterEach(
-    function ()
+proxyquire
+(
+    '../make-art',
     {
-        readFileMock = writeFileArgs = writeFileMock = writeFileSyncArgs = void 0;
+        fs:
+        {
+            readFile:
+            function ()
+            {
+                readFileMock.apply(this, arguments);
+            },
+            writeFile:
+            function ()
+            {
+                writeFileArgs = arguments;
+                if (writeFileMock)
+                    writeFileMock();
+            },
+            writeFileSync:
+            function ()
+            {
+                writeFileSyncArgs = arguments;
+            },
+        },
     }
 );
 
-describe(
+afterEach
+(
+    function ()
+    {
+        readFileMock = writeFileArgs = writeFileMock = writeFileSyncArgs = undefined;
+    }
+);
+
+describe
+(
     'makeArt',
     function ()
     {
-        it(
+        it
+        (
             'creates art.js',
             function ()
             {
@@ -56,55 +63,60 @@ describe(
                 assert.equal(typeof actualData, 'string');
             }
         );
-        it(
+        it
+        (
             'fails for missing path',
             function ()
             {
-                assert.throws(makeArt, 'missing path');
+                assert.throws(makeArt, Error('missing path'));
                 assert(!writeFileSyncArgs);
             }
         );
     }
 );
 
-describe(
+describe
+(
     'makeArt.async',
     function ()
     {
-        it(
+        it
+        (
             'creates art.js',
             function (done)
             {
                 var expectedPath = 'test';
                 var expectedCallback = Function();
                 readFileMock =
-                    function (file, callback)
-                    {
-                        callback(null, 'DATA');
-                    };
+                function (file, callback)
+                {
+                    callback(null, 'DATA');
+                };
                 writeFileMock =
-                    function ()
-                    {
-                        var actualPath = writeFileArgs[0];
-                        var actualData = writeFileArgs[1];
-                        var actualCallback = writeFileArgs[2];
-                        assert.strictEqual(actualPath, expectedPath);
-                        assert.equal(typeof actualData, 'string');
-                        assert.strictEqual(actualCallback, expectedCallback);
-                        done();
-                    };
+                function ()
+                {
+                    var actualPath = writeFileArgs[0];
+                    var actualData = writeFileArgs[1];
+                    var actualCallback = writeFileArgs[2];
+                    assert.strictEqual(actualPath, expectedPath);
+                    assert.equal(typeof actualData, 'string');
+                    assert.strictEqual(actualCallback, expectedCallback);
+                    done();
+                };
                 makeArt.async(expectedPath, null, expectedCallback);
             }
         );
-        it(
+        it
+        (
             'fails for missing path',
             function ()
             {
-                assert.throws(makeArt.async, 'missing path');
+                assert.throws(makeArt.async, Error('missing path'));
                 assert(!writeFileArgs);
             }
         );
-        it(
+        it
+        (
             'fails on read error',
             function (done)
             {
@@ -113,17 +125,18 @@ describe(
                     assert.strictEqual(actualError, expectedError);
                     done();
                 }
-                
+
                 var expectedError = Error();
                 readFileMock =
-                    function (file, callback)
-                    {
-                        callback(expectedError);
-                    };
+                function (file, callback)
+                {
+                    callback(expectedError);
+                };
                 makeArt.async('test', null, makeArtAsyncCallback);
             }
         );
-        it(
+        it
+        (
             'fails on write error',
             function (done)
             {
@@ -132,25 +145,26 @@ describe(
                     assert.strictEqual(actualError, expectedError);
                     done();
                 }
-                
+
                 readFileMock =
-                    function (file, callback)
-                    {
-                        callback(null, 'DATA');
-                    };
+                function (file, callback)
+                {
+                    callback(null, 'DATA');
+                };
                 var expectedError = Error();
                 writeFileMock =
-                    function ()
-                    {
-                        throw expectedError;
-                    };
+                function ()
+                {
+                    throw expectedError;
+                };
                 makeArt.async('test', null, makeArtAsyncCallback);
             }
         );
     }
 );
 
-describe(
+describe
+(
     'processCommandLine',
     function ()
     {
@@ -159,34 +173,37 @@ describe(
             process.argv = newProcessArgv;
             makeArt.processCommandLine();
         }
-        
+
         var consoleErrorArgs;
         var consoleError;
         var processArgv;
-        
-        beforeEach(
+
+        beforeEach
+        (
             function ()
             {
                 consoleError = console.error;
                 console.error =
-                    function ()
-                    {
-                        consoleErrorArgs = arguments;
-                    };
+                function ()
+                {
+                    consoleErrorArgs = arguments;
+                };
                 processArgv = process.argv;
             }
         );
-        
-        afterEach(
+
+        afterEach
+        (
             function ()
             {
                 process.argv = processArgv;
                 console.error = consoleError;
-                consoleErrorArgs = void 0;
+                consoleErrorArgs = undefined;
             }
         );
-        
-        it(
+
+        it
+        (
             'creates art.js',
             function ()
             {
@@ -196,15 +213,16 @@ describe(
                 var data = writeFileSyncArgs[1];
                 assert.strictEqual(actualPath, expectedPath);
                 assert.equal(typeof data, 'string');
-                assert.deepStrictEqual(consoleErrorArgs, void 0);
+                assert.deepStrictEqual(consoleErrorArgs, undefined);
             }
         );
-        it(
+        it
+        (
             'fails for missing path',
             function ()
             {
                 callProcessCommandLine([]);
-                assert.strictEqual(writeFileSyncArgs, void 0);
+                assert.strictEqual(writeFileSyncArgs, undefined);
                 assert.deepStrictEqual(Array.from(consoleErrorArgs), ['missing path']);
             }
         );

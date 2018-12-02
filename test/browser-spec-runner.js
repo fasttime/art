@@ -1,14 +1,15 @@
 /* eslint-env browser */
-/* global Matrix, TestSuite, mocha */
+/* global MochaBar, TestSuite, mocha */
+
+'use strict';
 
 (function ()
 {
-    'use strict';
-    
     function handleLoad()
     {
         var runner = mocha.run();
-        runner.on(
+        runner.on
+        (
             'fail',
             function ()
             {
@@ -16,7 +17,8 @@
                     setFavicon('favicon-fail.ico');
             }
         );
-        runner.on(
+        runner.on
+        (
             'end',
             function ()
             {
@@ -25,13 +27,13 @@
             }
         );
     }
-    
+
     function setFavicon(href)
     {
         document.querySelector('link[rel="icon"]').href = href;
     }
-    
-    mocha.setup({ ui: 'bdd', reporter: Matrix });
+
+    mocha.setup({ ui: 'bdd', reporter: MochaBar });
     mocha.checkLeaks();
     TestSuite.init();
     addEventListener('load', handleLoad);

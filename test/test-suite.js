@@ -1,17 +1,17 @@
 /* eslint-env mocha */
 /* global CSSRule, HTMLElement, art, assert, document, module, self */
 
+'use strict';
+
 (function ()
 {
-    'use strict';
-    
     function assertMatch(actual, expected)
     {
         var matches = actual.match(expected);
         assert(matches, actual + ' not matched by ' + expected);
         return matches;
     }
-    
+
     function createCaptor(result)
     {
         function captor()
@@ -19,18 +19,20 @@
             calls.push({ args: arguments, this: this });
             return result;
         }
-        
+
         var calls = captor.calls = [];
         return captor;
     }
-    
+
     function init()
     {
-        describe(
+        describe
+        (
             'art',
             function ()
             {
-                it(
+                it
+                (
                     'creates an HTML element',
                     function ()
                     {
@@ -38,7 +40,8 @@
                         assert(input instanceof HTMLElement);
                     }
                 );
-                it(
+                it
+                (
                     'returns the target',
                     function ()
                     {
@@ -46,7 +49,8 @@
                         assert.equal(node, document);
                     }
                 );
-                it(
+                it
+                (
                     'returns the result of the target function',
                     function ()
                     {
@@ -58,7 +62,8 @@
                         assert.equal(target.calls[0].args.length, 0);
                     }
                 );
-                it(
+                it
+                (
                     'appends text arguments in a specific order',
                     function ()
                     {
@@ -69,7 +74,8 @@
                         assert.strictEqual(p.textContent, text1 + text2);
                     }
                 );
-                it(
+                it
+                (
                     'appends node arguments in a specific order',
                     function ()
                     {
@@ -80,7 +86,8 @@
                         assert.deepEqual(Array.prototype.slice.call(p.children), [node1, node2]);
                     }
                 );
-                it(
+                it
+                (
                     'calls function arguments in a specific order',
                     function ()
                     {
@@ -91,7 +98,7 @@
                             assert.strictEqual(arguments.length, 1);
                             calls.push(fn1);
                         }
-                        
+
                         function fn2(arg)
                         {
                             assert.strictEqual(this, art);
@@ -99,18 +106,20 @@
                             assert.strictEqual(arguments.length, 1);
                             calls.push(fn2);
                         }
-                        
+
                         var calls = [];
                         art(document, fn1, fn2);
                         assert.deepEqual(calls, [fn1, fn2]);
                     }
                 );
-                
-                describe(
+
+                describe
+                (
                     'imports properties from object arguments',
                     function ()
                     {
-                        it(
+                        it
+                        (
                             'in a specific order',
                             function ()
                             {
@@ -118,7 +127,8 @@
                                 assert.strictEqual(input.value, 'bar');
                             }
                         );
-                        it(
+                        it
+                        (
                             'even if missing in the target',
                             function ()
                             {
@@ -126,7 +136,8 @@
                                 assert.strictEqual(div['data-id'], 12345);
                             }
                         );
-                        it(
+                        it
+                        (
                             'but not inherited source properties',
                             function ()
                             {
@@ -135,7 +146,8 @@
                                 assert(!('a' in div));
                             }
                         );
-                        it(
+                        it
+                        (
                             'branching into source object value type properties',
                             function ()
                             {
@@ -143,16 +155,14 @@
                                 assert.strictEqual(div.style.color, 'red');
                             }
                         );
-                        it(
+                        it
+                        (
                             'not branching into source object get/set type properties',
                             function ()
                             {
                                 var getter = Function();
                                 var source =
-                                    Object.create(
-                                        null,
-                                        { prop: { enumerable: true, get: getter } }
-                                    );
+                                Object.create(null, { prop: { enumerable: true, get: getter } });
                                 var div = art('DIV', source);
                                 var descriptor = Object.getOwnPropertyDescriptor(div, 'prop');
                                 assert.strictEqual(descriptor.get, getter);
@@ -160,21 +170,24 @@
                         );
                     }
                 );
-                it(
+                it
+                (
                     'ignores null or undefined arguments',
                     function ()
                     {
-                        art('SCRIPT', void 0, null);
+                        art('SCRIPT', undefined, null);
                     }
                 );
             }
         );
-        
-        describe(
+
+        describe
+        (
             'art.on',
             function ()
             {
-                it(
+                it
+                (
                     'registers a listener function',
                     function ()
                     {
@@ -187,7 +200,8 @@
                         assert.strictEqual(listener.calls[0].args[0], evt);
                     }
                 );
-                it(
+                it
+                (
                     'registers a listener object',
                     function ()
                     {
@@ -200,7 +214,8 @@
                         assert.strictEqual(handleEvent.calls[0].args[0], evt);
                     }
                 );
-                it(
+                it
+                (
                     'registers several listeners',
                     function ()
                     {
@@ -211,7 +226,7 @@
                             div.dispatchEvent(evt);
                             return evt;
                         }
-                        
+
                         var div = document.createElement('DIV');
                         var listener = createCaptor();
                         art(div, art.on(['mousedown', 'touchstart'], listener));
@@ -223,12 +238,14 @@
                 );
             }
         );
-        
-        describe(
+
+        describe
+        (
             'art.off',
             function ()
             {
-                it(
+                it
+                (
                     'unregisters a listener function',
                     function ()
                     {
@@ -241,7 +258,8 @@
                         assert.equal(listener.calls.length, 0);
                     }
                 );
-                it(
+                it
+                (
                     'unregisters a listener object',
                     function ()
                     {
@@ -255,7 +273,8 @@
                         assert.equal(handleEvent.calls.length, 0);
                     }
                 );
-                it(
+                it
+                (
                     'unregisters several listeners',
                     function ()
                     {
@@ -265,11 +284,12 @@
                             evt.initEvent(evtType, true, true);
                             div.dispatchEvent(evt);
                         }
-                        
+
                         var div = document.createElement('DIV');
                         var handleEvent = createCaptor();
                         var listener = { handleEvent: handleEvent };
-                        art(
+                        art
+                        (
                             div,
                             art.on(['mousedown', 'touchstart'], listener),
                             art.off(['mousedown', 'touchstart'], listener)
@@ -281,12 +301,14 @@
                 );
             }
         );
-        
-        describe(
+
+        describe
+        (
             'art.css',
             function ()
             {
-                it(
+                it
+                (
                     'adds a style CSS rule',
                     function ()
                     {
@@ -296,42 +318,44 @@
                         var cssRules = styleSheet.cssRules;
                         var cssRule = cssRules[cssRules.length - 1];
                         var matches =
-                            assertMatch(cssRule.cssText, /^\.art-test \{ ?([\s\S]*?) ?\}$/);
+                        assertMatch(cssRule.cssText, /^\.art-test \{ ?([\s\S]*?) ?\}$/);
                         var styles =
-                            matches[1].split(/; ?/).filter(
-                                function (str)
-                                {
-                                    return str;
-                                }
-                            ).sort();
+                        matches[1].split(/; ?/).filter
+                        (
+                            function (str)
+                            {
+                                return str;
+                            }
+                        )
+                        .sort();
                         assertMatch(styles[0], /^color: red$/);
                         assertMatch(styles[1], /^width: 0(?:px)?$/);
                         assert.equal(cssRule.type, CSSRule.STYLE_RULE);
                     }
                 );
-                it(
+                it
+                (
                     'adds a keyframes CSS rules',
                     function ()
                     {
-                        art.css.keyframes(
-                            'art-test',
-                            { from: { color: 'red' }, to: { color: 'blue' } }
-                        );
+                        art.css.keyframes
+                        ('art-test', { from: { color: 'red' }, to: { color: 'blue' } });
                         var styleSheets = document.styleSheets;
                         var styleSheet = styleSheets[styleSheets.length - 1];
                         var cssRules = styleSheet.cssRules;
                         var cssRule = cssRules[cssRules.length - 1];
                         var matches =
-                            assertMatch(
-                                cssRule.cssText,
-                                /^@(?:-webkit-)?keyframes art-test \{\s*([\s\S]*?)\s*\}$/
-                            );
+                        assertMatch
+                        (
+                            cssRule.cssText,
+                            /^@(?:-webkit-)?keyframes art-test \{\s*([\s\S]*?)\s*\}$/
+                        );
                         var pattern =
-                            '^(?:0%|from) \\{ ?color: red; ?\\}' +
-                            '\\s*(?:100%|to) \\{ ?color: blue; ?\\}$';
+                        '^(?:0%|from) \\{ ?color: red; ?\\}\\s*(?:100%|to) \\{ ?color: blue; ?\\}$';
                         assertMatch(matches[1], RegExp(pattern));
                         var cssRuleType = cssRule.type;
-                        assert(
+                        assert
+                        (
                             cssRuleType === CSSRule.KEYFRAME_RULE ||
                             cssRuleType === CSSRule.KEYFRAMES_RULE
                         );
@@ -340,9 +364,9 @@
             }
         );
     }
-    
+
     var TestSuite = { init: init };
-    
+
     if (typeof self !== 'undefined')
         self.TestSuite = TestSuite;
     if (typeof module !== 'undefined')

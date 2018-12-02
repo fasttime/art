@@ -52,7 +52,7 @@ function makeArtAsync(destPath, context, callback)
         }
         callback(error);
     }
-    
+
     validateDestPath(destPath);
     var templatePath = getTemplatePath();
     fs.readFile(templatePath, readFileCallback);
@@ -73,7 +73,8 @@ function parseContext(processArgv)
     for (var index = 3, count = processArgv.length; index < count; ++index)
     {
         var arg = processArgv[index];
-        arg.split('.').reduce(
+        arg.split('.').reduce
+        (
             function (target, part)
             {
                 target = target[part] = target[part] || createEmptyObj();
@@ -106,13 +107,15 @@ function validateDestPath(destPath)
         throw new Error('missing path');
 }
 
-Handlebars.registerHelper(
+Handlebars.registerHelper
+(
     {
-        or: function (v1, v2)
+        or:
+        function (v1, v2)
         {
             var result = v1 || v2;
             return result;
-        }
+        },
     }
 );
 

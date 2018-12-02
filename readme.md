@@ -21,27 +21,32 @@ Create a button with a caption and a click handler:
 
 ```js
 var button =
-    art(
-        "input",
-        { type: "button", value: "Click me" },
-        art.on("click", function () { alert("Bravo!"); })
-    );
+art
+(
+    "input",
+    { type: "button", value: "Click me" },
+    art.on("click", function () { alert("Bravo!"); })
+);
 ```
 
 Create a 2x2 table with centered text and append it to an existing element:
 
 ```js
-art(
+art
+(
     document.getElementById("myParent"),
-    art(
+    art
+    (
         "table",
         { style: { textAlign: "center" } },
-        art(
+        art
+        (
             "tr",
             art("td", "top left"),
             art("td", "top right")
         ),
-        art(
+        art
+        (
             "tr",
             art("td", "bottom left"),
             art("td", "bottom right")

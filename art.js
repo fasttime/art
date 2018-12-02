@@ -1,9 +1,9 @@
 (function ()
 {
     'use strict';
-    
+
     var ART = 'art';
-    
+
     /**
      * Creates or modifies a node.
      *
@@ -21,40 +21,41 @@
      *
      * @returns {Node} The node specified by the target.
      */
-    
+
     window[ART] =
-        function (target)
+    function (target)
+    {
+        var node;
+        if (target instanceof Node)
+            node = target;
+        else if (typeof target === 'function')
+            node = target.call(art);
+        else
+            node = document.createElement(target);
+        var argCount = arguments.length;
+        for (var index = 0; ++index < argCount;)
         {
-            var node;
-            if (target instanceof Node)
-                node = target;
-            else if (typeof target === 'function')
-                node = target.call(art);
-            else
-                node = document.createElement(target);
-            var argCount = arguments.length;
-            for (var index = 0; ++index < argCount;)
+            var arg = arguments[index];
+            if (arg instanceof Node)
+                node.appendChild(arg);
+            else if (arg != null)
             {
-                var arg = arguments[index];
-                if (arg instanceof Node)
-                    node.appendChild(arg);
-                else if (arg != null)
-                {
-                    var type = typeof arg;
-                    if (type === 'object')
-                        deepAssign(node, arg);
-                    else if (type === 'function')
-                        arg.call(art, node);
-                    else
-                        node.appendChild(document.createTextNode(arg));
-                }
+                var type = typeof arg;
+                if (type === 'object')
+                    deepAssign(node, arg);
+                else if (type === 'function')
+                    arg.call(art, node);
+                else
+                    node.appendChild(document.createTextNode(arg));
             }
-            return node;
-        };
-    
+        }
+        return node;
+    };
+
     function deepAssign(target, source)
     {
-        Object.keys(source).forEach(
+        Object.keys(source).forEach
+        (
             function (name)
             {
                 var descriptor = Object.getOwnPropertyDescriptor(source, name);
@@ -71,7 +72,7 @@
             }
         );
     }
-    
+
     /**
      * Returns a callback that can be used to detach a listener from the target node in a call to
      * {@link art `art()`}.
@@ -92,15 +93,15 @@
      *
      * @returns {Function}
      */
-    
+
     art.off =
-        function (type, listener, useCapture)
-        {
-            var processEventListener =
-                createProcessEventListener(type, listener, useCapture, 'removeEventListener');
-            return processEventListener;
-        };
-    
+    function (type, listener, useCapture)
+    {
+        var processEventListener =
+            createProcessEventListener(type, listener, useCapture, 'removeEventListener');
+        return processEventListener;
+    };
+
     /**
      * Returns a callback that can be used to attach a listener to the target node in a call to
      * {@link art `art()`}.
@@ -121,7 +122,7 @@
      *
      * @returns {Function}
      */
-    
+
     art.on =
         function (type, listener, useCapture)
         {
@@ -129,7 +130,7 @@
                 createProcessEventListener(type, listener, useCapture, 'addEventListener');
             return processEventListener;
         };
-    
+
     function createProcessEventListener(type, listener, useCapture, methodName)
     {
         function processEventListener(target)
@@ -138,16 +139,16 @@
             {
                 target[methodName](thisType, listener, useCapture);
             }
-            
+
             if (Array.isArray(type))
                 type.forEach(callback);
             else
                 callback(type);
         }
-        
+
         return processEventListener;
     }
-    
+
     /**
      * Creates a new CSS rule and adds it to the document.
      *
@@ -159,14 +160,14 @@
      * @param {Object} ruleObj
      * A rule definition object mapping style names to their respective values.
      */
-    
+
     art.css =
-        function (selector, ruleObj)
-        {
-            var ruleStr = formatRule(selector, ruleObj);
-            addRule(ruleStr);
-        };
-    
+    function (selector, ruleObj)
+    {
+        var ruleStr = formatRule(selector, ruleObj);
+        addRule(ruleStr);
+    };
+
     /**
      * Creates a new CSS keyframes rule and adds it to the document.
      *
@@ -179,15 +180,15 @@
      * An object mapping selectors to rule definition objects.
      * Rule definition objects map style names to their respective values.
      */
-    
+
     art.css.keyframes =
-        function (identifier, ruleObj)
-        {
-            var ruleDefs = createRuleDefs(ruleObj, formatRule);
-            var ruleStr = '@keyframes ' + identifier + '{' + ruleDefs.join('') + '}';
-            addRule(ruleStr);
-        };
-    
+    function (identifier, ruleObj)
+    {
+        var ruleDefs = createRuleDefs(ruleObj, formatRule);
+        var ruleStr = '@keyframes ' + identifier + '{' + ruleDefs.join('') + '}';
+        addRule(ruleStr);
+    };
+
     function addRule(ruleStr)
     {
         if (!styleSheet)
@@ -198,36 +199,38 @@
         }
         styleSheet.insertRule(ruleStr, styleSheet.cssRules.length);
     }
-    
+
     function createRuleDefs(ruleObj, callback)
     {
         var ruleDefs =
-            Object.keys(ruleObj).map(
-                function (ruleName)
-                {
-                    var ruleValue = ruleObj[ruleName];
-                    var ruleDef = callback(ruleName, ruleValue);
-                    return ruleDef;
-                }
-            );
+        Object.keys(ruleObj).map
+        (
+            function (ruleName)
+            {
+                var ruleValue = ruleObj[ruleName];
+                var ruleDef = callback(ruleName, ruleValue);
+                return ruleDef;
+            }
+        );
         return ruleDefs;
     }
-    
+
     function formatRule(selector, ruleObj)
     {
         var ruleDefs =
-            createRuleDefs(
-                ruleObj,
-                function (ruleName, ruleValue)
-                {
-                    var ruleDef = ruleName + ':' + ruleValue;
-                    return ruleDef;
-                }
-            );
+        createRuleDefs
+        (
+            ruleObj,
+            function (ruleName, ruleValue)
+            {
+                var ruleDef = ruleName + ':' + ruleValue;
+                return ruleDef;
+            }
+        );
         var ruleStr = selector + '{' + ruleDefs.join(';') + '}';
         return ruleStr;
     }
-    
+
     var styleSheet;
 }
 )();
