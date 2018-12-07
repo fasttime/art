@@ -87,7 +87,7 @@ gulp.task
         jsdoc2md
         .render({ files: 'art.js' })
         .then(output => fsThen.writeFile('art.md', output))
-        .then(callback);
+        .then(callback, callback);
     }
 );
 
