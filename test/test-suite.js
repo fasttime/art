@@ -1,5 +1,5 @@
 /* eslint-env mocha */
-/* global CSSRule, HTMLElement, art, assert, document, module, self */
+/* global CSSRule, HTMLElement, art, assert, document, module, require, self, window */
 
 'use strict';
 
@@ -333,13 +333,23 @@
                         assert.equal(cssRule.type, CSSRule.STYLE_RULE);
                     }
                 );
-                it
+            }
+        );
+
+        describe
+        (
+            'art.css.keyframes',
+            function ()
+            {
+                (CSSRule.KEYFRAME_RULE || CSSRule.WEBKIT_KEYFRAME_RULE ? it : it.skip)
                 (
                     'adds a keyframes CSS rules',
                     function ()
                     {
+                        var actual =
                         art.css.keyframes
                         ('art-test', { from: { color: 'red' }, to: { color: 'blue' } });
+                        assert.strictEqual(actual, true);
                         var styleSheets = document.styleSheets;
                         var styleSheet = styleSheets[styleSheets.length - 1];
                         var cssRules = styleSheet.cssRules;
@@ -357,12 +367,122 @@
                         assert
                         (
                             cssRuleType === CSSRule.KEYFRAME_RULE ||
-                            cssRuleType === CSSRule.KEYFRAMES_RULE
+                            cssRuleType ===
+                            (CSSRule.KEYFRAMES_RULE || CSSRule.WEBKIT_KEYFRAMES_RULE)
                         );
+                    }
+                );
+                testKeyframeRule
+                (
+                    'does not add a keyframe css rule',
+                    { },
+                    function ()
+                    {
+                        var actual =
+                        art.css.keyframes
+                        ('art-test', { from: { color: 'red' }, to: { color: 'blue' } });
+                        assert.strictEqual(actual, false);
+                    }
+                );
+                testKeyframeRule
+                (
+                    'initializes correctly when only KEYFRAME_RULE exists',
+                    { KEYFRAME_RULE: 8 },
+                    Function()
+                );
+                testKeyframeRule
+                (
+                    'initializes correctly when only WEBKIT_KEYFRAME_RULE exists',
+                    { WEBKIT_KEYFRAME_RULE: 8 },
+                    Function()
+                );
+            }
+        );
+    }
+
+    function testKeyframeRule(description, cssRule, fn)
+    {
+        it
+        (
+            description,
+            function (done)
+            {
+                var descriptor = Object.getOwnPropertyDescriptor(window, 'CSSRule');
+                window.CSSRule = cssRule;
+                loadArt
+                (
+                    function (error)
+                    {
+                        try
+                        {
+                            if (!error)
+                                fn();
+                        }
+                        catch (errorCaught)
+                        {
+                            error = errorCaught;
+                        }
+                        finally
+                        {
+                            delete window.CSSRule;
+                            if (typeof CSSRule === 'undefined')
+                                Object.defineProperty(window, 'CSSRule', descriptor);
+                            loadArt(done.bind(null, error));
+                        }
                     }
                 );
             }
         );
+    }
+
+    var loadArt;
+    var ART_PATH = '../art.js';
+    if (typeof module !== 'undefined')
+    {
+        loadArt =
+        function (done)
+        {
+            try
+            {
+                var path = require.resolve(ART_PATH);
+                delete require.cache[path];
+                require(path);
+            }
+            catch (error)
+            {
+                if (done)
+                    done(error);
+                return;
+            }
+            if (done)
+                done();
+        };
+    }
+    else
+    {
+        loadArt =
+        function (done)
+        {
+            var script = document.querySelector('script[src="' + ART_PATH + '"]');
+            if (script)
+                script.parentNode.removeChild(script);
+            script = document.createElement('script');
+            if (done)
+            {
+                script.onload =
+                function ()
+                {
+                    done();
+                };
+                script.onerror =
+                function (evt)
+                {
+                    done(evt);
+                };
+            }
+            script.src = ART_PATH;
+            document.head.appendChild(script);
+        };
     }
 
     var TestSuite = { init: init };

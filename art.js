@@ -98,7 +98,7 @@
     function (type, listener, useCapture)
     {
         var processEventListener =
-            createProcessEventListener(type, listener, useCapture, 'removeEventListener');
+        createProcessEventListener(type, listener, useCapture, 'removeEventListener');
         return processEventListener;
     };
 
@@ -124,12 +124,12 @@
      */
 
     art.on =
-        function (type, listener, useCapture)
-        {
-            var processEventListener =
-                createProcessEventListener(type, listener, useCapture, 'addEventListener');
-            return processEventListener;
-        };
+    function (type, listener, useCapture)
+    {
+        var processEventListener =
+        createProcessEventListener(type, listener, useCapture, 'addEventListener');
+        return processEventListener;
+    };
 
     function createProcessEventListener(type, listener, useCapture, methodName)
     {
@@ -179,15 +179,40 @@
      * @param {Object} ruleObj
      * An object mapping selectors to rule definition objects.
      * Rule definition objects map style names to their respective values.
+     *
+     * @returns {boolean} `true` on success; otherwise, `false`.
      */
 
     art.css.keyframes =
-    function (identifier, ruleObj)
+    (function ()
     {
-        var ruleDefs = createRuleDefs(ruleObj, formatRule);
-        var ruleStr = '@keyframes ' + identifier + '{' + ruleDefs.join('') + '}';
-        addRule(ruleStr);
-    };
+        var ruleStrBase;
+        var keyframes;
+        if (CSSRule.KEYFRAME_RULE)
+            ruleStrBase = '@';
+        else if (CSSRule.WEBKIT_KEYFRAME_RULE)
+            ruleStrBase = '@-webkit-';
+        else
+        {
+            keyframes =
+            function (identifier, ruleObj) // eslint-disable-line no-unused-vars
+            {
+                return false;
+            };
+            return keyframes;
+        }
+        ruleStrBase += 'keyframes ';
+        keyframes =
+        function (identifier, ruleObj)
+        {
+            var ruleDefs = createRuleDefs(ruleObj, formatRule);
+            var ruleStr = ruleStrBase + identifier + '{' + ruleDefs.join('') + '}';
+            addRule(ruleStr);
+            return true;
+        };
+        return keyframes;
+    }
+    )();
 
     function addRule(ruleStr)
     {

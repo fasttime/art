@@ -16,7 +16,7 @@ Creates or modifies a node.
     * [.off(type, listener, [useCapture])](#art.off) ⇒ <code>function</code>
     * [.on(type, listener, [useCapture])](#art.on) ⇒ <code>function</code>
     * [.css(selector, ruleObj)](#art.css)
-        * [.keyframes(identifier, ruleObj)](#art.css.keyframes)
+        * [.keyframes(identifier, ruleObj)](#art.css.keyframes) ⇒ <code>boolean</code>
 
 <a name="art.off"></a>
 
@@ -64,10 +64,11 @@ Creates a new CSS rule and adds it to the document.
 
 <a name="art.css.keyframes"></a>
 
-#### css.keyframes(identifier, ruleObj)
+#### css.keyframes(identifier, ruleObj) ⇒ <code>boolean</code>
 Creates a new CSS keyframes rule and adds it to the document.
 
 **Kind**: static method of [<code>css</code>](#art.css)  
+**Returns**: <code>boolean</code> - `true` on success; otherwise, `false`.  
 
 | Param | Type | Description |
 | --- | --- | --- |
