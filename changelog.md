@@ -1,3 +1,9 @@
+<a name="0.7.1"></a>
+## [0.7.1](https://github.com/fasttime/art/releases/tag/0.7.1) (2018-12-07)
+
+* Fixed changelog.
+* Improved build.
+
 <a name="0.7.0"></a>
 ## [0.7.0](https://github.com/fasttime/art/releases/tag/0.7.0) (2018-12-07)
 
