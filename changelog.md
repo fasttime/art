@@ -1,3 +1,11 @@
+<a name="0.7.0"></a>
+## [0.7.0](https://github.com/fasttime/art/releases/tag/0.7.0) (2018-12-07)
+
+* Dropped support for Node.js < 6.
+* Updated code style.
+* Improved unit testing.
+* Updated build tools and dependencies.
+
 <a name="0.6.1"></a>
 ## [0.6.1](https://github.com/fasttime/art/releases/tag/0.6.1) (2017-01-06)
 
