@@ -1,7 +1,9 @@
 <a name="0.7.0"></a>
 ## [0.7.0](https://github.com/fasttime/art/releases/tag/0.7.0) (2018-12-07)
 
-* Dropped support for Node.js < 6.
+* Dropped support of Node.js < 6.
+* `art.css.keyframes` now works in old Safari versions.
+* Improved documentation.
 * Updated code style.
 * Improved unit testing.
 * Updated build tools and dependencies.
