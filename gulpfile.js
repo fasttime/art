@@ -19,27 +19,25 @@ gulp.task
 gulp.task
 (
     'lint:es5',
-    () =>
+    callback =>
     {
         const lint = require('gulp-fasttime-lint');
 
-        const stream = gulp.src(['test/**/*.js', '!test/**/*.spec.js']).pipe(lint());
-        return stream;
+        gulp.src(['test/**/*.js', '!test/**/*.spec.js']).pipe(lint()).on('end', callback);
     }
 );
 
 gulp.task
 (
     'lint:es6',
-    () =>
+    callback =>
     {
         const lint = require('gulp-fasttime-lint');
 
-        const stream =
         gulp
         .src(['*.js', '!art.js', 'test/**/*.spec.js'])
-        .pipe(lint({ parserOptions: { ecmaVersion: 6 } }));
-        return stream;
+        .pipe(lint({ parserOptions: { ecmaVersion: 6 } }))
+        .on('end', callback);
     }
 );
 
@@ -57,53 +55,50 @@ gulp.task
 gulp.task
 (
     'lint:art',
-    () =>
+    callback =>
     {
         const lint = require('gulp-fasttime-lint');
 
         const lintOpts =
         { envs: ['browser'], globals: ['art'], rules: { 'strict': ['error', 'function'] } };
-        const stream = gulp.src('art.js').pipe(lint(lintOpts));
-        return stream;
+        gulp.src('art.js').pipe(lint(lintOpts)).on('end', callback);
     }
 );
 
 gulp.task
 (
     'test',
-    () =>
+    callback =>
     {
         const mocha = require('gulp-spawn-mocha');
 
-        const stream = gulp.src('test/**/*.spec.js').pipe(mocha({ istanbul: true }));
-        return stream;
+        gulp.src('test/**/*.spec.js').pipe(mocha({ istanbul: true })).on('end', callback);
     }
 );
 
 gulp.task
 (
     'jsdoc2md',
-    () =>
+    callback =>
     {
         const fsThen = require('fs-then-native');
         const jsdoc2md = require('jsdoc-to-markdown');
 
-        const stream =
         jsdoc2md
         .render({ files: 'art.js' })
-        .then(output => fsThen.writeFile('art.md', output));
-        return stream;
+        .then(output => fsThen.writeFile('art.md', output))
+        .then(callback);
     }
 );
 
 gulp.task
 (
     'default',
-    callback =>
-    {
-        const runSequence = require('run-sequence');
-
-        runSequence
-        (['clean', 'lint:es5', 'lint:es6'], 'make-art', 'test', ['jsdoc2md', 'lint:art'], callback);
-    }
+    gulp.series
+    (
+        gulp.parallel('clean', 'lint:es5', 'lint:es6'),
+        'make-art',
+        'test',
+        gulp.parallel('jsdoc2md', 'lint:art')
+    )
 );
