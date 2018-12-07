@@ -1,14 +1,12 @@
 art
 ===
 
-A really small DOM manipulation library
-
 The **art** library makes it easy to dynamically create and manipulate DOM elements.
 
 Create an empty `DIV`:
 
 ```js
-var myDiv = art("div");
+const myDiv = art("div");
 ```
 
 Append the text "Hello, World!" to the document body:
@@ -20,16 +18,33 @@ art(document.body, "Hello World!");
 Create a button with a caption and a click handler:
 
 ```js
-var button =
+function handleClick(event)
+{
+    alert("Bravo!");
+}
+
+const button =
 art
 (
     "input",
     { type: "button", value: "Click me" },
-    art.on("click", function () { alert("Bravo!"); })
+    art.on("click", handleClick)
 );
 ```
 
-Create a 2x2 table with centered text and append it to an existing element:
+Detach the click handler:
+
+```js
+art(button, art.off("click", handleClick));
+```
+
+Reattach the click handler:
+
+```js
+art(button, art.on("click", handleClick));
+```
+
+Create a 2×2 table with centered text and append it to an existing element:
 
 ```js
 art
