@@ -1,3 +1,14 @@
+<a name="0.6.1"></a>
+## [0.6.1](https://github.com/fasttime/art/releases/tag/0.6.1) (2017-01-06)
+
+* Updated reference documentation.
+
+<a name="0.6.0"></a>
+## [0.6.0](https://github.com/fasttime/art/releases/tag/0.6.0) (2016-11-13)
+
+* The custom build can now run both synchronously and asynchronously.
+* Updated build tools and dependencies.
+
 <a name="0.5.0"></a>
 ## [0.5.0](https://github.com/fasttime/art/releases/tag/0.5.0) (2016-10-22)
 
