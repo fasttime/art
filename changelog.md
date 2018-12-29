@@ -1,3 +1,9 @@
+<a name="0.7.2"></a>
+## [0.7.2](https://github.com/fasttime/art/releases/tag/0.7.2) (2018-12-30)
+
+* Improved Closure Compiler compatibility.
+* Minor improvements.
+
 <a name="0.7.1"></a>
 ## [0.7.1](https://github.com/fasttime/art/releases/tag/0.7.1) (2018-12-07)
 
