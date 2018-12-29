@@ -196,7 +196,7 @@ describe
             () =>
             {
                 const expectedPath = 'test';
-                callProcessCommandLine([, , expectedPath, 'foo', 'bar.baz']);
+                callProcessCommandLine([, , expectedPath, 'foo', 'bar.baz', 'bar']);
                 const [actualPath, data] = writeFileSyncArgs;
                 assert.strictEqual(actualPath, expectedPath);
                 assert.equal(typeof data, 'string');

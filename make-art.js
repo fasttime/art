@@ -8,16 +8,10 @@ const Handlebars = require('handlebars');
 const fs = require('fs');
 const path = require('path');
 
-function createEmptyObj()
-{
-    const emptyObj = Object.create(null);
-    return emptyObj;
-}
-
 function createOutput(data, context)
 {
     const template = Handlebars.compile(String(data));
-    context = context || createEmptyObj();
+    context = context || { __proto__: null };
     const output = template(context);
     return output;
 }
@@ -69,12 +63,21 @@ function makeArtSync(destPath, context)
 
 function parseContext(processArgv)
 {
-    const context = createEmptyObj();
+    const context = { __proto__: null };
     for (let index = 3, count = processArgv.length; index < count; ++index)
     {
         const arg = processArgv[index];
         arg.split('.').reduce
-        ((target, part) => target[part] = target[part] || createEmptyObj(), context);
+        (
+            (target, part) =>
+            {
+                let obj = target[part];
+                if (!obj)
+                    target[part] = obj = { __proto__: null };
+                return obj;
+            },
+            context
+        );
     }
     return context;
 }

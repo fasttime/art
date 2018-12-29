@@ -2,9 +2,9 @@
 
 'use strict';
 
-const gulp = require('gulp');
+const { parallel, series, src, task } = require('gulp');
 
-gulp.task
+task
 (
     'clean',
     () =>
@@ -16,32 +16,29 @@ gulp.task
     }
 );
 
-gulp.task
+task
 (
-    'lint:es5',
-    callback =>
+    'lint:other',
+    () =>
     {
         const lint = require('gulp-fasttime-lint');
 
-        gulp.src(['test/**/*.js', '!test/**/*.spec.js']).pipe(lint()).on('end', callback);
+        const stream =
+        lint
+        (
+            {
+                src: ['*.js', '!art.js', 'test/**/*.spec.js'],
+                parserOptions: { ecmaVersion: 6 },
+            },
+            {
+                src: ['test/**/*.js', '!test/**/*.spec.js'],
+            }
+        );
+        return stream;
     }
 );
 
-gulp.task
-(
-    'lint:es6',
-    callback =>
-    {
-        const lint = require('gulp-fasttime-lint');
-
-        gulp
-        .src(['*.js', '!art.js', 'test/**/*.spec.js'])
-        .pipe(lint({ parserOptions: { ecmaVersion: 6 } }))
-        .on('end', callback);
-    }
-);
-
-gulp.task
+task
 (
     'make-art',
     callback =>
@@ -52,53 +49,55 @@ gulp.task
     }
 );
 
-gulp.task
+task
 (
     'lint:art',
-    callback =>
+    () =>
     {
         const lint = require('gulp-fasttime-lint');
 
-        const lintOpts =
-        { envs: ['browser'], globals: ['art'], rules: { 'strict': ['error', 'function'] } };
-        gulp.src('art.js').pipe(lint(lintOpts)).on('end', callback);
+        const stream =
+        lint
+        (
+            {
+                src: 'art.js',
+                envs: ['browser'],
+                globals: ['art'],
+                rules: { 'strict': ['error', 'function'] },
+            }
+        );
+        return stream;
     }
 );
 
-gulp.task
+task
 (
     'test',
-    callback =>
+    () =>
     {
         const mocha = require('gulp-spawn-mocha');
 
-        gulp.src('test/**/*.spec.js').pipe(mocha({ istanbul: true })).on('end', callback);
+        const stream = src('test/**/*.spec.js').pipe(mocha({ istanbul: true }));
+        return stream;
     }
 );
 
-gulp.task
+task
 (
     'jsdoc2md',
-    callback =>
+    () =>
     {
         const fsThen = require('fs-then-native');
         const jsdoc2md = require('jsdoc-to-markdown');
 
-        jsdoc2md
-        .render({ files: 'art.js' })
-        .then(output => fsThen.writeFile('art.md', output))
-        .then(callback, callback);
+        const stream =
+        jsdoc2md.render({ files: 'art.js' }).then(output => fsThen.writeFile('art.md', output));
+        return stream;
     }
 );
 
-gulp.task
+task
 (
     'default',
-    gulp.series
-    (
-        gulp.parallel('clean', 'lint:es5', 'lint:es6'),
-        'make-art',
-        'test',
-        gulp.parallel('jsdoc2md', 'lint:art')
-    )
+    series(parallel('clean', 'lint:other'), 'make-art', 'test', parallel('jsdoc2md', 'lint:art'))
 );
