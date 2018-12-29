@@ -1,12 +1,9 @@
 #!/usr/bin/env node
 
-/* eslint-env node */
-
 'use strict';
 
 const Handlebars = require('handlebars');
 const fs = require('fs');
-const path = require('path');
 
 function createOutput(data, context)
 {
@@ -18,7 +15,7 @@ function createOutput(data, context)
 
 function getTemplatePath()
 {
-    const templatePath = path.resolve(__dirname, 'art.hbs');
+    const templatePath = require.resolve('./art.hbs');
     return templatePath;
 }
 
@@ -100,7 +97,7 @@ function processCommandLine()
 function validateDestPath(destPath)
 {
     if (destPath == null)
-        throw new Error('missing path');
+        throw Error('missing path');
 }
 
 Handlebars.registerHelper({ or: (v1, v2) => v1 || v2 });

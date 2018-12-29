@@ -2,8 +2,6 @@
 {
     'use strict';
 
-    var ART = 'art';
-
     /**
      * Creates or modifies a node.
      *
@@ -22,7 +20,8 @@
      * @returns {Node} The node specified by the target.
      */
 
-    window[ART] =
+    var art =
+    window.art =
     function (target)
     {
         var node;

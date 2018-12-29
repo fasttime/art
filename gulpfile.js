@@ -1,5 +1,3 @@
-/* eslint-env node */
-
 'use strict';
 
 const { parallel, series, src, task } = require('gulp');
@@ -28,6 +26,7 @@ task
         (
             {
                 src: ['*.js', '!art.js', 'test/**/*.spec.js'],
+                envs: 'node',
                 parserOptions: { ecmaVersion: 6 },
             },
             {
@@ -61,8 +60,7 @@ task
         (
             {
                 src: 'art.js',
-                envs: ['browser'],
-                globals: ['art'],
+                envs: 'browser',
                 rules: { 'strict': ['error', 'function'] },
             }
         );

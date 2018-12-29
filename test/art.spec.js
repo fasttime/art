@@ -1,5 +1,3 @@
-/* eslint-env node */
-
 'use strict';
 
 global.assert = require('assert');
