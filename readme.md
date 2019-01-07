@@ -1,5 +1,4 @@
-art
-===
+# art · [![npm version](https://badge.fury.io/js/art-js.svg)](https://www.npmjs.com/package/art-js)
 
 The **art** library makes it easy to dynamically create and manipulate DOM elements.
 

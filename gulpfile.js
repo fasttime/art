@@ -11,7 +11,7 @@ task
 
         const stream = del(['art.js', 'art.md', 'coverage']);
         return stream;
-    }
+    },
 );
 
 task
@@ -27,14 +27,14 @@ task
             {
                 src: ['*.js', '!art.js', 'test/**/*.spec.js'],
                 envs: 'node',
-                parserOptions: { ecmaVersion: 6 },
+                parserOptions: { ecmaVersion: 8 },
             },
             {
                 src: ['test/**/*.js', '!test/**/*.spec.js'],
-            }
+            },
         );
         return stream;
-    }
+    },
 );
 
 task
@@ -45,7 +45,7 @@ task
         const makeArt = require('./make-art');
 
         makeArt.async('art.js', { css: { keyframes: true }, off: true, on: true }, callback);
-    }
+    },
 );
 
 task
@@ -62,10 +62,10 @@ task
                 src: 'art.js',
                 envs: 'browser',
                 rules: { 'strict': ['error', 'function'] },
-            }
+            },
         );
         return stream;
-    }
+    },
 );
 
 task
@@ -77,7 +77,7 @@ task
 
         const stream = src('test/**/*.spec.js').pipe(mocha({ istanbul: true }));
         return stream;
-    }
+    },
 );
 
 task
@@ -85,17 +85,18 @@ task
     'jsdoc2md',
     () =>
     {
-        const fsThen = require('fs-then-native');
         const jsdoc2md = require('jsdoc-to-markdown');
+        const { promisify } = require('util');
+        const { writeFile } = require('fs');
 
-        const stream =
-        jsdoc2md.render({ files: 'art.js' }).then(output => fsThen.writeFile('art.md', output));
-        return stream;
-    }
+        const promise =
+        jsdoc2md.render({ files: 'art.js' }).then(output => promisify(writeFile)('art.md', output));
+        return promise;
+    },
 );
 
 task
 (
     'default',
-    series(parallel('clean', 'lint:other'), 'make-art', 'test', parallel('jsdoc2md', 'lint:art'))
+    series(parallel('clean', 'lint:other'), 'make-art', 'test', parallel('jsdoc2md', 'lint:art')),
 );

@@ -73,7 +73,7 @@ function parseContext(processArgv)
                     target[part] = obj = { __proto__: null };
                 return obj;
             },
-            context
+            context,
         );
     }
     return context;

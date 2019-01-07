@@ -31,7 +31,7 @@ proxyquire
                 writeFileSyncArgs = args;
             },
         },
-    }
+    },
 );
 
 afterEach
@@ -39,7 +39,7 @@ afterEach
     () =>
     {
         readFileMock = writeFileArgs = writeFileMock = writeFileSyncArgs = undefined;
-    }
+    },
 );
 
 describe
@@ -57,7 +57,7 @@ describe
                 const [actualPath, actualData] = writeFileSyncArgs;
                 assert.strictEqual(actualPath, expectedPath);
                 assert.equal(typeof actualData, 'string');
-            }
+            },
         );
         it
         (
@@ -66,9 +66,9 @@ describe
             {
                 assert.throws(makeArt, isMissingPathError);
                 assert(!writeFileSyncArgs);
-            }
+            },
         );
-    }
+    },
 );
 
 describe
@@ -94,7 +94,7 @@ describe
                     done();
                 };
                 makeArt.async(expectedPath, null, expectedCallback);
-            }
+            },
         );
         it
         (
@@ -103,7 +103,7 @@ describe
             {
                 assert.throws(makeArt.async, isMissingPathError);
                 assert(!writeFileArgs);
-            }
+            },
         );
         it
         (
@@ -120,9 +120,9 @@ describe
                     {
                         assert.strictEqual(actualError, expectedError);
                         done();
-                    }
+                    },
                 );
-            }
+            },
         );
         it
         (
@@ -144,11 +144,11 @@ describe
                     {
                         assert.strictEqual(actualError, expectedError);
                         done();
-                    }
+                    },
                 );
-            }
+            },
         );
-    }
+    },
 );
 
 describe
@@ -177,7 +177,7 @@ describe
                     consoleErrorArgs = args;
                 };
                 processArgv = process.argv;
-            }
+            },
         );
 
         afterEach
@@ -187,7 +187,7 @@ describe
                 process.argv = processArgv;
                 console.error = consoleError;
                 consoleErrorArgs = undefined;
-            }
+            },
         );
 
         it
@@ -201,7 +201,7 @@ describe
                 assert.strictEqual(actualPath, expectedPath);
                 assert.equal(typeof data, 'string');
                 assert.deepStrictEqual(consoleErrorArgs, undefined);
-            }
+            },
         );
         it
         (
@@ -211,9 +211,9 @@ describe
                 callProcessCommandLine([]);
                 assert.strictEqual(writeFileSyncArgs, undefined);
                 assert.deepStrictEqual(consoleErrorArgs, ['missing path']);
-            }
+            },
         );
-    }
+    },
 );
 
 function isMissingPathError(obj)
