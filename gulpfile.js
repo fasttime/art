@@ -85,7 +85,7 @@ task
     'jsdoc2md',
     () =>
     {
-        const jsdoc2md = require('jsdoc-to-markdown');
+        const jsdoc2md      = require('jsdoc-to-markdown');
         const { promisify } = require('util');
         const { writeFile } = require('fs');
 
