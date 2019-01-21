@@ -1,3 +1,10 @@
+<a name="0.7.3"></a>
+## [0.7.3](https://github.com/fasttime/art/releases/tag/0.7.3) (2019-01-21)
+
+* Added npm badge to readme file.
+* Updated build process and dependencies.
+* Minor improvements.
+
 <a name="0.7.2"></a>
 ## [0.7.2](https://github.com/fasttime/art/releases/tag/0.7.2) (2018-12-30)
 
