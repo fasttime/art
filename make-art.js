@@ -7,7 +7,7 @@ const fs = require('fs');
 
 function createOutput(data, context)
 {
-    const template = Handlebars.compile(String(data));
+    const template = Handlebars.compile(String(data), { noEscape: true });
     context = context || { __proto__: null };
     const output = template(context);
     return output;
@@ -73,7 +73,7 @@ function parseContext(processArgv)
                     target[part] = obj = { __proto__: null };
                 return obj;
             },
-            context,
+            context
         );
     }
     return context;

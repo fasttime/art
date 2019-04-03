@@ -5,12 +5,11 @@ const { parallel, series, src, task } = require('gulp');
 task
 (
     'clean',
-    () =>
+    async () =>
     {
         const del = require('del');
 
-        const stream = del(['art.js', 'art.md', 'coverage']);
-        return stream;
+        await del(['art.js', 'art.md', 'coverage']);
     },
 );
 
@@ -25,9 +24,14 @@ task
         lint
         (
             {
-                src: ['*.js', '!art.js', 'test/**/*.spec.js'],
+                src: ['gulpfile.js', 'test/**/*.spec.js'],
                 envs: 'node',
                 parserOptions: { ecmaVersion: 8 },
+            },
+            {
+                src: 'make-art.js',
+                envs: 'node',
+                parserOptions: { ecmaVersion: 7 },
             },
             {
                 src: ['test/**/*.js', '!test/**/*.spec.js'],
