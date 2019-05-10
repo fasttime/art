@@ -1,6 +1,6 @@
 'use strict';
 
-const { parallel, series, src, task } = require('gulp');
+const { parallel, series, task } = require('gulp');
 
 task
 (
@@ -9,7 +9,7 @@ task
     {
         const del = require('del');
 
-        await del(['art.js', 'art.md', 'coverage']);
+        await del(['.nyc_output', 'art.js', 'art.md', 'coverage']);
     },
 );
 
@@ -75,12 +75,20 @@ task
 task
 (
     'test',
-    () =>
+    callback =>
     {
-        const mocha = require('gulp-spawn-mocha');
+        const { fork } = require('child_process');
 
-        const stream = src('test/**/*.spec.js').pipe(mocha({ istanbul: true }));
-        return stream;
+        const { resolve } = require;
+        const nycPath = resolve('nyc/bin/nyc');
+        const mochaPath = resolve('mocha/bin/mocha');
+        const cmd =
+        fork
+        (
+            nycPath,
+            ['--reporter=html', '--reporter=text-summary', '--', mochaPath, 'test/**/*.spec.js'],
+        );
+        cmd.on('exit', code => callback(code && 'Test failed'));
     },
 );
 
