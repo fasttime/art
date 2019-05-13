@@ -69,6 +69,6 @@ art
 );
 ```
 
-See the [**Art Library Reference**](art.md) for further informations.
+See the [**Art Library Reference**](doc/README.md) for further informations.
 
 *This is a preliminary documentation and may be subject to change at any time.*

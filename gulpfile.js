@@ -1,6 +1,6 @@
 'use strict';
 
-const { parallel, series, task } = require('gulp');
+const { parallel, series, src, task } = require('gulp');
 
 task
 (
@@ -9,7 +9,7 @@ task
     {
         const del = require('del');
 
-        await del(['.nyc_output', 'art.js', 'art.md', 'coverage']);
+        await del(['.nyc_output', 'art.js', 'coverage', 'doc']);
     },
 );
 
@@ -31,10 +31,14 @@ task
             {
                 src: 'make-art.js',
                 envs: 'node',
-                parserOptions: { ecmaVersion: 7 },
+                parserOptions: { ecmaVersion: 8 },
             },
             {
                 src: ['test/**/*.js', '!test/**/*.spec.js'],
+            },
+            {
+                src: 'art.d.ts',
+                parserOptions: { project: 'tsconfig.json' },
             },
         );
         return stream;
@@ -94,21 +98,30 @@ task
 
 task
 (
-    'jsdoc2md',
+    'typedoc',
     () =>
     {
-        const jsdoc2md      = require('jsdoc-to-markdown');
-        const { promisify } = require('util');
-        const { writeFile } = require('fs');
+        const pkg = require('./package.json');
+        const typedoc = require('gulp-typedoc');
 
-        const promise =
-        jsdoc2md.render({ files: 'art.js' }).then(output => promisify(writeFile)('art.md', output));
-        return promise;
+        const opts =
+        {
+            excludeExternals:       true,
+            gitRevision:            pkg.version,
+            includeDeclarations:    true,
+            mode:                   'file',
+            name:                   'art',
+            out:                    'doc',
+            readme:                 'none',
+            theme:                  'markdown',
+        };
+        const stream = src('art.d.ts', { read: false }).pipe(typedoc(opts));
+        return stream;
     },
 );
 
 task
 (
     'default',
-    series(parallel('clean', 'lint:other'), 'make-art', 'test', parallel('jsdoc2md', 'lint:art')),
+    series(parallel('clean', 'lint:other'), 'make-art', 'test', parallel('typedoc', 'lint:art')),
 );

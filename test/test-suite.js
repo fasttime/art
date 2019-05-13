@@ -83,7 +83,8 @@
                         var node2 = document.createElement('B');
                         var p = document.createElement('P');
                         art(p, node1, node2);
-                        assert.deepEqual(Array.prototype.slice.call(p.children), [node1, node2]);
+                        assert.deepStrictEqual
+                        (Array.prototype.slice.call(p.children), [node1, node2]);
                     }
                 );
                 it
@@ -109,7 +110,7 @@
 
                         var calls = [];
                         art(document, fn1, fn2);
-                        assert.deepEqual(calls, [fn1, fn2]);
+                        assert.deepStrictEqual(calls, [fn1, fn2]);
                     }
                 );
 
@@ -176,6 +177,15 @@
                     function ()
                     {
                         art('SCRIPT', undefined, null);
+                    }
+                );
+                (document.all !== undefined ? it : it.skip)
+                (
+                    'ignores document.all arguments',
+                    function ()
+                    {
+                        var span = art('SPAN', document.all);
+                        assert.strictEqual(span[0], undefined);
                     }
                 );
             }
