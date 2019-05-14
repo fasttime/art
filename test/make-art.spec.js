@@ -4,6 +4,7 @@
 
 const assert = require('assert');
 const proxyquire = require('proxyquire');
+const { promisify } = require('util');
 
 let readFileMock;
 let writeFileArgs;
@@ -24,7 +25,7 @@ proxyquire
             {
                 writeFileArgs = args;
                 if (writeFileMock)
-                    writeFileMock();
+                    writeFileMock(...args);
             },
             writeFileSync(...args)
             {
@@ -78,22 +79,30 @@ describe
     {
         it
         (
-            'creates art.js',
-            done =>
+            'creates art.js with 2 arguments',
+            async () =>
             {
                 const expectedPath = 'test';
-                const expectedCallback = Function();
-                readFileMock = (file, callback) => callback(null, 'DATA');
-                writeFileMock =
-                () =>
-                {
-                    const [actualPath, actualData, actualCallback] = writeFileArgs;
-                    assert.strictEqual(actualPath, expectedPath);
-                    assert.equal(typeof actualData, 'string');
-                    assert.strictEqual(actualCallback, expectedCallback);
-                    done();
-                };
-                makeArt.async(expectedPath, null, expectedCallback);
+                readFileMock = (file, callback) => callback(null);
+                writeFileMock = (file, data, callback) => callback(null);
+                await promisify(makeArt.async)(expectedPath);
+                const [actualPath, actualData] = writeFileArgs;
+                assert.strictEqual(actualPath, expectedPath);
+                assert.equal(typeof actualData, 'string');
+            },
+        );
+        it
+        (
+            'creates art.js with 3 arguments',
+            async () =>
+            {
+                const expectedPath = 'test';
+                readFileMock = (file, callback) => callback(null);
+                writeFileMock = (file, data, callback) => callback(null);
+                await promisify(makeArt.async)(expectedPath, null);
+                const [actualPath, actualData] = writeFileArgs;
+                assert.strictEqual(actualPath, expectedPath);
+                assert.equal(typeof actualData, 'string');
             },
         );
         it
