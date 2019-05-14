@@ -13,7 +13,7 @@
   "license": "ISC",
   "author": "Francesco Trotta <ft@fasttime.org> (https://github.com/fasttime)",
   "files": [
-    "art.d.ts",
+    "*.d.ts",
     "art.hbs",
     "art.js",
     "doc",
