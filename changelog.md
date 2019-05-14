@@ -1,21 +1,25 @@
+<a name="0.8.0"></a>
+## [0.8.0](https://github.com/fasttime/art/releases/tag/0.8.0) (2019-05-14)
+
+* Added TypeScript support.
+* Generating reference documentation with TSDoc.
+* The context parameter of makeArt.async is now optional.
+* Removed generic maintenance entries from changelog.
+
 <a name="0.7.3"></a>
 ## [0.7.3](https://github.com/fasttime/art/releases/tag/0.7.3) (2019-01-21)
 
 * Added npm badge to readme file.
-* Updated build process and dependencies.
-* Minor improvements.
 
 <a name="0.7.2"></a>
 ## [0.7.2](https://github.com/fasttime/art/releases/tag/0.7.2) (2018-12-30)
 
 * Improved Closure Compiler compatibility.
-* Minor improvements.
 
 <a name="0.7.1"></a>
 ## [0.7.1](https://github.com/fasttime/art/releases/tag/0.7.1) (2018-12-07)
 
 * Fixed changelog.
-* Improved build.
 
 <a name="0.7.0"></a>
 ## [0.7.0](https://github.com/fasttime/art/releases/tag/0.7.0) (2018-12-07)
@@ -23,9 +27,6 @@
 * Dropped support of Node.js < 6.
 * `art.css.keyframes` now works in old Safari versions.
 * Improved documentation.
-* Updated code style.
-* Improved unit testing.
-* Updated build tools and dependencies.
 
 <a name="0.6.1"></a>
 ## [0.6.1](https://github.com/fasttime/art/releases/tag/0.6.1) (2017-01-06)
@@ -36,14 +37,12 @@
 ## [0.6.0](https://github.com/fasttime/art/releases/tag/0.6.0) (2016-11-13)
 
 * The custom build can now run both synchronously and asynchronously.
-* Updated build tools and dependencies.
 
 <a name="0.5.0"></a>
 ## [0.5.0](https://github.com/fasttime/art/releases/tag/0.5.0) (2016-10-22)
 
 * Introduced customizable build.
 * Added function `art.off()`.
-* Improved unit testing.
 
 <a name="0.4.1"></a>
 ## [0.4.1](https://github.com/fasttime/art/releases/tag/0.4.1) (2016-08-07)
@@ -56,7 +55,6 @@
 * Split library into function modules.
 * Removed minified version.
 * Documented all parameters of `art.on()`.
-* Improved unit tests of `art.on()`.
 
 <a name="0.3.0"></a>
 ## [0.3.0](https://github.com/fasttime/art/releases/tag/0.3.0) (2016-08-04)
@@ -93,7 +91,6 @@
 * Modified `art()` property import behavior:
  * No branching into get/set type property values.
  * Only own properties are imported.
-* Added unit tests.
 * Added library reference and changelog.
 
 <a name="0.1.0"></a>
