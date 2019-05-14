@@ -5,10 +5,9 @@
 const Handlebars = require('handlebars');
 const fs = require('fs');
 
-function createOutput(data, context)
+function createOutput(data, context = { __proto__: null })
 {
     const template = Handlebars.compile(String(data), { noEscape: true });
-    context = context || { __proto__: null };
     const output = template(context);
     return output;
 }
@@ -44,6 +43,11 @@ function makeArtAsync(destPath, context, callback)
         callback(error);
     }
 
+    if (arguments.length < 3)
+    {
+        callback = context;
+        context = undefined;
+    }
     validateDestPath(destPath);
     const templatePath = getTemplatePath();
     fs.readFile(templatePath, readFileCallback);

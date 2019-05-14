@@ -20,7 +20,7 @@
     "!.*"
   ],
   "main": "make-art.js",
-  "types": "art.d.ts",
+  "types": "make-art.d.ts",
   "bin": {
     "make-art": "make-art.js"
   },
@@ -35,15 +35,16 @@
     "build": "npm install && gulp"
   },
   "dependencies": {
+    "@types/node": ">=8.0.0",
     "handlebars": "~4.1.2"
   },
   "devDependencies": {
     "assert": "git+https://github.com/fasttime/assert.git",
     "del": "~4.1.1",
     "gulp": "~4.0.2",
-    "gulp-fasttime-lint": "~0.10.0",
+    "gulp-fasttime-lint": "~0.10.1",
     "gulp-typedoc": "~2.2.2",
-    "jsdom": "~15.0.0",
+    "jsdom": "~15.1.0",
     "mocha": "~3.5.3",
     "mocha-bar": "~0.0.3",
     "nyc": "~14.1.1",

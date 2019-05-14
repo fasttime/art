@@ -10,14 +10,14 @@ interface art
      * @param target
      *
      * A node, a function returning a node, or a string specifying the type of element to be created
-     * using `document.createElement()`.
+     * using <code>document.createElement()</code>.
      *
      * @param args
      *
      * Each additional argument may be a node to be appended to the taget node, a function to be
-     * called with the target node as its only argument, an object whose properties shall
+     * called with the target node as its only argument, an object whose properties shall be
      * assigned to the taget node, or a string of text to be appended to the target node.
-     * Note that `null` and `undefined` arguments are simply ignored.
+     * Note that <code>null</code> and <code>undefined</code> arguments are simply ignored.
      *
      * @returns
      *
@@ -34,8 +34,7 @@ interface art
             | ((this: art, target: Node) => never)
             | { readonly [key: string]: unknown; }
             | string
-            | null
-            | undefined
+            | void
         )[],
     ):
     Node;
@@ -54,11 +53,11 @@ interface art
      *
      * The event handler to dissociate from the events.
      *
-     * @param options
+     * @param useCapture
      *
-     * `true` to unregister the events for the capturing phase, or `false` to unregister the events
-     * for the bubbling phase.
-     * The default is `false`.
+     * <code>true</code> to unregister the events for the capturing phase, or <code>false</code> to
+     * unregister the events for the bubbling phase.
+     * The default is <code>false</code>.
      */
     off
     (
@@ -82,11 +81,11 @@ interface art
      *
      * The event handler to associate with the events.
      *
-     * @param options
+     * @param useCapture
      *
-     * `true` to register the events for the capturing phase, or `false` to register the events for
-     * the bubbling phase.
-     * The default is `false`.
+     * <code>true</code> to register the events for the capturing phase, or <code>false</code> to
+     * register the events for the bubbling phase.
+     * The default is <code>false</code>.
      */
     on
     (

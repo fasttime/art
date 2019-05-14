@@ -37,6 +37,10 @@ task
                 src: ['test/**/*.js', '!test/**/*.spec.js'],
             },
             {
+                src: 'make-art.d.ts',
+                parserOptions: { project: 'tsconfig.json', sourceType: 'module' },
+            },
+            {
                 src: 'art.d.ts',
                 parserOptions: { project: 'tsconfig.json' },
             },
@@ -50,7 +54,7 @@ task
     'make-art',
     callback =>
     {
-        const makeArt = require('./make-art');
+        const makeArt = require('.');
 
         makeArt.async('art.js', { css: { keyframes: true }, off: true, on: true }, callback);
     },
