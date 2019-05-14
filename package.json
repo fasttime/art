@@ -25,6 +25,7 @@
     "make-art": "make-art.js"
   },
   "directories": {
+    "doc": "doc",
     "test": "test"
   },
   "repository": {
@@ -39,8 +40,8 @@
     "handlebars": "~4.1.2"
   },
   "devDependencies": {
-    "assert": "git+https://github.com/fasttime/assert.git",
     "del": "~4.1.1",
+    "expectations": "~1.0.0",
     "gulp": "~4.0.2",
     "gulp-fasttime-lint": "~0.10.1",
     "gulp-typedoc": "~2.2.2",

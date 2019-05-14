@@ -1,5 +1,5 @@
 /* eslint-env mocha */
-/* global CSSRule, HTMLElement, art, assert, document, module, require, self, window */
+/* global CSSRule, HTMLElement, art, document, expect, module, require, self, window */
 
 'use strict';
 
@@ -8,7 +8,7 @@
     function assertMatch(actual, expected)
     {
         var matches = actual.match(expected);
-        assert(matches, actual + ' not matched by ' + expected);
+        expect(matches).toBeTruthy(actual + ' not matched by ' + expected);
         return matches;
     }
 
@@ -37,7 +37,7 @@
                     function ()
                     {
                         var input = art('INPUT');
-                        assert(input instanceof HTMLElement);
+                        expect(input instanceof HTMLElement).toBeTruthy();
                     }
                 );
                 it
@@ -46,7 +46,7 @@
                     function ()
                     {
                         var node = art(document);
-                        assert.equal(node, document);
+                        expect(node).toEqual(document);
                     }
                 );
                 it
@@ -57,9 +57,9 @@
                         var expected = document;
                         var target = createCaptor(expected);
                         var actual = art(target);
-                        assert.strictEqual(actual, expected);
-                        assert.strictEqual(target.calls[0].this, art);
-                        assert.equal(target.calls[0].args.length, 0);
+                        expect(actual).toBe(expected);
+                        expect(target.calls[0].this).toBe(art);
+                        expect(target.calls[0].args.length).toBe(0);
                     }
                 );
                 it
@@ -71,7 +71,7 @@
                         var text2 = ' art!';
                         var p = document.createElement('P');
                         art(p, text1, text2);
-                        assert.strictEqual(p.textContent, text1 + text2);
+                        expect(p.textContent).toBe(text1 + text2);
                     }
                 );
                 it
@@ -83,8 +83,7 @@
                         var node2 = document.createElement('B');
                         var p = document.createElement('P');
                         art(p, node1, node2);
-                        assert.deepStrictEqual
-                        (Array.prototype.slice.call(p.children), [node1, node2]);
+                        expect(Array.prototype.slice.call(p.children)).toEqual([node1, node2]);
                     }
                 );
                 it
@@ -94,23 +93,23 @@
                     {
                         function fn1(arg)
                         {
-                            assert.strictEqual(this, art);
-                            assert.strictEqual(arg, document);
-                            assert.strictEqual(arguments.length, 1);
+                            expect(this).toBe(art);
+                            expect(arg).toBe(document);
+                            expect(arguments.length).toBe(1);
                             calls.push(fn1);
                         }
 
                         function fn2(arg)
                         {
-                            assert.strictEqual(this, art);
-                            assert.strictEqual(arg, document);
-                            assert.strictEqual(arguments.length, 1);
+                            expect(this).toBe(art);
+                            expect(arg).toBe(document);
+                            expect(arguments.length).toBe(1);
                             calls.push(fn2);
                         }
 
                         var calls = [];
                         art(document, fn1, fn2);
-                        assert.deepStrictEqual(calls, [fn1, fn2]);
+                        expect(calls).toEqual([fn1, fn2]);
                     }
                 );
 
@@ -125,7 +124,7 @@
                             function ()
                             {
                                 var input = art('INPUT', { value: 'foo' }, { value: 'bar' });
-                                assert.strictEqual(input.value, 'bar');
+                                expect(input.value).toBe('bar');
                             }
                         );
                         it
@@ -134,7 +133,7 @@
                             function ()
                             {
                                 var div = art('DIV', { 'data-id': 12345 });
-                                assert.strictEqual(div['data-id'], 12345);
+                                expect(div['data-id']).toBe(12345);
                             }
                         );
                         it
@@ -144,7 +143,7 @@
                             {
                                 var source = Object.create({ a: 1 });
                                 var div = art('DIV', source);
-                                assert(!('a' in div));
+                                expect('a' in div).toBeFalsy();
                             }
                         );
                         it
@@ -153,7 +152,7 @@
                             function ()
                             {
                                 var div =  art('DIV', { style: { color: 'red' } });
-                                assert.strictEqual(div.style.color, 'red');
+                                expect(div.style.color).toBe('red');
                             }
                         );
                         it
@@ -166,7 +165,7 @@
                                 Object.create(null, { prop: { enumerable: true, get: getter } });
                                 var div = art('DIV', source);
                                 var descriptor = Object.getOwnPropertyDescriptor(div, 'prop');
-                                assert.strictEqual(descriptor.get, getter);
+                                expect(descriptor.get).toBe(getter);
                             }
                         );
                     }
@@ -185,7 +184,7 @@
                     function ()
                     {
                         var span = art('SPAN', document.all);
-                        assert.strictEqual(span[0], undefined);
+                        expect(span[0]).toBeUndefined();
                     }
                 );
             }
@@ -207,7 +206,7 @@
                         var evt = document.createEvent('UIEvent');
                         evt.initEvent('input', true, false);
                         input.dispatchEvent(evt);
-                        assert.strictEqual(listener.calls[0].args[0], evt);
+                        expect(listener.calls[0].args[0]).toBe(evt);
                     }
                 );
                 it
@@ -221,7 +220,7 @@
                         var evt = document.createEvent('UIEvent');
                         evt.initEvent('input', true, false);
                         input.dispatchEvent(evt);
-                        assert.strictEqual(handleEvent.calls[0].args[0], evt);
+                        expect(handleEvent.calls[0].args[0]).toBe(evt);
                     }
                 );
                 it
@@ -242,8 +241,8 @@
                         art(div, art.on(['mousedown', 'touchstart'], listener));
                         var evt0 = fireEvent('MouseEvent', 'mousedown');
                         var evt1 = fireEvent('Event', 'touchstart');
-                        assert.strictEqual(listener.calls[0].args[0], evt0);
-                        assert.strictEqual(listener.calls[1].args[0], evt1);
+                        expect(listener.calls[0].args[0]).toBe(evt0);
+                        expect(listener.calls[1].args[0]).toBe(evt1);
                     }
                 );
             }
@@ -265,7 +264,7 @@
                         var evt = document.createEvent('UIEvent');
                         evt.initEvent('input', true, false);
                         input.dispatchEvent(evt);
-                        assert.equal(listener.calls.length, 0);
+                        expect(listener.calls.length).toBe(0);
                     }
                 );
                 it
@@ -280,7 +279,7 @@
                         var evt = document.createEvent('UIEvent');
                         evt.initEvent('input', true, false);
                         input.dispatchEvent(evt);
-                        assert.equal(handleEvent.calls.length, 0);
+                        expect(handleEvent.calls.length).toBe(0);
                     }
                 );
                 it
@@ -306,7 +305,7 @@
                         );
                         fireEvent('MouseEvent', 'mousedown');
                         fireEvent('Event', 'touchstart');
-                        assert.equal(handleEvent.calls.length, 0);
+                        expect(handleEvent.calls.length).toBe(0);
                     }
                 );
             }
@@ -338,9 +337,9 @@
                             }
                         )
                         .sort();
-                        assertMatch(styles[0], /^color: red$/);
-                        assertMatch(styles[1], /^width: 0(?:px)?$/);
-                        assert.equal(cssRule.type, CSSRule.STYLE_RULE);
+                        expect(styles[0]).toMatch(/^color: red$/);
+                        expect(styles[1]).toMatch(/^width: 0(?:px)?$/);
+                        expect(cssRule.type).toEqual(CSSRule.STYLE_RULE);
                     }
                 );
             }
@@ -359,7 +358,7 @@
                         var actual =
                         art.css.keyframes
                         ('art-test', { from: { color: 'red' }, to: { color: 'blue' } });
-                        assert.strictEqual(actual, true);
+                        expect(actual).toBe(true);
                         var styleSheets = document.styleSheets;
                         var styleSheet = styleSheets[styleSheets.length - 1];
                         var cssRules = styleSheet.cssRules;
@@ -372,14 +371,15 @@
                         );
                         var pattern =
                         '^(?:0%|from) \\{ ?color: red; ?\\}\\s*(?:100%|to) \\{ ?color: blue; ?\\}$';
-                        assertMatch(matches[1], RegExp(pattern));
+                        expect(matches[1]).toMatch(RegExp(pattern));
                         var cssRuleType = cssRule.type;
-                        assert
+                        expect
                         (
                             cssRuleType === CSSRule.KEYFRAME_RULE ||
                             cssRuleType ===
                             (CSSRule.KEYFRAMES_RULE || CSSRule.WEBKIT_KEYFRAMES_RULE)
-                        );
+                        )
+                        .toBeTruthy();
                     }
                 );
                 testKeyframeRule
@@ -391,7 +391,7 @@
                         var actual =
                         art.css.keyframes
                         ('art-test', { from: { color: 'red' }, to: { color: 'blue' } });
-                        assert.strictEqual(actual, false);
+                        expect(actual).toBe(false);
                     }
                 );
                 testKeyframeRule
