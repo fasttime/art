@@ -3,7 +3,7 @@
 
 * Added TypeScript support.
 * Generating reference documentation with TSDoc.
-* The context parameter of makeArt.async is now optional.
+* The `context` parameter of `makeArt.async` is now optional.
 * Removed generic maintenance entries from changelog.
 
 <a name="0.7.3"></a>
