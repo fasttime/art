@@ -36,7 +36,7 @@
     "build": "npm install && gulp"
   },
   "dependencies": {
-    "@types/node": ">=8.0.0",
+    "@types/node": ">=10.0.0",
     "handlebars": "~4.1.2"
   },
   "devDependencies": {
@@ -49,11 +49,11 @@
     "mocha": "~3.5.3",
     "mocha-bar": "~0.0.3",
     "nyc": "~14.1.1",
-    "proxyquire": "~2.1.0",
+    "sinon": "~7.3.2",
     "typedoc": "~0.14.2",
-    "typedoc-plugin-markdown": "~1.2.0"
+    "typedoc-plugin-markdown": "~1.2.1"
   },
   "engines": {
-    "node": ">=8.0.0"
+    "node": ">=10.0.0"
   }
 }

@@ -50,7 +50,6 @@ Creates a new CSS keyframes rule and adds it to the document.
 | ruleObjMap | `object` |  <br><br>An object mapping selectors to rule definition objects. Rule definition objects map style names to their respective values. |
 
 **Returns:** `boolean`
-
 `true` on success; otherwise, `false`.
 
 ___

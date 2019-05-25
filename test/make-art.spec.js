@@ -2,44 +2,41 @@
 
 'use strict';
 
-const assert = require('assert');
-const proxyquire = require('proxyquire');
-const { promisify } = require('util');
+const assert    = require('assert');
+const fs        = require('fs');
+const sinon     = require('sinon');
 
-let readFileMock;
-let writeFileArgs;
-let writeFileMock;
-let writeFileSyncArgs;
-const makeArt =
-proxyquire
-(
-    '../make-art',
-    {
-        fs:
+let makeArt;
+
+function isMissingPathError(obj)
+{
+    const result = Object.getPrototypeOf(obj) === Error.prototype && obj.message === 'missing path';
+    return result;
+}
+
+function prepare()
+{
+    beforeEach
+    (
+        () =>
         {
-            readFile(...args)
-            {
-                readFileMock.apply(this, args);
-            },
-            writeFile(...args)
-            {
-                writeFileArgs = args;
-                if (writeFileMock)
-                    writeFileMock(...args);
-            },
-            writeFileSync(...args)
-            {
-                writeFileSyncArgs = args;
-            },
+            sinon.stub(fs, 'readFile');
+            sinon.stub(fs, 'readFileSync');
+            sinon.stub(fs.promises, 'readFile');
+            sinon.stub(fs, 'writeFile');
+            sinon.stub(fs, 'writeFileSync');
+            sinon.stub(fs.promises, 'writeFile');
         },
-    },
-);
+    );
 
-afterEach
+    afterEach(sinon.restore);
+}
+
+before
 (
     () =>
     {
-        readFileMock = writeFileArgs = writeFileMock = writeFileSyncArgs = undefined;
+        makeArt = require('../make-art');
     },
 );
 
@@ -48,25 +45,30 @@ describe
     'makeArt',
     () =>
     {
+        prepare();
+
         it
         (
             'creates art.js',
             () =>
             {
+                fs.readFileSync.callThrough();
                 const expectedPath = 'test';
                 makeArt(expectedPath);
-                const [actualPath, actualData] = writeFileSyncArgs;
+                const [[actualPath, actualData]] = fs.writeFileSync.args;
                 assert.strictEqual(actualPath, expectedPath);
                 assert.equal(typeof actualData, 'string');
             },
         );
+
         it
         (
             'fails for missing path',
             () =>
             {
                 assert.throws(makeArt, isMissingPathError);
-                assert(!writeFileSyncArgs);
+                sinon.assert.notCalled(fs.readFileSync);
+                sinon.assert.notCalled(fs.writeFileSync);
             },
         );
     },
@@ -77,50 +79,95 @@ describe
     'makeArt.async',
     () =>
     {
+        prepare();
+
         it
         (
             'creates art.js with 2 arguments',
-            async () =>
+            done =>
             {
+                fs.readFile.callThrough();
+                fs.writeFile.yieldsRight();
                 const expectedPath = 'test';
-                readFileMock = (file, callback) => callback(null);
-                writeFileMock = (file, data, callback) => callback(null);
-                await promisify(makeArt.async)(expectedPath);
-                const [actualPath, actualData] = writeFileArgs;
-                assert.strictEqual(actualPath, expectedPath);
-                assert.equal(typeof actualData, 'string');
+                makeArt.async
+                (
+                    expectedPath,
+                    actualError =>
+                    {
+                        const [[actualPath, actualData]] = fs.writeFile.args;
+                        assert.strictEqual(actualPath, expectedPath);
+                        assert.equal(typeof actualData, 'string');
+                        assert.strictEqual(actualError, undefined);
+                        done();
+                    },
+                );
             },
         );
+
         it
         (
             'creates art.js with 3 arguments',
-            async () =>
+            done =>
             {
+                fs.readFile.callThrough();
+                fs.writeFile.yieldsRight();
                 const expectedPath = 'test';
-                readFileMock = (file, callback) => callback(null);
-                writeFileMock = (file, data, callback) => callback(null);
-                await promisify(makeArt.async)(expectedPath, null);
-                const [actualPath, actualData] = writeFileArgs;
-                assert.strictEqual(actualPath, expectedPath);
-                assert.equal(typeof actualData, 'string');
+                makeArt.async
+                (
+                    expectedPath,
+                    null,
+                    actualError =>
+                    {
+                        const [[actualPath, actualData]] = fs.writeFile.args;
+                        assert.strictEqual(actualPath, expectedPath);
+                        assert.equal(typeof actualData, 'string');
+                        assert.strictEqual(actualError, undefined);
+                        done();
+                    },
+                );
             },
         );
+
         it
         (
             'fails for missing path',
             () =>
             {
                 assert.throws(makeArt.async, isMissingPathError);
-                assert(!writeFileArgs);
+                sinon.assert.notCalled(fs.readFile);
+                sinon.assert.notCalled(fs.writeFile);
             },
         );
+
         it
         (
             'fails on read error',
             done =>
             {
                 const expectedError = Error();
-                readFileMock = (file, callback) => callback(expectedError);
+                fs.readFile.yieldsRight(expectedError);
+                makeArt.async
+                (
+                    'test',
+                    null,
+                    actualError =>
+                    {
+                        sinon.assert.notCalled(fs.writeFile);
+                        assert.strictEqual(actualError, expectedError);
+                        done();
+                    },
+                );
+            },
+        );
+
+        it
+        (
+            'fails on write error',
+            done =>
+            {
+                const expectedError = Error();
+                fs.readFile.callThrough();
+                fs.writeFile.throws(expectedError);
                 makeArt.async
                 (
                     'test',
@@ -133,28 +180,39 @@ describe
                 );
             },
         );
+    },
+);
+
+describe
+(
+    'makeArt.promise',
+    () =>
+    {
+        prepare();
+
         it
         (
-            'fails on write error',
-            done =>
+            'creates art.js',
+            async () =>
             {
-                const expectedError = Error();
-                readFileMock = (file, callback) => callback(null, 'DATA');
-                writeFileMock =
-                () =>
-                {
-                    throw expectedError;
-                };
-                makeArt.async
-                (
-                    'test',
-                    null,
-                    actualError =>
-                    {
-                        assert.strictEqual(actualError, expectedError);
-                        done();
-                    },
-                );
+                fs.promises.readFile.callThrough();
+                fs.promises.writeFile.resolves();
+                const expectedPath = 'test';
+                await makeArt.promise(expectedPath);
+                const [[actualPath, actualData]] = fs.promises.writeFile.args;
+                assert.strictEqual(actualPath, expectedPath);
+                assert.equal(typeof actualData, 'string');
+            },
+        );
+
+        it
+        (
+            'fails for missing path',
+            async () =>
+            {
+                await assert.rejects(makeArt.promise, isMissingPathError);
+                sinon.assert.notCalled(fs.promises.readFile);
+                sinon.assert.notCalled(fs.promises.writeFile);
             },
         );
     },
@@ -167,66 +225,39 @@ describe
     {
         function callProcessCommandLine(newProcessArgv)
         {
-            process.argv = newProcessArgv;
+            sinon.stub(process, 'argv').value(newProcessArgv);
             makeArt.processCommandLine();
         }
 
-        let consoleErrorArgs;
-        let consoleError;
-        let processArgv;
+        prepare();
 
-        beforeEach
-        (
-            () =>
-            {
-                consoleError = console.error;
-                console.error =
-                (...args) =>
-                {
-                    consoleErrorArgs = args;
-                };
-                processArgv = process.argv;
-            },
-        );
-
-        afterEach
-        (
-            () =>
-            {
-                process.argv = processArgv;
-                console.error = consoleError;
-                consoleErrorArgs = undefined;
-            },
-        );
+        beforeEach(() => sinon.stub(console, 'error'));
 
         it
         (
             'creates art.js',
             () =>
             {
+                fs.readFile.callThrough();
                 const expectedPath = 'test';
                 callProcessCommandLine([, , expectedPath, 'foo', 'bar.baz', 'bar']);
-                const [actualPath, data] = writeFileSyncArgs;
+                const [[actualPath, data]] = fs.writeFileSync.args;
                 assert.strictEqual(actualPath, expectedPath);
                 assert.equal(typeof data, 'string');
-                assert.deepStrictEqual(consoleErrorArgs, undefined);
+                sinon.assert.notCalled(console.error);
             },
         );
+
         it
         (
             'fails for missing path',
             () =>
             {
                 callProcessCommandLine([]);
-                assert.strictEqual(writeFileSyncArgs, undefined);
-                assert.deepStrictEqual(consoleErrorArgs, ['missing path']);
+                sinon.assert.notCalled(fs.readFileSync);
+                sinon.assert.notCalled(fs.writeFileSync);
+                sinon.assert.calledWith(console.error, 'missing path');
             },
         );
     },
 );
-
-function isMissingPathError(obj)
-{
-    const result = Object.getPrototypeOf(obj) === Error.prototype && obj.message === 'missing path';
-    return result;
-}

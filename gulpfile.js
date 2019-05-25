@@ -26,12 +26,12 @@ task
             {
                 src: ['gulpfile.js', 'test/**/*.spec.js'],
                 envs: 'node',
-                parserOptions: { ecmaVersion: 8 },
+                parserOptions: { ecmaVersion: 9 },
             },
             {
                 src: 'make-art.js',
                 envs: 'node',
-                parserOptions: { ecmaVersion: 8 },
+                parserOptions: { ecmaVersion: 9 },
             },
             {
                 src: ['test/**/*.js', '!test/**/*.spec.js'],
@@ -68,14 +68,7 @@ task
         const lint = require('gulp-fasttime-lint');
 
         const stream =
-        lint
-        (
-            {
-                src: 'art.js',
-                envs: 'browser',
-                rules: { 'strict': ['error', 'function'] },
-            },
-        );
+        lint({ src: 'art.js', envs: 'browser', rules: { 'strict': ['error', 'function'] } });
         return stream;
     },
 );
@@ -90,13 +83,13 @@ task
         const { resolve } = require;
         const nycPath = resolve('nyc/bin/nyc');
         const mochaPath = resolve('mocha/bin/mocha');
-        const cmd =
+        const childProcess =
         fork
         (
             nycPath,
             ['--reporter=html', '--reporter=text-summary', '--', mochaPath, 'test/**/*.spec.js'],
         );
-        cmd.on('exit', code => callback(code && 'Test failed'));
+        childProcess.on('exit', code => callback(code && 'Test failed'));
     },
 );
 
@@ -105,13 +98,13 @@ task
     'typedoc',
     () =>
     {
-        const pkg = require('./package.json');
-        const typedoc = require('gulp-typedoc');
+        const { version }   = require('./package.json');
+        const typedoc       = require('gulp-typedoc');
 
-        const opts =
+        const typedocOpts =
         {
             excludeExternals:       true,
-            gitRevision:            pkg.version,
+            gitRevision:            version,
             includeDeclarations:    true,
             mode:                   'file',
             name:                   'art',
@@ -119,7 +112,7 @@ task
             readme:                 'none',
             theme:                  'markdown',
         };
-        const stream = src('art.d.ts', { read: false }).pipe(typedoc(opts));
+        const stream = src('art.d.ts', { read: false }).pipe(typedoc(typedocOpts));
         return stream;
     },
 );

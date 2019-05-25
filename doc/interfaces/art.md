@@ -21,7 +21,6 @@ Creates or modifies a node.
 | `Rest` args | (`string` \| `void` \| `Node` \| `function` \| `object`)[] |  <br><br>Each additional argument may be a node to be appended to the taget node, a function to be called with the target node as its only argument, an object whose properties shall be assigned to the taget node, or a string of text to be appended to the target node. Note that <code>null</code> and <code>undefined</code> arguments are simply ignored. |
 
 **Returns:** `Node`
-
 The node specified by the target parameter.
 
 ## Index

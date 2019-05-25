@@ -2,8 +2,8 @@
 
 'use strict';
 
-const Handlebars = require('handlebars');
-const fs = require('fs');
+const fs            = require('fs');
+const Handlebars    = require('handlebars');
 
 function createOutput(data, context = { __proto__: null })
 {
@@ -51,6 +51,16 @@ function makeArtAsync(destPath, context, callback)
     validateDestPath(destPath);
     const templatePath = getTemplatePath();
     fs.readFile(templatePath, readFileCallback);
+}
+
+async function makeArtPromise(destPath, context)
+{
+    const { promises } = fs;
+    validateDestPath(destPath);
+    const templatePath = getTemplatePath();
+    const data = await promises.readFile(templatePath);
+    const output = createOutput(data, context);
+    await promises.writeFile(destPath, output);
 }
 
 function makeArtSync(destPath, context)
@@ -111,8 +121,9 @@ if (require.main === module)
     processCommandLine();
 else
 {
-    makeArt.async = makeArtAsync;
-    makeArt.processCommandLine = processCommandLine;
-    makeArt.sync = makeArtSync;
+    makeArt.async               = makeArtAsync;
+    makeArt.processCommandLine  = processCommandLine;
+    makeArt.promise             = makeArtPromise;
+    makeArt.sync                = makeArtSync;
     module.exports = makeArt;
 }
