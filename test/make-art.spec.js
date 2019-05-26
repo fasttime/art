@@ -97,7 +97,7 @@ describe
                         const [[actualPath, actualData]] = fs.writeFile.args;
                         assert.strictEqual(actualPath, expectedPath);
                         assert.equal(typeof actualData, 'string');
-                        assert.strictEqual(actualError, undefined);
+                        assert.equal(actualError, null);
                         done();
                     },
                 );
@@ -121,7 +121,7 @@ describe
                         const [[actualPath, actualData]] = fs.writeFile.args;
                         assert.strictEqual(actualPath, expectedPath);
                         assert.equal(typeof actualData, 'string');
-                        assert.strictEqual(actualError, undefined);
+                        assert.equal(actualError, null);
                         done();
                     },
                 );
@@ -134,6 +134,17 @@ describe
             () =>
             {
                 assert.throws(makeArt.async, isMissingPathError);
+                sinon.assert.notCalled(fs.readFile);
+                sinon.assert.notCalled(fs.writeFile);
+            },
+        );
+
+        it
+        (
+            'fails for missing callback',
+            () =>
+            {
+                assert.throws(() => makeArt.async('test'), TypeError);
                 sinon.assert.notCalled(fs.readFile);
                 sinon.assert.notCalled(fs.writeFile);
             },
@@ -238,7 +249,7 @@ describe
             'creates art.js',
             () =>
             {
-                fs.readFile.callThrough();
+                fs.readFileSync.callThrough();
                 const expectedPath = 'test';
                 callProcessCommandLine([, , expectedPath, 'foo', 'bar.baz', 'bar']);
                 const [[actualPath, data]] = fs.writeFileSync.args;

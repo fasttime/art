@@ -43,24 +43,26 @@ function makeArtAsync(destPath, context, callback)
         callback(error);
     }
 
+    validateDestPath(destPath);
     if (arguments.length < 3)
     {
         callback = context;
         context = undefined;
     }
-    validateDestPath(destPath);
+    if (typeof callback !== 'function')
+        throw TypeError('Callback function missing or invalid');
     const templatePath = getTemplatePath();
     fs.readFile(templatePath, readFileCallback);
 }
 
 async function makeArtPromise(destPath, context)
 {
-    const { promises } = fs;
     validateDestPath(destPath);
+    const { readFile, writeFile } = fs.promises;
     const templatePath = getTemplatePath();
-    const data = await promises.readFile(templatePath);
+    const data = await readFile(templatePath);
     const output = createOutput(data, context);
-    await promises.writeFile(destPath, output);
+    await writeFile(destPath, output);
 }
 
 function makeArtSync(destPath, context)
