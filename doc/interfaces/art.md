@@ -9,7 +9,7 @@
 ## Callable
 ▸ **__call**(target: *`Node` \| `function` \| `keyof HTMLElementTagNameMap & HTMLElementDeprecatedTagNameMap`*, ...args: *(`string` \| `void` \| `Node` \| `function` \| `object`)[]*): `Node`
 
-*Defined in [art.d.ts:5](https://github.com/fasttime/art/blob/0.8.0/art.d.ts#L5)*
+*Defined in [art.d.ts:5](https://github.com/fasttime/art/blob/0.9.0/art.d.ts#L5)*
 
 Creates or modifies a node.
 
@@ -44,7 +44,7 @@ The node specified by the target parameter.
 
 **● css**: *[art_css](art_css.md)*
 
-*Defined in [art.d.ts:5](https://github.com/fasttime/art/blob/0.8.0/art.d.ts#L5)*
+*Defined in [art.d.ts:5](https://github.com/fasttime/art/blob/0.9.0/art.d.ts#L5)*
 
 ___
 
@@ -56,7 +56,7 @@ ___
 
 ▸ **off**(type: *`string` \| `ReadonlyArray`<`string`>*, listener: *`EventListenerOrEventListenerObject` \| `null`*, useCapture?: *`boolean`*): `function`
 
-*Defined in [art.d.ts:62](https://github.com/fasttime/art/blob/0.8.0/art.d.ts#L62)*
+*Defined in [art.d.ts:62](https://github.com/fasttime/art/blob/0.9.0/art.d.ts#L62)*
 
 Returns a callback that can be used to detach a listener from the target node in a call to `art`. The arguments are the same as in `EventTarget.removeEventListener()`, except that the argument `type` may be an array specifying multiple event types.
 
@@ -77,7 +77,7 @@ ___
 
 ▸ **on**(type: *`string` \| `ReadonlyArray`<`string`>*, listener: *`EventListenerOrEventListenerObject` \| `null`*, useCapture?: *`boolean`*): `function`
 
-*Defined in [art.d.ts:90](https://github.com/fasttime/art/blob/0.8.0/art.d.ts#L90)*
+*Defined in [art.d.ts:90](https://github.com/fasttime/art/blob/0.9.0/art.d.ts#L90)*
 
 Returns a callback that can be used to attach a listener to the target node in a call to `art`. The arguments are the same as in `EventTarget.addEventListener()`, except that the argument `type` may be an array specifying multiple event types.
 

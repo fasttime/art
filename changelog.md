@@ -1,3 +1,13 @@
+<a name="0.9.0"></a>
+## [0.9.0](https://github.com/fasttime/art/releases/tag/0.9.0) (2019-05-26)
+
+* Dropped support for Node.js < 10.
+* Added function `makeArt.promise`.
+* Usability changes to `makeArt.async`:
+ * Renamed function to `makeArt.callback`.
+ * Implemented fail-fast behavior for invalid `callback` argument.
+* Fixed changelog markdown.
+
 <a name="0.8.0"></a>
 ## [0.8.0](https://github.com/fasttime/art/releases/tag/0.8.0) (2019-05-14)
 

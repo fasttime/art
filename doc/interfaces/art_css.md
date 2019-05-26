@@ -9,7 +9,7 @@
 ## Callable
 ▸ **__call**(selectors: *`string`*, ruleObj: *[RuleDefinitionObject](ruledefinitionobject.md)*): `undefined`
 
-*Defined in [art.d.ts:100](https://github.com/fasttime/art/blob/0.8.0/art.d.ts#L100)*
+*Defined in [art.d.ts:100](https://github.com/fasttime/art/blob/0.9.0/art.d.ts#L100)*
 
 Creates a new CSS rule and adds it to the document.
 
@@ -38,7 +38,7 @@ Creates a new CSS rule and adds it to the document.
 
 ▸ **keyframes**(identifier: *`string`*, ruleObjMap: *`object`*): `boolean`
 
-*Defined in [art.d.ts:130](https://github.com/fasttime/art/blob/0.8.0/art.d.ts#L130)*
+*Defined in [art.d.ts:130](https://github.com/fasttime/art/blob/0.9.0/art.d.ts#L130)*
 
 Creates a new CSS keyframes rule and adds it to the document.
 
