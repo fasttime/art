@@ -52,11 +52,11 @@ task
 task
 (
     'make-art',
-    callback =>
+    async () =>
     {
-        const makeArt = require('.');
+        const { promise } = require('.');
 
-        makeArt.async('art.js', { css: { keyframes: true }, off: true, on: true }, callback);
+        await promise('art.js', { css: { keyframes: true }, off: true, on: true });
     },
 );
 

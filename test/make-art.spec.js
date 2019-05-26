@@ -76,7 +76,7 @@ describe
 
 describe
 (
-    'makeArt.async',
+    'makeArt.callback',
     () =>
     {
         prepare();
@@ -89,7 +89,7 @@ describe
                 fs.readFile.callThrough();
                 fs.writeFile.yieldsRight();
                 const expectedPath = 'test';
-                makeArt.async
+                makeArt.callback
                 (
                     expectedPath,
                     actualError =>
@@ -112,7 +112,7 @@ describe
                 fs.readFile.callThrough();
                 fs.writeFile.yieldsRight();
                 const expectedPath = 'test';
-                makeArt.async
+                makeArt.callback
                 (
                     expectedPath,
                     null,
@@ -133,7 +133,7 @@ describe
             'fails for missing path',
             () =>
             {
-                assert.throws(makeArt.async, isMissingPathError);
+                assert.throws(makeArt.callback, isMissingPathError);
                 sinon.assert.notCalled(fs.readFile);
                 sinon.assert.notCalled(fs.writeFile);
             },
@@ -144,7 +144,7 @@ describe
             'fails for missing callback',
             () =>
             {
-                assert.throws(() => makeArt.async('test'), TypeError);
+                assert.throws(() => makeArt.callback('test'), TypeError);
                 sinon.assert.notCalled(fs.readFile);
                 sinon.assert.notCalled(fs.writeFile);
             },
@@ -157,7 +157,7 @@ describe
             {
                 const expectedError = Error();
                 fs.readFile.yieldsRight(expectedError);
-                makeArt.async
+                makeArt.callback
                 (
                     'test',
                     null,
@@ -179,7 +179,7 @@ describe
                 const expectedError = Error();
                 fs.readFile.callThrough();
                 fs.writeFile.throws(expectedError);
-                makeArt.async
+                makeArt.callback
                 (
                     'test',
                     null,

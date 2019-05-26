@@ -23,7 +23,7 @@ function makeArt(destPath, context)
     makeArtSync(destPath, context);
 }
 
-function makeArtAsync(destPath, context, callback)
+function makeArtCallback(destPath, context, callback)
 {
     function readFileCallback(error, data)
     {
@@ -123,7 +123,7 @@ if (require.main === module)
     processCommandLine();
 else
 {
-    makeArt.async               = makeArtAsync;
+    makeArt.callback            = makeArtCallback;
     makeArt.processCommandLine  = processCommandLine;
     makeArt.promise             = makeArtPromise;
     makeArt.sync                = makeArtSync;
