@@ -1,15 +1,13 @@
-[art](../README.md) > [RuleDefinitionObject](../interfaces/ruledefinitionobject.md)
+> **[art](../README.md)**
+
+[RuleDefinitionObject](ruledefinitionobject.md) /
 
 # Interface: RuleDefinitionObject
 
 ## Hierarchy
 
-**RuleDefinitionObject**
+* **RuleDefinitionObject**
 
 ## Indexable
 
-\[style: `string`\]:&nbsp;`string`
-## Index
-
----
-
+● \[▪ **style**: *string*\]: string

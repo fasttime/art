@@ -87,7 +87,14 @@ task
         fork
         (
             nycPath,
-            ['--reporter=html', '--reporter=text-summary', '--', mochaPath, 'test/**/*.spec.js'],
+            [
+                '--reporter=html',
+                '--reporter=text-summary',
+                '--',
+                mochaPath,
+                '--check-leaks',
+                'test/**/*.spec.js',
+            ],
         );
         childProcess.on('exit', code => callback(code && 'Test failed'));
     },
@@ -111,6 +118,7 @@ task
             out:                    'doc',
             readme:                 'none',
             theme:                  'markdown',
+            tsconfig:               'tsconfig.json',
         };
         const stream = src('art.d.ts', { read: false }).pipe(typedoc(typedocOpts));
         return stream;

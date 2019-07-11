@@ -1,13 +1,9 @@
+> **[art](README.md)**
 
-#  art
+### Index
 
-## Index
-
-### Interfaces
+#### Interfaces
 
 * [RuleDefinitionObject](interfaces/ruledefinitionobject.md)
 * [art](interfaces/art.md)
 * [art_css](interfaces/art_css.md)
-
----
-
