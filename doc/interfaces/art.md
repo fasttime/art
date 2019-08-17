@@ -27,13 +27,13 @@ Name | Type | Description |
 
 The node specified by the target parameter.
 
-### Index
+## Index
 
-#### Properties
+### Properties
 
 * [css](art.md#css)
 
-#### Methods
+### Methods
 
 * [off](art.md#off)
 * [on](art.md#on)
@@ -50,7 +50,7 @@ The node specified by the target parameter.
 
 ###  off
 
-▸ **off**(`type`: string | `ReadonlyArray<string>`, `listener`: `EventListenerOrEventListenerObject` | null, `useCapture?`: undefined | false | true): *function*
+▸ **off**(`type`: string | keyof string[], `listener`: `EventListenerOrEventListenerObject` | null, `useCapture?`: undefined | false | true): *function*
 
 *Defined in [art.d.ts:62](https://github.com/fasttime/art/blob/0.9.0/art.d.ts#L62)*
 
@@ -63,7 +63,7 @@ argument `type` may be an array specifying multiple event types.
 
 Name | Type | Description |
 ------ | ------ | ------ |
-`type` | string \| `ReadonlyArray<string>` |   A string or array of strings specifing the event types listened for.  |
+`type` | string \| keyof string[] |   A string or array of strings specifing the event types listened for.  |
 `listener` | `EventListenerOrEventListenerObject` \| null |   The event handler to dissociate from the events.  |
 `useCapture?` | undefined \| false \| true |   <code>true</code> to unregister the events for the capturing phase, or <code>false</code> to unregister the events for the bubbling phase. The default is <code>false</code>.  |
 
@@ -81,7 +81,7 @@ ___
 
 ###  on
 
-▸ **on**(`type`: string | `ReadonlyArray<string>`, `listener`: `EventListenerOrEventListenerObject` | null, `useCapture?`: undefined | false | true): *function*
+▸ **on**(`type`: string | keyof string[], `listener`: `EventListenerOrEventListenerObject` | null, `useCapture?`: undefined | false | true): *function*
 
 *Defined in [art.d.ts:90](https://github.com/fasttime/art/blob/0.9.0/art.d.ts#L90)*
 
@@ -94,7 +94,7 @@ The arguments are the same as in `EventTarget.addEventListener()`, except that t
 
 Name | Type | Description |
 ------ | ------ | ------ |
-`type` | string \| `ReadonlyArray<string>` |   A string or array of strings specifing the event types to listen for.  |
+`type` | string \| keyof string[] |   A string or array of strings specifing the event types to listen for.  |
 `listener` | `EventListenerOrEventListenerObject` \| null |   The event handler to associate with the events.  |
 `useCapture?` | undefined \| false \| true |   <code>true</code> to register the events for the capturing phase, or <code>false</code> to register the events for the bubbling phase. The default is <code>false</code>.  |
 

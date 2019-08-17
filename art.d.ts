@@ -61,7 +61,7 @@ interface art
      */
     off
     (
-        type: string | ReadonlyArray<string>,
+        type: string | readonly string[],
         listener: EventListenerOrEventListenerObject | null,
         useCapture?: boolean,
     ):
@@ -89,7 +89,7 @@ interface art
      */
     on
     (
-        type: string | ReadonlyArray<string>,
+        type: string | readonly string[],
         listener: EventListenerOrEventListenerObject | null,
         useCapture?: boolean,
     ):
@@ -132,4 +132,4 @@ interface art_css
     boolean;
 }
 
-declare var art: art;
+declare let art: art;

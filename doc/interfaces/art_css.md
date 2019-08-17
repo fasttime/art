@@ -25,9 +25,9 @@ Name | Type | Description |
 
 **Returns:** *undefined*
 
-### Index
+## Index
 
-#### Methods
+### Methods
 
 * [keyframes](art_css.md#keyframes)
 
