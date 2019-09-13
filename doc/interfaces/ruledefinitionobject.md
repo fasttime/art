@@ -1,8 +1,7 @@
-> **[art](../README.md)**
-
-[RuleDefinitionObject](ruledefinitionobject.md) /
+[art](../README.md) › [RuleDefinitionObject](ruledefinitionobject.md)
 
 # Interface: RuleDefinitionObject
+
 
 ## Hierarchy
 

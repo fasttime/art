@@ -110,9 +110,9 @@
     {
         var ruleStrBase;
         var keyframes;
-        if (CSSRule.KEYFRAME_RULE)
+        if ('KEYFRAME_RULE' in CSSRule)
             ruleStrBase = '@';
-        else if (CSSRule.WEBKIT_KEYFRAME_RULE)
+        else if ('WEBKIT_KEYFRAME_RULE' in CSSRule)
             ruleStrBase = '@-webkit-';
         else
         {

@@ -1,8 +1,7 @@
-> **[art](../README.md)**
-
-[art_css](art_css.md) /
+[art](../README.md) › [art_css](art_css.md)
 
 # Interface: art_css
+
 
 ## Hierarchy
 
@@ -12,7 +11,7 @@
 
 ▸ (`selectors`: string, `ruleObj`: [RuleDefinitionObject](ruledefinitionobject.md)): *undefined*
 
-*Defined in [art.d.ts:100](https://github.com/fasttime/art/blob/0.9.0/art.d.ts#L100)*
+*Defined in [art.d.ts:103](https://github.com/fasttime/art/blob/0.9.0/art.d.ts#L103)*
 
 Creates a new CSS rule and adds it to the document.
 
@@ -37,7 +36,7 @@ Name | Type | Description |
 
 ▸ **keyframes**(`identifier`: string, `ruleObjMap`: object): *boolean*
 
-*Defined in [art.d.ts:130](https://github.com/fasttime/art/blob/0.9.0/art.d.ts#L130)*
+*Defined in [art.d.ts:133](https://github.com/fasttime/art/blob/0.9.0/art.d.ts#L133)*
 
 Creates a new CSS keyframes rule and adds it to the document.
 

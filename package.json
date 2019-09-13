@@ -37,10 +37,9 @@
   },
   "dependencies": {
     "@types/node": ">=10.0.0",
-    "handlebars": "~4.1.2"
+    "handlebars": "~4.2.0"
   },
   "devDependencies": {
-    "del": "~5.0.0",
     "expectations": "~1.0.0",
     "gulp": "~4.0.2",
     "gulp-fasttime-lint": "~0.15.0",
@@ -51,7 +50,7 @@
     "nyc": "~14.1.1",
     "sinon": "~7.4.1",
     "typedoc": "~0.15.0",
-    "typedoc-plugin-markdown": "~2.1.1"
+    "typedoc-plugin-markdown": "~2.2.1"
   },
   "engines": {
     "node": ">=10.0.0"

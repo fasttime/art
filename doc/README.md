@@ -1,4 +1,7 @@
-> **[art](README.md)**
+[art](README.md)
+
+# art
+
 
 ## Index
 
@@ -18,4 +21,4 @@
 
 • **art**: *[art](interfaces/art.md)*
 
-*Defined in [art.d.ts:135](https://github.com/fasttime/art/blob/0.9.0/art.d.ts#L135)*
+*Defined in [art.d.ts:138](https://github.com/fasttime/art/blob/0.9.0/art.d.ts#L138)*

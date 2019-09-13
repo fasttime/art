@@ -1,4 +1,7 @@
-interface RuleDefinitionObject { readonly [style: string]: string; }
+interface RuleDefinitionObject
+{
+    readonly [style: string]: string;
+}
 
 interface art
 {
