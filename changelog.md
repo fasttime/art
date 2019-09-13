@@ -1,3 +1,8 @@
+<a name="0.9.1"></a>
+## [0.9.1](https://github.com/fasttime/art/releases/tag/0.9.1) (2019-09-13)
+
+* Made `css.keyframes` minification safe.
+
 <a name="0.9.0"></a>
 ## [0.9.0](https://github.com/fasttime/art/releases/tag/0.9.0) (2019-05-26)
 

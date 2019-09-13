@@ -1,6 +1,6 @@
 {
   "name": "art-js",
-  "version": "0.9.0",
+  "version": "0.9.1",
   "description": "A really small DOM manipulation library",
   "keywords": [
     "art",
@@ -42,7 +42,7 @@
   "devDependencies": {
     "expectations": "~1.0.0",
     "gulp": "~4.0.2",
-    "gulp-fasttime-lint": "~0.15.0",
+    "gulp-fasttime-lint": "~0.16.0",
     "gulp-typedoc": "~2.2.2",
     "jsdom": "~15.1.1",
     "mocha": "~3.5.3",
