@@ -10,7 +10,7 @@
 
 ▸ (`selectors`: string, `ruleObj`: [RuleDefinitionObject](ruledefinitionobject.md)): *undefined*
 
-*Defined in [art.d.ts:103](https://github.com/fasttime/art/blob/0.9.1/art.d.ts#L103)*
+*Defined in [art.d.ts:103](https://github.com/fasttime/art/blob/0.9.2/art.d.ts#L103)*
 
 Creates a new CSS rule and adds it to the document.
 
@@ -35,7 +35,7 @@ Name | Type | Description |
 
 ▸ **keyframes**(`identifier`: string, `ruleObjMap`: object): *boolean*
 
-*Defined in [art.d.ts:133](https://github.com/fasttime/art/blob/0.9.1/art.d.ts#L133)*
+*Defined in [art.d.ts:133](https://github.com/fasttime/art/blob/0.9.2/art.d.ts#L133)*
 
 Creates a new CSS keyframes rule and adds it to the document.
 

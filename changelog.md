@@ -1,3 +1,8 @@
+<a name="0.9.2"></a>
+## [0.9.2](https://github.com/fasttime/art/releases/tag/0.9.2) (2019-12-27)
+
+* Updated dependencies.
+
 <a name="0.9.1"></a>
 ## [0.9.1](https://github.com/fasttime/art/releases/tag/0.9.1) (2019-09-13)
 

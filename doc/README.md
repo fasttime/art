@@ -20,4 +20,4 @@
 
 • **art**: *[art](interfaces/art.md)*
 
-*Defined in [art.d.ts:138](https://github.com/fasttime/art/blob/0.9.1/art.d.ts#L138)*
+*Defined in [art.d.ts:138](https://github.com/fasttime/art/blob/0.9.2/art.d.ts#L138)*
