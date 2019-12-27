@@ -2,7 +2,6 @@
 
 # Interface: art
 
-
 ## Hierarchy
 
 * **art**

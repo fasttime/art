@@ -2,7 +2,6 @@
 
 # Interface: art_css
 
-
 ## Hierarchy
 
 * **art_css**

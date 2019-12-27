@@ -2,7 +2,6 @@
 
 # Interface: RuleDefinitionObject
 
-
 ## Hierarchy
 
 * **RuleDefinitionObject**
