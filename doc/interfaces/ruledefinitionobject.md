@@ -1,4 +1,6 @@
-[art](../README.md) › [RuleDefinitionObject](ruledefinitionobject.md)
+**[art](../README.md)**
+
+> [Globals](../README.md) / RuleDefinitionObject
 
 # Interface: RuleDefinitionObject
 
@@ -8,4 +10,4 @@
 
 ## Indexable
 
-* \[ **style**: *string*\]: string
+▪ [style: string]: string

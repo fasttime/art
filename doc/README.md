@@ -1,4 +1,6 @@
-[art](README.md)
+**[art](README.md)**
+
+> Globals
 
 # art
 
@@ -8,16 +10,16 @@
 
 * [RuleDefinitionObject](interfaces/ruledefinitionobject.md)
 * [art](interfaces/art.md)
-* [art_css](interfaces/art_css.md)
+* [art\_css](interfaces/art_css.md)
 
 ### Variables
 
-* [art](README.md#let-art)
+* [art](README.md#art)
 
 ## Variables
 
-### `Let` art
+### art
 
-• **art**: *[art](interfaces/art.md)*
+• `Let` **art**: [art](interfaces/art.md)
 
 *Defined in [art.d.ts:138](https://github.com/fasttime/art/blob/0.9.2/art.d.ts#L138)*

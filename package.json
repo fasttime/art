@@ -37,20 +37,20 @@
   },
   "dependencies": {
     "@types/node": ">=10.0.0",
-    "handlebars": "~4.5.3"
+    "handlebars": "4"
   },
   "devDependencies": {
-    "expectations": "~1.0.0",
-    "gulp": "~4.0.2",
-    "gulp-fasttime-lint": "~0.19.0",
-    "gulp-typedoc": "~2.2.2",
-    "jsdom": "~15.2.1",
-    "mocha": "~3.5.3",
-    "mocha-bar": "~0.0.3",
-    "nyc": "~15.0.0",
-    "sinon": "~8.0.1",
-    "typedoc": "~0.15.6",
-    "typedoc-plugin-markdown": "~2.2.14"
+    "@fasttime/gulp-lint": "latest",
+    "expectations": "latest",
+    "gulp": "latest",
+    "gulp-typedoc": "latest",
+    "jsdom": "latest",
+    "mocha": "3",
+    "mocha-bar": "latest",
+    "nyc": "latest",
+    "sinon": "latest",
+    "typedoc": "latest",
+    "typedoc-plugin-markdown": "latest"
   },
   "engines": {
     "node": ">=10.0.0"

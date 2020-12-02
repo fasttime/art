@@ -20,7 +20,7 @@ task
     'lint:other',
     () =>
     {
-        const lint = require('gulp-fasttime-lint');
+        const lint = require('@fasttime/gulp-lint');
 
         const stream =
         lint
@@ -67,7 +67,7 @@ task
     'lint:art',
     () =>
     {
-        const lint = require('gulp-fasttime-lint');
+        const lint = require('@fasttime/gulp-lint');
 
         const stream =
         lint({ src: 'art.js', envs: 'browser', rules: { 'strict': ['error', 'function'] } });
