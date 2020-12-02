@@ -1,7 +1,5 @@
 **[art](../README.md)**
 
-> [Globals](../README.md) / art\_css
-
 # Interface: art\_css
 
 ## Hierarchy
@@ -11,8 +9,6 @@
 ## Callable
 
 ▸ (`selectors`: string, `ruleObj`: [RuleDefinitionObject](ruledefinitionobject.md)): undefined
-
-*Defined in [art.d.ts:103](https://github.com/fasttime/art/blob/0.9.2/art.d.ts#L103)*
 
 Creates a new CSS rule and adds it to the document.
 
@@ -36,8 +32,6 @@ Name | Type | Description |
 ### keyframes
 
 ▸ **keyframes**(`identifier`: string, `ruleObjMap`: { [selectors:string]: [RuleDefinitionObject](ruledefinitionobject.md);  }): boolean
-
-*Defined in [art.d.ts:133](https://github.com/fasttime/art/blob/0.9.2/art.d.ts#L133)*
 
 Creates a new CSS keyframes rule and adds it to the document.
 

@@ -1,7 +1,5 @@
 **[art](../README.md)**
 
-> [Globals](../README.md) / RuleDefinitionObject
-
 # Interface: RuleDefinitionObject
 
 ## Hierarchy

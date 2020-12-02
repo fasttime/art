@@ -101,19 +101,19 @@ task
         childProcess.on('exit', code => callback(code && 'Test failed'));
     },
 );
-
 task
 (
     'typedoc',
     () =>
     {
-        const { version }   = require('./package.json');
-        const typedoc       = require('gulp-typedoc');
+        const typedoc = require('gulp-typedoc');
 
         const typedocOpts =
         {
             excludeExternals:       true,
-            gitRevision:            version,
+            hideBreadcrumbs:        true,
+            hideSources:            true,
+            ignoreCompilerErrors:   true,
             includeDeclarations:    true,
             mode:                   'file',
             name:                   'art',

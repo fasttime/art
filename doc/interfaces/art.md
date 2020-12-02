@@ -1,7 +1,5 @@
 **[art](../README.md)**
 
-> [Globals](../README.md) / art
-
 # Interface: art
 
 ## Hierarchy
@@ -11,8 +9,6 @@
 ## Callable
 
 ▸ (`target`: Node \| (this: [art](art.md)) => Node \| keyof HTMLElementTagNameMap & HTMLElementDeprecatedTagNameMap, ...`args`: (Node \| (this: [art](art.md), target: Node) => never \| { [key:string]: unknown;  } \| string \| void)[]): Node
-
-*Defined in [art.d.ts:8](https://github.com/fasttime/art/blob/0.9.2/art.d.ts#L8)*
 
 Creates or modifies a node.
 
@@ -44,15 +40,11 @@ The node specified by the target parameter.
 
 •  **css**: [art\_css](art_css.md)
 
-*Defined in [art.d.ts:8](https://github.com/fasttime/art/blob/0.9.2/art.d.ts#L8)*
-
 ## Methods
 
 ### off
 
 ▸ **off**(`type`: string \| readonly string[], `listener`: EventListenerOrEventListenerObject \| null, `useCapture?`: undefined \| false \| true): function
-
-*Defined in [art.d.ts:65](https://github.com/fasttime/art/blob/0.9.2/art.d.ts#L65)*
 
 Returns a callback that can be used to detach a listener from the target node in a call to
 `art`.
@@ -74,8 +66,6 @@ ___
 ### on
 
 ▸ **on**(`type`: string \| readonly string[], `listener`: EventListenerOrEventListenerObject \| null, `useCapture?`: undefined \| false \| true): function
-
-*Defined in [art.d.ts:93](https://github.com/fasttime/art/blob/0.9.2/art.d.ts#L93)*
 
 Returns a callback that can be used to attach a listener to the target node in a call to
 `art`.
