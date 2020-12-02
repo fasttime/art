@@ -1,3 +1,8 @@
+<a name="0.9.3"></a>
+## [0.9.3](https://github.com/fasttime/art/releases/tag/0.9.3) (2020-12-02)
+
+* Updated documentation style.
+
 <a name="0.9.2"></a>
 ## [0.9.2](https://github.com/fasttime/art/releases/tag/0.9.2) (2019-12-27)
 
