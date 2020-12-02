@@ -33,7 +33,8 @@
     "url": "https://github.com/fasttime/art.git"
   },
   "scripts": {
-    "build": "npm install && gulp"
+    "build": "npm install && gulp",
+    "test": "mocha --check-leaks test/**/*.spec.js"
   },
   "dependencies": {
     "@types/node": ">=10.0.0",
