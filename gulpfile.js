@@ -69,8 +69,35 @@ task
     {
         const lint = require('@fasttime/gulp-lint');
 
-        const stream =
-        lint({ src: 'art.js', envs: 'browser', rules: { 'strict': ['error', 'function'] } });
+        const rules =
+        {
+            'brace-style':      'off',
+            'indent':
+            [
+                'error',
+                4,
+                {
+                    CallExpression: { arguments: 'first' },
+                    FunctionDeclaration: { parameters: 'first' },
+                    FunctionExpression: { parameters: 'first' },
+                    MemberExpression: 0,
+                    outerIIFEBody: 'off',
+                    VariableDeclarator: 0,
+                    ignoredNodes:
+                    [
+                        'ArrowFunctionExpression',
+                        'ClassDeclaration[superClass]',
+                        'ConditionalExpression',
+                        'ImportDeclaration',
+                    ],
+                },
+            ],
+            'no-unused-vars':
+            ['error', { argsIgnorePattern: '^(identifier|ruleObjMap)$', vars: 'local' }],
+            'padded-blocks':    'off',
+            'strict':           ['error', 'function'],
+        };
+        const stream = lint({ src: 'art.js', envs: 'browser', rules });
         return stream;
     },
 );

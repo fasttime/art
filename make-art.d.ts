@@ -6,6 +6,8 @@ declare namespace makeArt
     {
         readonly css?: boolean | { readonly keyframes?: boolean; };
 
+        readonly esModule?: boolean;
+
         readonly off?: boolean;
 
         readonly on?: boolean;

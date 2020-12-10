@@ -33,6 +33,14 @@
             {
                 it
                 (
+                    'has an empty name',
+                    function ()
+                    {
+                        expect(art.name).toBeFalsy();
+                    }
+                );
+                it
+                (
                     'creates an HTML element',
                     function ()
                     {
@@ -197,6 +205,14 @@
             {
                 it
                 (
+                    'has an empty name',
+                    function ()
+                    {
+                        expect(art.on.name).toBeFalsy();
+                    }
+                );
+                it
+                (
                     'registers a listener function',
                     function ()
                     {
@@ -253,6 +269,14 @@
             'art.off',
             function ()
             {
+                it
+                (
+                    'has an empty name',
+                    function ()
+                    {
+                        expect(art.off.name).toBeFalsy();
+                    }
+                );
                 it
                 (
                     'unregisters a listener function',
@@ -318,6 +342,14 @@
             {
                 it
                 (
+                    'has an empty name',
+                    function ()
+                    {
+                        expect(art.css.name).toBeFalsy();
+                    }
+                );
+                it
+                (
                     'adds a style CSS rule',
                     function ()
                     {
@@ -350,6 +382,15 @@
             'art.css.keyframes',
             function ()
             {
+                it
+                (
+                    'has an empty name',
+                    function ()
+                    {
+                        expect(art.css.keyframes.name).toBeFalsy();
+                    }
+                );
+
                 (CSSRule.KEYFRAME_RULE || CSSRule.WEBKIT_KEYFRAME_RULE ? it : it.skip)
                 (
                     'adds a keyframes CSS rules',
