@@ -16,21 +16,21 @@ declare namespace makeArt
 
 declare const makeArt:
 {
-    (destPath: string, context?: makeArt.Context): undefined;
+    (outDir: string, context?: makeArt.Context): undefined;
 
-    async(destPath: string, callback: (err: NodeJS.ErrnoException | null) => void): undefined;
+    async(outDir: string, callback: (err: NodeJS.ErrnoException | null) => void): undefined;
 
     async
     (
-        destPath: string,
+        outDir: string,
         context: makeArt.Context,
         callback: (err: NodeJS.ErrnoException | null) => void,
     ):
     undefined;
 
-    promise(destPath: string, context?: makeArt.Context): Promise<undefined>;
+    promise(outDir: string, context?: makeArt.Context): Promise<undefined>;
 
-    sync(destPath: string, context?: makeArt.Context): undefined;
+    sync(outDir: string, context?: makeArt.Context): undefined;
 };
 
 export = makeArt;

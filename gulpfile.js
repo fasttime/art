@@ -9,7 +9,7 @@ task
     {
         const { promises: { rmdir } } = require('fs');
 
-        const paths = ['.nyc_output', 'art.js', 'coverage', 'doc'];
+        const paths = ['.nyc_output', 'coverage', 'dist', 'doc'];
         const rmdirOpts = { recursive: true };
         await Promise.all(paths.map(path => rmdir(path, rmdirOpts)));
     },
@@ -42,10 +42,6 @@ task
                 src: 'make-art.d.ts',
                 parserOptions: { project: 'tsconfig.json', sourceType: 'module' },
             },
-            {
-                src: 'art.d.ts',
-                parserOptions: { project: 'tsconfig.json' },
-            },
         );
         return stream;
     },
@@ -58,7 +54,7 @@ task
     {
         const { promise } = require('.');
 
-        await promise('art.js', { css: { keyframes: true }, off: true, on: true });
+        await promise('dist', { css: { keyframes: true }, off: true, on: true });
     },
 );
 
@@ -97,7 +93,12 @@ task
             'padded-blocks':    'off',
             'strict':           ['error', 'function'],
         };
-        const stream = lint({ src: 'art.js', envs: 'browser', rules });
+        const stream =
+        lint
+        (
+            { src: 'dist/art.js', envs: 'browser', rules },
+            { src: 'dist/art.d.ts', parserOptions: { project: 'tsconfig.json' } },
+        );
         return stream;
     },
 );
@@ -149,7 +150,7 @@ task
             theme:                  'markdown',
             tsconfig:               'tsconfig.json',
         };
-        const stream = src('art.d.ts', { read: false }).pipe(typedoc(typedocOpts));
+        const stream = src('dist/art.d.ts', { read: false }).pipe(typedoc(typedocOpts));
         return stream;
     },
 );

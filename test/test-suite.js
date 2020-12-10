@@ -487,7 +487,7 @@
     }
 
     var loadArt;
-    var ART_PATH = '../art.js';
+    var ART_PATH = '../dist/art.js';
     if (typeof module !== 'undefined')
     {
         loadArt =

@@ -1,12 +1,5 @@
-interface RuleDefinitionObject
-{
-    readonly [style: string]: string;
-}
-
 interface art
 {
-    css: art_css;
-
     /**
      * Creates or modifies a node.
      *
@@ -41,6 +34,7 @@ interface art
         )[],
     ):
     Node;
+{{#off}}
 
     /**
      * Returns a callback that can be used to detach a listener from the target node in a call to
@@ -69,6 +63,8 @@ interface art
         useCapture?: boolean,
     ):
     (target: Node) => never;
+{{/off}}
+{{#on}}
 
     /**
      * Returns a callback that can be used to attach a listener to the target node in a call to
@@ -97,6 +93,18 @@ interface art
         useCapture?: boolean,
     ):
     (target: Node) => never;
+{{/on}}
+}
+{{#css}}
+
+interface RuleDefinitionObject
+{
+    readonly [style: string]: string;
+}
+
+interface art
+{
+    css: art_css;
 }
 
 interface art_css
@@ -113,6 +121,7 @@ interface art_css
      * A rule definition object mapping style names to their respective values.
      */
     (selectors: string, ruleObj: RuleDefinitionObject): undefined;
+{{#if ../css/keyframes}}
 
     /**
      * Creates a new CSS keyframes rule and adds it to the document.
@@ -133,6 +142,8 @@ interface art_css
     keyframes
     (identifier: string, ruleObjMap: { readonly [selectors: string]: RuleDefinitionObject; }):
     boolean;
+{{/if}}
 }
+{{/css}}
 
 declare let art: art;

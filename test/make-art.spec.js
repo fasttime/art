@@ -4,13 +4,15 @@
 
 const assert    = require('assert');
 const fs        = require('fs');
+const { sep }   = require('path');
 const sinon     = require('sinon');
 
 let makeArt;
 
 function isMissingPathError(obj)
 {
-    const result = Object.getPrototypeOf(obj) === Error.prototype && obj.message === 'missing path';
+    const result =
+    Object.getPrototypeOf(obj) === Error.prototype && obj.message === 'missing output folder';
     return result;
 }
 
@@ -20,16 +22,50 @@ function prepare()
     (
         () =>
         {
-            sinon.stub(fs, 'readFile');
+            sinon.stub(fs, 'mkdirSync');
+            sinon.stub(fs.promises, 'mkdir');
             sinon.stub(fs, 'readFileSync');
             sinon.stub(fs.promises, 'readFile');
-            sinon.stub(fs, 'writeFile');
             sinon.stub(fs, 'writeFileSync');
             sinon.stub(fs.promises, 'writeFile');
         },
     );
 
     afterEach(sinon.restore);
+}
+
+function verifyWriteFile({ args }, outDir)
+{
+    assert.strictEqual(args.length, 2);
+    const [[actualTemplatePath1], [actualTemplatePath2]] = args;
+    const expectedTemplatePathJs = `${outDir}${sep}art.js`;
+    const expectedTemplatePathDTs = `${outDir}${sep}art.d.ts`;
+    if
+    (
+        actualTemplatePath1 === expectedTemplatePathJs &&
+        actualTemplatePath2 === expectedTemplatePathDTs ||
+        actualTemplatePath1 === expectedTemplatePathDTs &&
+        actualTemplatePath2 === expectedTemplatePathJs
+    )
+    {
+        // OK
+    }
+    else
+    {
+        const message =
+        `Expected writeFile to be called with first arguments '${expectedTemplatePathJs}' and ` +
+        `'${expectedTemplatePathDTs}', but got '${actualTemplatePath1}' and ` +
+        `'${actualTemplatePath2}'.`;
+        assert.fail(message);
+    }
+    {
+        const [[, actualData]] = args;
+        assert.strictEqual(typeof actualData, 'string');
+    }
+    {
+        const [, [, actualData]] = args;
+        assert.strictEqual(typeof actualData, 'string');
+    }
 }
 
 before
@@ -49,15 +85,14 @@ describe
 
         it
         (
-            'creates art.js',
+            'creates art files',
             () =>
             {
+                const OUT_DIR = '\0art sync';
+
                 fs.readFileSync.callThrough();
-                const expectedPath = 'test';
-                makeArt(expectedPath);
-                const [[actualPath, actualData]] = fs.writeFileSync.args;
-                assert.strictEqual(actualPath, expectedPath);
-                assert.equal(typeof actualData, 'string');
+                makeArt(OUT_DIR);
+                verifyWriteFile(fs.writeFileSync, OUT_DIR);
             },
         );
 
@@ -83,21 +118,19 @@ describe
 
         it
         (
-            'creates art.js with 2 arguments',
+            'creates art files with 2 arguments',
             done =>
             {
-                fs.readFile.callThrough();
-                fs.writeFile.yieldsRight();
-                const expectedPath = 'test';
+                const OUT_DIR = '\0art async';
+
+                fs.promises.readFile.callThrough();
                 makeArt.callback
                 (
-                    expectedPath,
+                    OUT_DIR,
                     actualError =>
                     {
-                        const [[actualPath, actualData]] = fs.writeFile.args;
-                        assert.strictEqual(actualPath, expectedPath);
-                        assert.equal(typeof actualData, 'string');
-                        assert.equal(actualError, null);
+                        verifyWriteFile(fs.promises.writeFile, OUT_DIR);
+                        assert.strictEqual(actualError, null);
                         done();
                     },
                 );
@@ -106,22 +139,20 @@ describe
 
         it
         (
-            'creates art.js with 3 arguments',
+            'creates art files with 3 arguments',
             done =>
             {
-                fs.readFile.callThrough();
-                fs.writeFile.yieldsRight();
-                const expectedPath = 'test';
+                const OUT_DIR = '\0art async';
+
+                fs.promises.readFile.callThrough();
                 makeArt.callback
                 (
-                    expectedPath,
+                    OUT_DIR,
                     null,
                     actualError =>
                     {
-                        const [[actualPath, actualData]] = fs.writeFile.args;
-                        assert.strictEqual(actualPath, expectedPath);
-                        assert.equal(typeof actualData, 'string');
-                        assert.equal(actualError, null);
+                        verifyWriteFile(fs.promises.writeFile, OUT_DIR);
+                        assert.strictEqual(actualError, null);
                         done();
                     },
                 );
@@ -134,8 +165,8 @@ describe
             () =>
             {
                 assert.throws(makeArt.callback, isMissingPathError);
-                sinon.assert.notCalled(fs.readFile);
-                sinon.assert.notCalled(fs.writeFile);
+                sinon.assert.notCalled(fs.promises.readFile);
+                sinon.assert.notCalled(fs.promises.writeFile);
             },
         );
 
@@ -145,8 +176,8 @@ describe
             () =>
             {
                 assert.throws(() => makeArt.callback('test'), TypeError);
-                sinon.assert.notCalled(fs.readFile);
-                sinon.assert.notCalled(fs.writeFile);
+                sinon.assert.notCalled(fs.promises.readFile);
+                sinon.assert.notCalled(fs.promises.writeFile);
             },
         );
 
@@ -156,14 +187,14 @@ describe
             done =>
             {
                 const expectedError = Error();
-                fs.readFile.yieldsRight(expectedError);
+                fs.promises.readFile.throws(expectedError);
                 makeArt.callback
                 (
                     'test',
                     null,
                     actualError =>
                     {
-                        sinon.assert.notCalled(fs.writeFile);
+                        sinon.assert.notCalled(fs.promises.writeFile);
                         assert.strictEqual(actualError, expectedError);
                         done();
                     },
@@ -177,8 +208,8 @@ describe
             done =>
             {
                 const expectedError = Error();
-                fs.readFile.callThrough();
-                fs.writeFile.throws(expectedError);
+                fs.promises.readFile.callThrough();
+                fs.promises.writeFile.throws(expectedError);
                 makeArt.callback
                 (
                     'test',
@@ -203,16 +234,14 @@ describe
 
         it
         (
-            'creates art.js',
+            'creates art files',
             async () =>
             {
+                const OUT_DIR = '\0art promise';
+
                 fs.promises.readFile.callThrough();
-                fs.promises.writeFile.resolves();
-                const expectedPath = 'test';
-                await makeArt.promise(expectedPath);
-                const [[actualPath, actualData]] = fs.promises.writeFile.args;
-                assert.strictEqual(actualPath, expectedPath);
-                assert.equal(typeof actualData, 'string');
+                await makeArt.promise(OUT_DIR);
+                verifyWriteFile(fs.promises.writeFile, OUT_DIR);
             },
         );
 
@@ -246,15 +275,14 @@ describe
 
         it
         (
-            'creates art.js',
+            'creates art files',
             () =>
             {
+                const OUT_DIR = '\0art main';
+
                 fs.readFileSync.callThrough();
-                const expectedPath = 'test';
-                callProcessCommandLine([, , expectedPath, 'foo', 'bar.baz', 'bar']);
-                const [[actualPath, data]] = fs.writeFileSync.args;
-                assert.strictEqual(actualPath, expectedPath);
-                assert.equal(typeof data, 'string');
+                callProcessCommandLine([, , OUT_DIR, 'foo', 'bar.baz', 'bar']);
+                verifyWriteFile(fs.writeFileSync, OUT_DIR);
                 sinon.assert.notCalled(console.error);
             },
         );
@@ -267,7 +295,7 @@ describe
                 callProcessCommandLine([]);
                 sinon.assert.notCalled(fs.readFileSync);
                 sinon.assert.notCalled(fs.writeFileSync);
-                sinon.assert.calledWith(console.error, 'missing path');
+                sinon.assert.calledWith(console.error, 'missing output folder');
             },
         );
     },

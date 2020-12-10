@@ -4,46 +4,31 @@
 
 const fs            = require('fs');
 const Handlebars    = require('handlebars');
+const { join }      = require('path');
 
-function createOutput(data, context = { __proto__: null })
+function createOutput(template, context = { __proto__: null })
 {
-    const template = Handlebars.compile(String(data), { noEscape: true });
-    const output = template(context);
+    const templateDelegate = Handlebars.compile(template, { noEscape: true });
+    const output = templateDelegate(context);
     return output;
 }
 
-function getTemplatePath()
+function getTemplateDir()
 {
-    const templatePath = require.resolve('./art.hbs');
+    const templatePath = join(__dirname, 'templates');
     return templatePath;
 }
 
-function makeArt(destPath, context)
+function makeArt(outDir, context)
 {
-    makeArtSync(destPath, context);
+    makeArtSync(outDir, context);
 }
 
-function makeArtCallback(destPath, context, callback)
+function makeArtCallback(outDir, context, callback)
 {
-    function readFileCallback(error, data)
-    {
-        if (error == null)
-        {
-            try
-            {
-                const output = createOutput(data, context);
-                fs.writeFile(destPath, output, callback);
-                return;
-            }
-            catch (newError)
-            {
-                error = newError;
-            }
-        }
-        callback(error);
-    }
+    const { callbackify } = require('util');
 
-    validateDestPath(destPath);
+    validateOutDir(outDir);
     if (arguments.length < 3)
     {
         callback = context;
@@ -51,27 +36,31 @@ function makeArtCallback(destPath, context, callback)
     }
     if (typeof callback !== 'function')
         throw TypeError('Callback function missing or invalid');
-    const templatePath = getTemplatePath();
-    fs.readFile(templatePath, readFileCallback);
+    callbackify(makeArtPromiseInternal)(outDir, context, callback);
 }
 
-async function makeArtPromise(destPath, context)
+async function makeArtPromise(outDir, context)
 {
-    validateDestPath(destPath);
-    const { readFile, writeFile } = fs.promises;
-    const templatePath = getTemplatePath();
-    const data = await readFile(templatePath);
-    const output = createOutput(data, context);
-    await writeFile(destPath, output);
+    validateOutDir(outDir);
+    await makeArtPromiseInternal(outDir, context);
 }
 
-function makeArtSync(destPath, context)
+async function makeArtPromiseInternal(outDir, context)
 {
-    validateDestPath(destPath);
-    const templatePath = getTemplatePath();
-    const data = fs.readFileSync(templatePath);
-    const output = createOutput(data, context);
-    fs.writeFileSync(destPath, output);
+    const templateDir = getTemplateDir();
+    await fs.promises.mkdir(outDir, { recursive: true });
+    const promiseJs     = processTemplatePromise(templateDir, outDir, 'art.js', context);
+    const promiseDTs    = processTemplatePromise(templateDir, outDir, 'art.d.ts', context);
+    await Promise.all([promiseJs, promiseDTs]);
+}
+
+function makeArtSync(outDir, context)
+{
+    validateOutDir(outDir);
+    const templateDir = getTemplateDir();
+    fs.mkdirSync(outDir, { recursive: true });
+    processTemplateSync(templateDir, outDir, 'art.js', context);
+    processTemplateSync(templateDir, outDir, 'art.d.ts', context);
 }
 
 function parseContext(processArgv)
@@ -98,11 +87,11 @@ function parseContext(processArgv)
 function processCommandLine()
 {
     const processArgv = process.argv;
-    const [,, dest] = processArgv;
+    const [,, outDir] = processArgv;
     const context = parseContext(processArgv);
     try
     {
-        makeArt(dest, context);
+        makeArt(outDir, context);
     }
     catch (error)
     {
@@ -110,10 +99,32 @@ function processCommandLine()
     }
 }
 
-function validateDestPath(destPath)
+async function processTemplatePromise(templateDir, outDir, outFilename, context)
 {
-    if (destPath == null)
-        throw Error('missing path');
+    const { readFile, writeFile } = fs.promises;
+    const templateFilename = `${outFilename}.hbs`;
+    const templatePath = join(templateDir, templateFilename);
+    const template = await readFile(templatePath, 'utf-8');
+    const output = createOutput(template, context);
+    const outPath = join(outDir, outFilename);
+    await writeFile(outPath, output);
+}
+
+function processTemplateSync(templateDir, outDir, outFilename, context)
+{
+    const { readFileSync, writeFileSync } = fs;
+    const templateFilename = `${outFilename}.hbs`;
+    const templatePath = join(templateDir, templateFilename);
+    const template = readFileSync(templatePath, 'utf-8');
+    const output = createOutput(template, context);
+    const outPath = join(outDir, outFilename);
+    writeFileSync(outPath, output);
+}
+
+function validateOutDir(outDir)
+{
+    if (outDir == null)
+        throw Error('missing output folder');
 }
 
 Handlebars.registerHelper({ or: (v1, v2) => v1 || v2 });
