@@ -21,10 +21,10 @@ function (target)
         var arg = arguments[index];
         if (arg instanceof Node)
             node.appendChild(arg);
-        else if (arg != null)
+        else if (arg !== undefined && arg !== null)
         {
             var type = typeof arg;
-            if (type === 'object')
+            if (type === 'object' || type === 'undefined')
                 deepAssign(node, arg);
             else if (type === 'function')
                 arg.call(art, node);

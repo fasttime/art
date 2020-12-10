@@ -188,11 +188,11 @@
                 );
                 (document.all !== undefined ? it : it.skip)
                 (
-                    'ignores document.all arguments',
+                    'does not ignore document.all arguments',
                     function ()
                     {
                         var span = art('SPAN', document.all);
-                        expect(span[0]).toBeUndefined();
+                        expect(span[0]).toBe(document.all[0]);
                     }
                 );
             }
