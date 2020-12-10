@@ -145,5 +145,12 @@ interface art_css
 {{/if}}
 }
 {{/css}}
+{{#if esModule}}
+
+declare const art: art;
+
+export default art;
+{{else}}
 
 declare let art: art;
+{{/if}}
