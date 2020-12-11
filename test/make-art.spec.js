@@ -4,7 +4,7 @@
 
 const assert    = require('assert');
 const fs        = require('fs');
-const { sep }   = require('path');
+const path      = require('path');
 const sinon     = require('sinon');
 
 let makeArt;
@@ -36,10 +36,19 @@ function prepare()
 
 function verifyWriteFile({ args }, outDir)
 {
+    assert.strictEqual(args.length, 1);
+    const [[actualTemplatePath, actualTemplate]] = args;
+    const expectedTemplatePath = `${outDir}${path.sep}art.js`;
+    assert.strictEqual(actualTemplatePath, expectedTemplatePath);
+    assert.strictEqual(typeof actualTemplate, 'string');
+}
+
+function verifyWriteFileDTs({ args }, outDir)
+{
     assert.strictEqual(args.length, 2);
     const [[actualTemplatePath1], [actualTemplatePath2]] = args;
-    const expectedTemplatePathJs = `${outDir}${sep}art.js`;
-    const expectedTemplatePathDTs = `${outDir}${sep}art.d.ts`;
+    const expectedTemplatePathJs = `${outDir}${path.sep}art.js`;
+    const expectedTemplatePathDTs = `${outDir}${path.sep}art.d.ts`;
     if
     (
         actualTemplatePath1 === expectedTemplatePathJs &&
@@ -59,12 +68,12 @@ function verifyWriteFile({ args }, outDir)
         assert.fail(message);
     }
     {
-        const [[, actualData]] = args;
-        assert.strictEqual(typeof actualData, 'string');
+        const [[, actualTemplate]] = args;
+        assert.strictEqual(typeof actualTemplate, 'string');
     }
     {
-        const [, [, actualData]] = args;
-        assert.strictEqual(typeof actualData, 'string');
+        const [, [, actualTemplate]] = args;
+        assert.strictEqual(typeof actualTemplate, 'string');
     }
 }
 
@@ -85,7 +94,7 @@ describe
 
         it
         (
-            'creates art files',
+            'creates art.js',
             () =>
             {
                 const OUT_DIR = '\0art sync';
@@ -93,6 +102,19 @@ describe
                 fs.readFileSync.callThrough();
                 makeArt(OUT_DIR);
                 verifyWriteFile(fs.writeFileSync, OUT_DIR);
+            },
+        );
+
+        it
+        (
+            'creates art.js and art.d.ts',
+            () =>
+            {
+                const OUT_DIR = '\0art sync';
+
+                fs.readFileSync.callThrough();
+                makeArt(OUT_DIR, { dts: true });
+                verifyWriteFileDTs(fs.writeFileSync, OUT_DIR);
             },
         );
 
@@ -118,7 +140,7 @@ describe
 
         it
         (
-            'creates art files with 2 arguments',
+            'creates art.js with 2 arguments',
             done =>
             {
                 const OUT_DIR = '\0art async';
@@ -139,7 +161,7 @@ describe
 
         it
         (
-            'creates art files with 3 arguments',
+            'creates art.js with 3 arguments',
             done =>
             {
                 const OUT_DIR = '\0art async';
@@ -152,6 +174,28 @@ describe
                     actualError =>
                     {
                         verifyWriteFile(fs.promises.writeFile, OUT_DIR);
+                        assert.strictEqual(actualError, null);
+                        done();
+                    },
+                );
+            },
+        );
+
+        it
+        (
+            'creates art.js and art.d.ts',
+            done =>
+            {
+                const OUT_DIR = '\0art async';
+
+                fs.promises.readFile.callThrough();
+                makeArt.callback
+                (
+                    OUT_DIR,
+                    { dts: true },
+                    actualError =>
+                    {
+                        verifyWriteFileDTs(fs.promises.writeFile, OUT_DIR);
                         assert.strictEqual(actualError, null);
                         done();
                     },
@@ -234,7 +278,7 @@ describe
 
         it
         (
-            'creates art files',
+            'creates art.js',
             async () =>
             {
                 const OUT_DIR = '\0art promise';
@@ -242,6 +286,19 @@ describe
                 fs.promises.readFile.callThrough();
                 await makeArt.promise(OUT_DIR);
                 verifyWriteFile(fs.promises.writeFile, OUT_DIR);
+            },
+        );
+
+        it
+        (
+            'creates art.js and art.d.ts',
+            async () =>
+            {
+                const OUT_DIR = '\0art promise';
+
+                fs.promises.readFile.callThrough();
+                await makeArt.promise(OUT_DIR, { dts: true });
+                verifyWriteFileDTs(fs.promises.writeFile, OUT_DIR);
             },
         );
 
@@ -275,7 +332,7 @@ describe
 
         it
         (
-            'creates art files',
+            'creates art.js',
             () =>
             {
                 const OUT_DIR = '\0art main';

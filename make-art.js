@@ -4,7 +4,7 @@
 
 const fs            = require('fs');
 const Handlebars    = require('handlebars');
-const { join }      = require('path');
+const path          = require('path');
 
 function createOutput(template, context = { __proto__: null })
 {
@@ -15,7 +15,14 @@ function createOutput(template, context = { __proto__: null })
 
 function getTemplateDir()
 {
-    const templatePath = join(__dirname, 'templates');
+    const templatePath = path.join(__dirname, 'templates');
+    return templatePath;
+}
+
+function getTemplatePath(templateDir, outFilename)
+{
+    const templateFilename = `${outFilename}.hbs`;
+    const templatePath = path.join(templateDir, templateFilename);
     return templatePath;
 }
 
@@ -49,9 +56,14 @@ async function makeArtPromiseInternal(outDir, context)
 {
     const templateDir = getTemplateDir();
     await fs.promises.mkdir(outDir, { recursive: true });
-    const promiseJs     = processTemplatePromise(templateDir, outDir, 'art.js', context);
-    const promiseDTs    = processTemplatePromise(templateDir, outDir, 'art.d.ts', context);
-    await Promise.all([promiseJs, promiseDTs]);
+    const promiseJs = processTemplatePromise(templateDir, outDir, 'art.js', context);
+    const promises = [promiseJs];
+    if (context && context.dts)
+    {
+        const promiseDTs = processTemplatePromise(templateDir, outDir, 'art.d.ts', context);
+        promises.push(promiseDTs);
+    }
+    await Promise.all(promises);
 }
 
 function makeArtSync(outDir, context)
@@ -60,7 +72,8 @@ function makeArtSync(outDir, context)
     const templateDir = getTemplateDir();
     fs.mkdirSync(outDir, { recursive: true });
     processTemplateSync(templateDir, outDir, 'art.js', context);
-    processTemplateSync(templateDir, outDir, 'art.d.ts', context);
+    if (context && context.dts)
+        processTemplateSync(templateDir, outDir, 'art.d.ts', context);
 }
 
 function parseContext(processArgv)
@@ -102,22 +115,20 @@ function processCommandLine()
 async function processTemplatePromise(templateDir, outDir, outFilename, context)
 {
     const { readFile, writeFile } = fs.promises;
-    const templateFilename = `${outFilename}.hbs`;
-    const templatePath = join(templateDir, templateFilename);
+    const templatePath = getTemplatePath(templateDir, outFilename);
     const template = await readFile(templatePath, 'utf-8');
     const output = createOutput(template, context);
-    const outPath = join(outDir, outFilename);
+    const outPath = path.join(outDir, outFilename);
     await writeFile(outPath, output);
 }
 
 function processTemplateSync(templateDir, outDir, outFilename, context)
 {
     const { readFileSync, writeFileSync } = fs;
-    const templateFilename = `${outFilename}.hbs`;
-    const templatePath = join(templateDir, templateFilename);
+    const templatePath = getTemplatePath(templateDir, outFilename);
     const template = readFileSync(templatePath, 'utf-8');
     const output = createOutput(template, context);
-    const outPath = join(outDir, outFilename);
+    const outPath = path.join(outDir, outFilename);
     writeFileSync(outPath, output);
 }
 
