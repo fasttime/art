@@ -54,7 +54,8 @@ task
     {
         const { promise } = require('.');
 
-        await promise('dist', { css: { keyframes: true }, dts: true, off: true, on: true });
+        await
+        promise('dist', { art: { css: { keyframes: true }, off: true, on: true }, dts: true });
     },
 );
 

@@ -332,13 +332,28 @@ describe
 
         it
         (
-            'creates art.js',
+            'creates art.js without additional features',
             () =>
             {
                 const OUT_DIR = '\0art main';
 
                 fs.readFileSync.callThrough();
-                callProcessCommandLine([, , OUT_DIR, 'foo', 'bar.baz', 'bar']);
+                callProcessCommandLine([, , OUT_DIR, 'art']);
+                verifyWriteFile(fs.writeFileSync, OUT_DIR);
+                sinon.assert.notCalled(console.error);
+            },
+        );
+
+        it
+        (
+            'creates art.js with additional features',
+            () =>
+            {
+                const OUT_DIR = '\0art main';
+
+                fs.readFileSync.callThrough();
+                callProcessCommandLine
+                ([, , OUT_DIR, 'art', 'art.on', 'art.off', 'art.css.keyframes']);
                 verifyWriteFile(fs.writeFileSync, OUT_DIR);
                 sinon.assert.notCalled(console.error);
             },

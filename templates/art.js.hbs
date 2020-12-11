@@ -57,6 +57,7 @@ function deepAssign(target, source)
         }
     );
 }
+{{#art}}
 {{#off}}
 
 art.off =
@@ -105,7 +106,7 @@ function (selectors, ruleObj)
     var ruleStr = formatRule(selectors, ruleObj);
     addRule(ruleStr);
 };
-{{#if ../css/keyframes}}
+{{#keyframes}}
 
 art.css.keyframes =
 (function ()
@@ -139,7 +140,7 @@ art.css.keyframes =
     return keyframes;
 }
 )();
-{{/if}}
+{{/keyframes}}
 
 function addRule(ruleStr)
 {
@@ -185,6 +186,7 @@ function formatRule(selectors, ruleObj)
 
 var styleSheet;
 {{/css}}
+{{/art}}
 {{#if esModule}}
 
 export default art;

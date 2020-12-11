@@ -4,24 +4,28 @@ declare namespace makeArt
 {
     interface Options
     {
-        /**
-         * Include code for `art.css`.
-         * It is also possible to specify an object with an optional property `keyframes` that
-         * determines whether to also include code for `art.css.keyframes`.
-         */
-        readonly css?: boolean | { readonly keyframes?: boolean; };
+        /** Options that determine which features are included in the generated files. */
+        readonly art?:
+        {
+            /**
+             * Include code for `art.css`.
+             * It is also possible to specify an object with an optional property `keyframes` that
+             * determines whether to also include code for `art.css.keyframes`.
+             */
+            readonly css?: boolean | { readonly keyframes?: boolean; };
+
+            /** Include code for `art.off`. */
+            readonly off?: boolean;
+
+            /** Include code for `art.on`. */
+            readonly on?: boolean;
+        };
 
         /** Also generate a TypeScript declaration file (.d.ts) along with the JavaScript file. */
         readonly dts?: boolean;
 
         /** Generate an ECMAScript module; otherwise, generate a script. */
         readonly esModule?: boolean;
-
-        /** Include code for `art.off`. */
-        readonly off?: boolean;
-
-        /** Include code for `art.an`. */
-        readonly on?: boolean;
     }
 }
 
