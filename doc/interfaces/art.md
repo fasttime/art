@@ -16,8 +16,8 @@ Creates or modifies a node.
 
 Name | Type | Description |
 ------ | ------ | ------ |
-`target` | Node \| (this: [art](art.md)) => Node \| keyof HTMLElementTagNameMap & HTMLElementDeprecatedTagNameMap |   A node, a function returning a node, or a string specifying the type of element to be created using <code>document.createElement()</code>.  |
-`...args` | (Node \| (this: [art](art.md), target: Node) => never \| { [key:string]: unknown;  } \| string \| void)[] |   Each additional argument may be a node to be appended to the taget node, a function to be called with the target node as its only argument, an object whose properties shall be assigned to the taget node, or a string of text to be appended to the target node. Note that <code>null</code> and <code>undefined</code> arguments are simply ignored.  |
+`target` | Node \| (this: [art](art.md)) => Node \| keyof HTMLElementTagNameMap & HTMLElementDeprecatedTagNameMap |   A node, a function returning a node, or a string specifying the type of element to be created using `document.createElement()`.  |
+`...args` | (Node \| (this: [art](art.md), target: Node) => never \| { [key:string]: unknown;  } \| string \| void)[] |   Each additional argument may be a node to be appended to the taget node, a function to be called with the target node as its only argument, an object whose properties shall be assigned to the taget node, or a string of text to be appended to the target node. Note that `null` and `undefined` arguments are simply ignored.  |
 
 **Returns:** Node
 
@@ -57,7 +57,7 @@ Name | Type | Description |
 ------ | ------ | ------ |
 `type` | string \| readonly string[] |   A string or array of strings specifing the event types listened for.  |
 `listener` | EventListenerOrEventListenerObject \| null |   The event handler to dissociate from the events.  |
-`useCapture?` | undefined \| false \| true |   <code>true</code> to unregister the events for the capturing phase, or <code>false</code> to unregister the events for the bubbling phase. The default is <code>false</code>.  |
+`useCapture?` | undefined \| false \| true |   `true` to unregister the events for the capturing phase, or `false` to unregister the events for the bubbling phase. The default is `false`.  |
 
 **Returns:** function
 
@@ -78,6 +78,6 @@ Name | Type | Description |
 ------ | ------ | ------ |
 `type` | string \| readonly string[] |   A string or array of strings specifing the event types to listen for.  |
 `listener` | EventListenerOrEventListenerObject \| null |   The event handler to associate with the events.  |
-`useCapture?` | undefined \| false \| true |   <code>true</code> to register the events for the capturing phase, or <code>false</code> to register the events for the bubbling phase. The default is <code>false</code>.  |
+`useCapture?` | undefined \| false \| true |   `true` to register the events for the capturing phase, or `false` to register the events for the bubbling phase. The default is `false`.  |
 
 **Returns:** function

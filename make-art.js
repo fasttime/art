@@ -26,59 +26,59 @@ function getTemplatePath(templateDir, outFilename)
     return templatePath;
 }
 
-function makeArt(outDir, context)
+function makeArt(outDir, options)
 {
-    makeArtSync(outDir, context);
+    makeArtSync(outDir, options);
 }
 
-function makeArtCallback(outDir, context, callback)
+function makeArtCallback(outDir, options, callback)
 {
     const { callbackify } = require('util');
 
     validateOutDir(outDir);
     if (arguments.length < 3)
     {
-        callback = context;
-        context = undefined;
+        callback = options;
+        options = undefined;
     }
     if (typeof callback !== 'function')
         throw TypeError('Callback function missing or invalid');
-    callbackify(makeArtPromiseInternal)(outDir, context, callback);
+    callbackify(makeArtPromiseInternal)(outDir, options, callback);
 }
 
-async function makeArtPromise(outDir, context)
+async function makeArtPromise(outDir, options)
 {
     validateOutDir(outDir);
-    await makeArtPromiseInternal(outDir, context);
+    await makeArtPromiseInternal(outDir, options);
 }
 
-async function makeArtPromiseInternal(outDir, context)
+async function makeArtPromiseInternal(outDir, options)
 {
     const templateDir = getTemplateDir();
     await fs.promises.mkdir(outDir, { recursive: true });
-    const promiseJs = processTemplatePromise(templateDir, outDir, 'art.js', context);
+    const promiseJs = processTemplatePromise(templateDir, outDir, 'art.js', options);
     const promises = [promiseJs];
-    if (context && context.dts)
+    if (options && options.dts)
     {
-        const promiseDTs = processTemplatePromise(templateDir, outDir, 'art.d.ts', context);
+        const promiseDTs = processTemplatePromise(templateDir, outDir, 'art.d.ts', options);
         promises.push(promiseDTs);
     }
     await Promise.all(promises);
 }
 
-function makeArtSync(outDir, context)
+function makeArtSync(outDir, options)
 {
     validateOutDir(outDir);
     const templateDir = getTemplateDir();
     fs.mkdirSync(outDir, { recursive: true });
-    processTemplateSync(templateDir, outDir, 'art.js', context);
-    if (context && context.dts)
-        processTemplateSync(templateDir, outDir, 'art.d.ts', context);
+    processTemplateSync(templateDir, outDir, 'art.js', options);
+    if (options && options.dts)
+        processTemplateSync(templateDir, outDir, 'art.d.ts', options);
 }
 
-function parseContext(processArgv)
+function parseOptions(processArgv)
 {
-    const context = { __proto__: null };
+    const options = { __proto__: null };
     for (let index = 3, count = processArgv.length; index < count; ++index)
     {
         const arg = processArgv[index];
@@ -91,20 +91,20 @@ function parseContext(processArgv)
                     target[part] = obj = { __proto__: null };
                 return obj;
             },
-            context,
+            options,
         );
     }
-    return context;
+    return options;
 }
 
 function processCommandLine()
 {
     const processArgv = process.argv;
     const [,, outDir] = processArgv;
-    const context = parseContext(processArgv);
+    const options = parseOptions(processArgv);
     try
     {
-        makeArt(outDir, context);
+        makeArt(outDir, options);
     }
     catch (error)
     {
