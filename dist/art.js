@@ -27,7 +27,7 @@ function (target)
             deepAssign(node, attribute);
         else if (typeof attribute === 'function')
             attribute.call(art, node);
-        else
+        else if (attribute != null)
         {
             var textNode = document.createTextNode(attribute);
             node.appendChild(textNode);

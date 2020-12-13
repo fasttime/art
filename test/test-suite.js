@@ -183,7 +183,8 @@
                     'ignores null or undefined attributes',
                     function ()
                     {
-                        art('SCRIPT', undefined, null);
+                        var script = art('SCRIPT', undefined, null);
+                        expect(script.firstChild).toBeNull();
                     }
                 );
                 it
