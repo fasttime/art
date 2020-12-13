@@ -8,12 +8,12 @@ interface art
      * A node, a function returning a node, or a string specifying the type of element to be created
      * using `document.createElement()`.
      *
-     * @param args
+     * @param attributes
      *
-     * Each additional argument may be a node to be appended to the taget node, a function to be
-     * called with the target node as its only argument, an object whose properties shall be
-     * assigned to the taget node, or a string of text to be appended to the target node.
-     * Note that `null` and `undefined` arguments are simply ignored.
+     * Each attribute may be a node to be appended to the target node, a function to be called with
+     * the target node as its only argument, an object whose properties shall be assigned to the
+     * target node, or a string of text to be appended to the target node.
+     * `null` and `undefined` arguments are simply ignored.
      *
      * @returns
      *
@@ -24,7 +24,7 @@ interface art
         | Node
         | ((this: art) => Node)
         | keyof (HTMLElementTagNameMap & HTMLElementDeprecatedTagNameMap),
-        ...args:
+        ...attributes:
         (
             | Node
             | ((this: art, target: Node) => never)

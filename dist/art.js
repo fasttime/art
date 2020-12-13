@@ -18,18 +18,17 @@ function (target)
     var argCount = arguments.length;
     for (var index = 0; ++index < argCount;)
     {
-        var arg = arguments[index];
-        if (arg instanceof Node)
-            node.appendChild(arg);
-        else if (arg !== undefined && arg !== null)
+        var attribute = arguments[index];
+        if (attribute instanceof Node)
+            node.appendChild(attribute);
+        else if (isSourceObject(attribute))
+            deepAssign(node, attribute);
+        else if (typeof attribute === 'function')
+            attribute.call(art, node);
+        else
         {
-            var type = typeof arg;
-            if (type === 'object' || type === 'undefined')
-                deepAssign(node, arg);
-            else if (type === 'function')
-                arg.call(art, node);
-            else
-                node.appendChild(document.createTextNode(arg));
+            var textNode = document.createTextNode(attribute);
+            node.appendChild(textNode);
         }
     }
     return node;
@@ -45,7 +44,7 @@ function deepAssign(target, source)
             if ('value' in descriptor)
             {
                 var value = descriptor.value;
-                if (name in target && typeof value === 'object')
+                if (name in target && isSourceObject(value))
                     deepAssign(target[name], value);
                 else
                     target[name] = value;
@@ -54,6 +53,14 @@ function deepAssign(target, source)
                 _Object.defineProperty(target, name, descriptor);
         }
     );
+}
+
+function isSourceObject(value)
+{
+    var type = typeof value;
+    var returnValue =
+    type === 'object' && value !== null || type === 'undefined' && value !== undefined;
+    return returnValue;
 }
 
 art.off =

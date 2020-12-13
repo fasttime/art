@@ -180,19 +180,38 @@
                 );
                 it
                 (
-                    'ignores null or undefined arguments',
+                    'ignores null or undefined attributes',
                     function ()
                     {
                         art('SCRIPT', undefined, null);
                     }
                 );
+                it
+                (
+                    'does not traverse null or undefined property values in source objects',
+                    function ()
+                    {
+                        var script = art('SCRIPT', { prop1: undefined, prop2: null });
+                        expect(script.prop1).toBe(undefined);
+                        expect(script.prop2).toBe(null);
+                    }
+                );
                 (document.all !== undefined ? it : it.skip)
                 (
-                    'does not ignore document.all arguments',
+                    'traverses document.all attributes',
                     function ()
                     {
                         var span = art('SPAN', document.all);
                         expect(span[0]).toBe(document.all[0]);
+                    }
+                );
+                (document.all !== undefined ? it : it.skip)
+                (
+                    'traverses document.all property values in source objects',
+                    function ()
+                    {
+                        var span = art('SPAN', { prop: document.all });
+                        expect(span.prop[0]).toBe(document.all[0]);
                     }
                 );
             }
