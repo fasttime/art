@@ -1,3 +1,5 @@
+// art 0.9.3 – https://github.com/fasttime/art
+
 (function () {
 
 'use strict';

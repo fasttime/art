@@ -6,7 +6,7 @@ const fs            = require('fs');
 const Handlebars    = require('handlebars');
 const path          = require('path');
 
-function createOutput(template, context = { __proto__: null })
+function createOutput(template, context)
 {
     const templateDelegate = Handlebars.compile(template, { noEscape: true });
     const output = templateDelegate(context);
@@ -55,12 +55,13 @@ async function makeArtPromise(outDir, options)
 async function makeArtPromiseInternal(outDir, options)
 {
     const templateDir = getTemplateDir();
+    const context = makeContext(options);
     await fs.promises.mkdir(outDir, { recursive: true });
-    const promiseJs = processTemplatePromise(templateDir, outDir, 'art.js', options);
+    const promiseJs = processTemplatePromise(templateDir, outDir, 'art.js', context);
     const promises = [promiseJs];
-    if (options && options.dts)
+    if (context.dts)
     {
-        const promiseDTs = processTemplatePromise(templateDir, outDir, 'art.d.ts', options);
+        const promiseDTs = processTemplatePromise(templateDir, outDir, 'art.d.ts', context);
         promises.push(promiseDTs);
     }
     await Promise.all(promises);
@@ -70,10 +71,19 @@ function makeArtSync(outDir, options)
 {
     validateOutDir(outDir);
     const templateDir = getTemplateDir();
+    const context = makeContext(options);
     fs.mkdirSync(outDir, { recursive: true });
-    processTemplateSync(templateDir, outDir, 'art.js', options);
-    if (options && options.dts)
-        processTemplateSync(templateDir, outDir, 'art.d.ts', options);
+    processTemplateSync(templateDir, outDir, 'art.js', context);
+    if (context.dts)
+        processTemplateSync(templateDir, outDir, 'art.d.ts', context);
+}
+
+function makeContext(options)
+{
+    const { homepage, version } = require('./package.json');
+
+    const context = { __proto__: null, ...options, homepage, version };
+    return context;
 }
 
 function parseOptions(processArgv)
