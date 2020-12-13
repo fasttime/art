@@ -1,3 +1,16 @@
+<a name="1.0.0"></a>
+## [1.0.0](https://github.com/fasttime/art/releases/tag/1.0.0) (2020-12-13)
+
+* Dropped support for Node.js < 12.
+* Option to generate the art library as an ECMAScript module.
+* Option to generate a TypeScript declaration file (.d.ts).
+* Redesigned the `makeArt` API.
+* Added documentation for the `make-art` command-line tool.
+* Documented browser compatibility.
+* More consistent handling of `document.all`.
+* `art` and all functions exposed by it are now anonymous.
+* Banner comment in generated files.
+
 <a name="0.9.3"></a>
 ## [0.9.3](https://github.com/fasttime/art/releases/tag/0.9.3) (2020-12-02)
 
