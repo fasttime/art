@@ -37,7 +37,7 @@
     "test": "mocha --check-leaks test/**/*.spec.js"
   },
   "dependencies": {
-    "@types/node": ">=10.0.0",
+    "@types/node": ">=12",
     "handlebars": ">=4.1"
   },
   "devDependencies": {
@@ -54,6 +54,6 @@
     "typedoc-plugin-markdown": "latest"
   },
   "engines": {
-    "node": ">=12.0.0"
+    "node": ">=12"
   }
 }
