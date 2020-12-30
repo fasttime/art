@@ -1,5 +1,3 @@
-**[art](../README.md)**
-
 # Interface: art\_css
 
 ## Hierarchy
@@ -8,7 +6,7 @@
 
 ## Callable
 
-▸ (`selectors`: string, `ruleObj`: [RuleDefinitionObject](ruledefinitionobject.md)): undefined
+▸ **art_css**(`selectors`: *string*, `ruleObj`: [*RuleDefinitionObject*](ruledefinitionobject.md)): *undefined*
 
 Creates a new CSS rule and adds it to the document.
 
@@ -16,10 +14,10 @@ Creates a new CSS rule and adds it to the document.
 
 Name | Type | Description |
 ------ | ------ | ------ |
-`selectors` | string |   The selector of the new rule.  |
-`ruleObj` | [RuleDefinitionObject](ruledefinitionobject.md) |   A rule definition object mapping style names to their respective values.  |
+`selectors` | *string* |   The selector of the new rule.    |
+`ruleObj` | [*RuleDefinitionObject*](ruledefinitionobject.md) |   A rule definition object mapping style names to their respective values.    |
 
-**Returns:** undefined
+**Returns:** *undefined*
 
 ## Index
 
@@ -31,7 +29,7 @@ Name | Type | Description |
 
 ### keyframes
 
-▸ **keyframes**(`identifier`: string, `ruleObjMap`: { [selectors:string]: [RuleDefinitionObject](ruledefinitionobject.md);  }): boolean
+▸ **keyframes**(`identifier`: *string*, `ruleObjMap`: { [selectors: string]: [*RuleDefinitionObject*](ruledefinitionobject.md);  }): *boolean*
 
 Creates a new CSS keyframes rule and adds it to the document.
 
@@ -39,9 +37,9 @@ Creates a new CSS keyframes rule and adds it to the document.
 
 Name | Type | Description |
 ------ | ------ | ------ |
-`identifier` | string |   The new keyframes rule identifier.  |
-`ruleObjMap` | { [selectors:string]: [RuleDefinitionObject](ruledefinitionobject.md);  } |   An object mapping selectors to rule definition objects. Rule definition objects map style names to their respective values.  |
+`identifier` | *string* |   The new keyframes rule identifier.    |
+`ruleObjMap` | { [selectors: string]: [*RuleDefinitionObject*](ruledefinitionobject.md);  } |   An object mapping selectors to rule definition objects. Rule definition objects map style names to their respective values.    |
 
-**Returns:** boolean
+**Returns:** *boolean*
 
 `true` on success; otherwise, `false`.

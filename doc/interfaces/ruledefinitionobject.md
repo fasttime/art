@@ -1,5 +1,3 @@
-**[art](../README.md)**
-
 # Interface: RuleDefinitionObject
 
 ## Hierarchy
@@ -8,4 +6,4 @@
 
 ## Indexable
 
-▪ [style: string]: string
+▪ [style: *string*]: *string*

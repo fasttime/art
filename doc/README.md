@@ -1,5 +1,3 @@
-**[art](README.md)**
-
 # art
 
 ## Index
@@ -18,4 +16,4 @@
 
 ### art
 
-• `Let` **art**: [art](interfaces/art.md)
+• `Let` **art**: [*art*](README.md#art)

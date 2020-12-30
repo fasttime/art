@@ -139,19 +139,16 @@ task
 
         const typedocOpts =
         {
-            excludeExternals:       true,
-            hideBreadcrumbs:        true,
-            hideSources:            true,
-            ignoreCompilerErrors:   true,
-            includeDeclarations:    true,
-            mode:                   'file',
-            name:                   'art',
-            out:                    'doc',
-            readme:                 'none',
-            theme:                  'markdown',
-            tsconfig:               'tsconfig.json',
+            disableSources:     true,
+            entryPoints:        'dist/art.d.ts',
+            hideBreadcrumbs:    true,
+            name:               'art',
+            out:                'doc',
+            plugin:             'typedoc-plugin-markdown',
+            readme:             'none',
+            tsconfig:           'tsconfig.json',
         };
-        const stream = src('dist/art.d.ts', { read: false }).pipe(typedoc(typedocOpts));
+        const stream = src('dist', { read: false }).pipe(typedoc(typedocOpts));
         return stream;
     },
 );
