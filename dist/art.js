@@ -1,4 +1,4 @@
-// art 1.0.0 – https://github.com/fasttime/art
+// art 1.0.1 – https://github.com/fasttime/art
 
 (function () {
 
