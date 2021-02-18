@@ -1,19 +1,19 @@
 # art
 
-## Index
+## Table of contents
 
 ### Interfaces
 
-* [RuleDefinitionObject](interfaces/ruledefinitionobject.md)
-* [art](interfaces/art.md)
-* [art\_css](interfaces/art_css.md)
+- [RuleDefinitionObject](interfaces/ruledefinitionobject.md)
+- [art](interfaces/art.md)
+- [art\_css](interfaces/art_css.md)
 
 ### Variables
 
-* [art](README.md#art)
+- [art](README.md#art)
 
 ## Variables
 
 ### art
 
-• `Let` **art**: [*art*](README.md#art)
+• **art**: [*art*](README.md#art)
