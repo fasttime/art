@@ -150,9 +150,8 @@ function validateOutDir(outDir)
 
 Handlebars.registerHelper({ or: (v1, v2) => v1 || v2 });
 
-// istanbul ignore if
 if (require.main === module)
-    processCommandLine();
+    /* c8 ignore next */ processCommandLine();
 else
 {
     makeArt.callback            = makeArtCallback;

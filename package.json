@@ -42,13 +42,13 @@
   },
   "devDependencies": {
     "@fasttime/gulp-lint": "latest",
+    "c8": "latest",
     "expectations": "latest",
     "gulp": "latest",
     "gulp-typedoc": "latest",
     "jsdom": "latest",
     "mocha": "3",
     "mocha-bar": "latest",
-    "nyc": "latest",
     "sinon": "latest",
     "typedoc": "latest",
     "typedoc-plugin-markdown": "latest"

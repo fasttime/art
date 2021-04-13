@@ -9,7 +9,7 @@ task
     {
         const { promises: { rmdir } } = require('fs');
 
-        const paths = ['.nyc_output', 'coverage', 'dist', 'doc'];
+        const paths = ['coverage', 'dist', 'doc'];
         const rmdirOpts = { recursive: true };
         await Promise.all(paths.map(path => rmdir(path, rmdirOpts)));
     },
@@ -112,21 +112,17 @@ task
         const { fork } = require('child_process');
 
         const { resolve } = require;
-        const nycPath = resolve('nyc/bin/nyc');
+        const c8Path = resolve('c8/bin/c8');
         const mochaPath = resolve('mocha/bin/mocha');
-        const childProcess =
-        fork
-        (
-            nycPath,
-            [
-                '--reporter=html',
-                '--reporter=text-summary',
-                '--',
-                mochaPath,
-                '--check-leaks',
-                'test/**/*.spec.js',
-            ],
-        );
+        const forkArgs =
+        [
+            '--reporter=html',
+            '--reporter=text-summary',
+            mochaPath,
+            '--check-leaks',
+            'test/**/*.spec.js',
+        ];
+        const childProcess = fork(c8Path, forkArgs);
         childProcess.on('exit', code => callback(code && 'Test failed'));
     },
 );
