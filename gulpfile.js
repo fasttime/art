@@ -7,11 +7,11 @@ task
     'clean',
     async () =>
     {
-        const { promises: { rmdir } } = require('fs');
+        const { promises: { rm } } = require('fs');
 
         const paths = ['coverage', 'dist', 'doc'];
-        const rmdirOpts = { recursive: true };
-        await Promise.all(paths.map(path => rmdir(path, rmdirOpts)));
+        const options = { false: true, recursive: true };
+        await Promise.all(paths.map(path => rm(path, options)));
     },
 );
 

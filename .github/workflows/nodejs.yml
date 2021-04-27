@@ -12,7 +12,7 @@ jobs:
     - uses: actions/checkout@v2
     - uses: actions/setup-node@v1
       with:
-        node-version: 14.x
+        node-version: 16.x
     - run: npm install
     - run: npx gulp lint:other typedoc lint:art
 
@@ -24,7 +24,7 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [12.x, 14.x]
+        node-version: [12.x, 14.x, 16.x]
         os: [macos-latest, ubuntu-latest, windows-latest]
 
     steps:
