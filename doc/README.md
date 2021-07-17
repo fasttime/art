@@ -4,7 +4,7 @@
 
 ### Interfaces
 
-- [RuleDefinitionObject](interfaces/ruledefinitionobject.md)
+- [RuleDefinitionObject](interfaces/RuleDefinitionObject.md)
 - [art](interfaces/art.md)
 - [art\_css](interfaces/art_css.md)
 
@@ -16,4 +16,4 @@
 
 ### art
 
-• **art**: [*art*](README.md#art)
+• **art**: [`art`](README.md#art)

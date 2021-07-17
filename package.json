@@ -41,7 +41,7 @@
     "handlebars": ">=4.1"
   },
   "devDependencies": {
-    "@fasttime/gulp-lint": "latest",
+    "@fasttime/lint": "latest",
     "c8": "latest",
     "expectations": "latest",
     "gulp": "latest",

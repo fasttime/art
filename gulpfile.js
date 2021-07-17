@@ -7,10 +7,10 @@ task
     'clean',
     async () =>
     {
-        const { promises: { rm } } = require('fs');
+        const { rm } = require('fs/promises');
 
         const paths = ['coverage', 'dist', 'doc'];
-        const options = { false: true, recursive: true };
+        const options = { force: true, recursive: true };
         await Promise.all(paths.map(path => rm(path, options)));
     },
 );
@@ -18,11 +18,11 @@ task
 task
 (
     'lint:other',
-    () =>
+    async () =>
     {
-        const lint = require('@fasttime/gulp-lint');
+        const { lint } = require('@fasttime/lint');
 
-        const stream =
+        await
         lint
         (
             {
@@ -43,7 +43,6 @@ task
                 parserOptions: { project: 'tsconfig.json', sourceType: 'module' },
             },
         );
-        return stream;
     },
 );
 
@@ -62,9 +61,9 @@ task
 task
 (
     'lint:art',
-    () =>
+    async () =>
     {
-        const lint = require('@fasttime/gulp-lint');
+        const { lint } = require('@fasttime/lint');
 
         const rules =
         {
@@ -94,13 +93,12 @@ task
             'padded-blocks':    'off',
             'strict':           ['error', 'function'],
         };
-        const stream =
+        await
         lint
         (
             { src: 'dist/art.js', envs: 'browser', rules },
             { src: 'dist/art.d.ts', parserOptions: { project: 'tsconfig.json' } },
         );
-        return stream;
     },
 );
 
@@ -126,6 +124,7 @@ task
         childProcess.on('exit', code => callback(code && 'Test failed'));
     },
 );
+
 task
 (
     'typedoc',

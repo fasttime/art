@@ -2,4 +2,4 @@
 
 ## Indexable
 
-▪ [style: *string*]: *string*
+▪ [style: `string`]: `string`
