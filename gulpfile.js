@@ -1,6 +1,6 @@
 'use strict';
 
-const { parallel, series, src, task } = require('gulp');
+const { parallel, series, task } = require('gulp');
 
 task
 (
@@ -12,49 +12,6 @@ task
         const paths = ['coverage', 'dist', 'doc'];
         const options = { force: true, recursive: true };
         await Promise.all(paths.map(path => rm(path, options)));
-    },
-);
-
-task
-(
-    'lint:other',
-    async () =>
-    {
-        const { lint } = require('@fasttime/lint');
-
-        await
-        lint
-        (
-            {
-                src: ['gulpfile.js', 'test/**/*.spec.js'],
-                envs: 'node',
-                parserOptions: { ecmaVersion: 9 },
-            },
-            {
-                src: 'make-art.js',
-                envs: 'node',
-                parserOptions: { ecmaVersion: 9 },
-            },
-            {
-                src: ['test/**/*.js', '!test/**/*.spec.js'],
-            },
-            {
-                src: 'make-art.d.ts',
-                parserOptions: { project: 'tsconfig.json', sourceType: 'module' },
-            },
-        );
-    },
-);
-
-task
-(
-    'make-art',
-    async () =>
-    {
-        const { promise } = require('.');
-
-        await
-        promise('dist', { art: { css: { keyframes: true }, off: true, on: true }, dts: true });
     },
 );
 
@@ -104,6 +61,77 @@ task
 
 task
 (
+    'lint:other',
+    async () =>
+    {
+        const { lint } = require('@fasttime/lint');
+
+        await
+        lint
+        (
+            {
+                src: ['gulpfile.js', 'test/**/*.spec.js'],
+                envs: 'node',
+                parserOptions: { ecmaVersion: 9 },
+            },
+            {
+                src: 'make-art.js',
+                envs: 'node',
+                parserOptions: { ecmaVersion: 9 },
+            },
+            {
+                src: ['test/**/*.js', '!test/**/*.spec.js'],
+            },
+            {
+                src: 'make-art.d.ts',
+                parserOptions: { project: 'tsconfig.json', sourceType: 'module' },
+            },
+        );
+    },
+);
+
+task
+(
+    'make-api-doc',
+    async () =>
+    {
+        const { Application, TSConfigReader } = require('typedoc');
+
+        const options =
+        {
+            disableSources:     true,
+            entryPoints:        'dist/art.d.ts',
+            githubPages:        false,
+            hideBreadcrumbs:    true,
+            name:               'art',
+            plugin:             'typedoc-plugin-markdown',
+            readme:             'none',
+            tsconfig:           'tsconfig.json',
+        };
+        const app = new Application();
+        app.options.addReader(new TSConfigReader());
+        app.bootstrap(options);
+        const project = app.convert();
+        await app.renderer.render(project, 'doc');
+        if (app.logger.hasErrors())
+            throw Error('API documentation could not be generated');
+    },
+);
+
+task
+(
+    'make-art',
+    async () =>
+    {
+        const { promise } = require('.');
+
+        await
+        promise('dist', { art: { css: { keyframes: true }, off: true, on: true }, dts: true });
+    },
+);
+
+task
+(
     'test',
     callback =>
     {
@@ -127,29 +155,7 @@ task
 
 task
 (
-    'typedoc',
-    () =>
-    {
-        const typedoc = require('gulp-typedoc');
-
-        const typedocOpts =
-        {
-            disableSources:     true,
-            entryPoints:        'dist/art.d.ts',
-            hideBreadcrumbs:    true,
-            name:               'art',
-            out:                'doc',
-            plugin:             'typedoc-plugin-markdown',
-            readme:             'none',
-            tsconfig:           'tsconfig.json',
-        };
-        const stream = src('dist', { read: false }).pipe(typedoc(typedocOpts));
-        return stream;
-    },
-);
-
-task
-(
     'default',
-    series(parallel('clean', 'lint:other'), 'make-art', 'test', parallel('typedoc', 'lint:art')),
+    series
+    (parallel('clean', 'lint:other'), 'make-art', 'test', parallel('make-api-doc', 'lint:art')),
 );

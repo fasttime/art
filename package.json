@@ -45,7 +45,6 @@
     "c8": "latest",
     "expectations": "latest",
     "gulp": "latest",
-    "gulp-typedoc": "latest",
     "jsdom": "latest",
     "mocha": "3",
     "mocha-bar": "latest",

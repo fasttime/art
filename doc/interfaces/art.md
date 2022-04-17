@@ -12,8 +12,8 @@ Creates or modifies a node.
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `target` | `Node` \| () => `Node` \| keyof `HTMLElementTagNameMap` \| keyof `HTMLElementDeprecatedTagNameMap` | A node, a function returning a node, or a string specifying the type of element to be created using `document.createElement()`. |
-| `...attributes` | (`string` \| `void` \| `Node` \| (`target`: `Node`) => `never` \| { [key: string]: `unknown`;  })[] | Each attribute may be a node to be appended to the target node, a function to be called with the target node as its only argument, an object whose properties shall be assigned to the target node, or a string of text to be appended to the target node. `null` and `undefined` arguments are simply ignored. |
+| `target` | `Node` \| (`this`: [`art`](../README.md#art)) => `Node` \| keyof `HTMLElementTagNameMap` \| keyof `HTMLElementDeprecatedTagNameMap` | A node, a function returning a node, or a string specifying the type of element to be created using `document.createElement()`. |
+| `...attributes` | (`string` \| `void` \| `Node` \| (`this`: [`art`](../README.md#art), `target`: `Node`) => `never` \| { `[key: string]`: `unknown`;  })[] | Each attribute may be a node to be appended to the target node, a function to be called with the target node as its only argument, an object whose properties shall be assigned to the target node, or a string of text to be appended to the target node. `null` and `undefined` arguments are simply ignored. |
 
 #### Returns
 
