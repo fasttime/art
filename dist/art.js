@@ -7,34 +7,36 @@
 var _Object = Object;
 
 var art =
-undefined ||
-function (target)
-{
-    var node;
-    if (target instanceof Node)
-        node = target;
-    else if (typeof target === 'function')
-        node = target.call(art);
-    else
-        node = document.createElement(target);
-    var argCount = arguments.length;
-    for (var index = 0; ++index < argCount;)
+(
+    null,
+    function (target)
     {
-        var attribute = arguments[index];
-        if (attribute instanceof Node)
-            node.appendChild(attribute);
-        else if (isSourceObject(attribute))
-            deepAssign(node, attribute);
-        else if (typeof attribute === 'function')
-            attribute.call(art, node);
-        else if (attribute != null)
+        var node;
+        if (target instanceof Node)
+            node = target;
+        else if (typeof target === 'function')
+            node = target.call(art);
+        else
+            node = document.createElement(target);
+        var argCount = arguments.length;
+        for (var index = 0; ++index < argCount;)
         {
-            var textNode = document.createTextNode(attribute);
-            node.appendChild(textNode);
+            var attribute = arguments[index];
+            if (attribute instanceof Node)
+                node.appendChild(attribute);
+            else if (isSourceObject(attribute))
+                deepAssign(node, attribute);
+            else if (typeof attribute === 'function')
+                attribute.call(art, node);
+            else if (attribute != null)
+            {
+                var textNode = document.createTextNode(attribute);
+                node.appendChild(textNode);
+            }
         }
+        return node;
     }
-    return node;
-};
+);
 
 function deepAssign(target, source)
 {
@@ -118,23 +120,27 @@ art.css.keyframes =
     else
     {
         keyframes =
-        undefined ||
-        function (identifier, ruleObjMap)
-        {
-            return false;
-        };
+        (
+            null,
+            function (identifier, ruleObjMap)
+            {
+                return false;
+            }
+        );
         return keyframes;
     }
     ruleStrBase += 'keyframes ';
     keyframes =
-    undefined ||
-    function (identifier, ruleObjMap)
-    {
-        var ruleDefs = createRuleDefs(ruleObjMap, formatRule);
-        var ruleStr = ruleStrBase + identifier + '{' + ruleDefs.join('') + '}';
-        addRule(ruleStr);
-        return true;
-    };
+    (
+        null,
+        function (identifier, ruleObjMap)
+        {
+            var ruleDefs = createRuleDefs(ruleObjMap, formatRule);
+            var ruleStr = ruleStrBase + identifier + '{' + ruleDefs.join('') + '}';
+            addRule(ruleStr);
+            return true;
+        }
+    );
     return keyframes;
 }
 )();
