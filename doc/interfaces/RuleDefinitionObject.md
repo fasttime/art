@@ -1,5 +1,7 @@
 # Interface: RuleDefinitionObject
 
-## Indexable
+## Hierarchy
 
-▪ [style: `string`]: `string`
+- `Readonly`<`Record`<`string`, `string`\>\>
+
+  ↳ **`RuleDefinitionObject`**

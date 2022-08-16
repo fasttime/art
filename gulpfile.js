@@ -53,8 +53,16 @@ task
         await
         lint
         (
-            { src: 'dist/art.js', envs: 'browser', rules },
-            { src: 'dist/art.d.ts', parserOptions: { project: 'tsconfig.json' } },
+            {
+                src: 'dist/art.js',
+                envs: 'browser',
+                rules,
+            },
+            {
+                src: 'dist/art.d.ts',
+                tsVersion: 'latest',
+                parserOptions: { project: 'tsconfig.json' },
+            },
         );
     },
 );
@@ -70,21 +78,17 @@ task
         lint
         (
             {
-                src: ['gulpfile.js', 'test/**/*.spec.js'],
+                src: ['gulpfile.js', 'make-art.js', 'test/**/*.spec.js'],
+                jsVersion: 2018,
                 envs: 'node',
-                parserOptions: { ecmaVersion: 9 },
-            },
-            {
-                src: 'make-art.js',
-                envs: 'node',
-                parserOptions: { ecmaVersion: 9 },
             },
             {
                 src: ['test/**/*.js', '!test/**/*.spec.js'],
             },
             {
                 src: 'make-art.d.ts',
-                parserOptions: { project: 'tsconfig.json', sourceType: 'module' },
+                tsVersion: 'latest',
+                parserOptions: { project: 'tsconfig.json' },
             },
         );
     },

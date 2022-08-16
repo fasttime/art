@@ -30,7 +30,7 @@ interface art
         (
             | Node
             | ((this: art, target: Node) => never)
-            | { readonly [key: string]: unknown; }
+            | Readonly<Record<string, unknown>>
             | string
             | void
         )[],
@@ -94,10 +94,8 @@ interface art
     (target: Node) => never;
 }
 
-interface RuleDefinitionObject
-{
-    readonly [style: string]: string;
-}
+interface RuleDefinitionObject extends Readonly<Record<string, string>>
+{ }
 
 interface art
 {
@@ -136,7 +134,7 @@ interface art_css
      * `true` on success; otherwise, `false`.
      */
     keyframes
-    (identifier: string, ruleObjMap: { readonly [selectors: string]: RuleDefinitionObject; }):
+    (identifier: string, ruleObjMap: Readonly<Record<string, RuleDefinitionObject>>):
     boolean;
 }
 
