@@ -1,3 +1,10 @@
+<a name="1.1.0"></a>
+## [1.1.0](https://github.com/fasttime/art/releases/tag/1.1.0) (2022-08-16)
+
+* Dropeed support for Node.js 12.
+* Updated documentation format.
+* Updated TypeScript type definition style.
+
 <a name="1.0.2"></a>
 ## [1.0.2](https://github.com/fasttime/art/releases/tag/1.0.2) (2021-04-13)
 
