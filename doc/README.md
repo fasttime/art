@@ -16,7 +16,7 @@
 
 ### art
 
-▸ **art**(`target`, ...`attributes`): `Node`
+▸ **art**(`target`, `...attributes`): `Node`
 
 Creates or modifies a node.
 

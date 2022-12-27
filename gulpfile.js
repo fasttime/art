@@ -24,27 +24,7 @@ task
 
         const rules =
         {
-            'brace-style':      'off',
-            'indent':
-            [
-                'error',
-                4,
-                {
-                    CallExpression: { arguments: 'first' },
-                    FunctionDeclaration: { parameters: 'first' },
-                    FunctionExpression: { parameters: 'first' },
-                    MemberExpression: 0,
-                    outerIIFEBody: 'off',
-                    VariableDeclarator: 0,
-                    ignoredNodes:
-                    [
-                        'ArrowFunctionExpression',
-                        'ClassDeclaration[superClass]',
-                        'ConditionalExpression',
-                        'ImportDeclaration',
-                    ],
-                },
-            ],
+            '@origin-1/indent': ['error', -1],
             'no-unused-vars':
             ['error', { argsIgnorePattern: '^(identifier|ruleObjMap)$', vars: 'local' }],
             'padded-blocks':    'off',
@@ -54,14 +34,14 @@ task
         lint
         (
             {
-                src: 'dist/art.js',
-                envs: 'browser',
+                src:    'dist/art.js',
+                envs:   'browser',
                 rules,
             },
             {
-                src: 'dist/art.d.ts',
-                tsVersion: 'latest',
-                parserOptions: { project: 'tsconfig.json' },
+                src:            'dist/art.d.ts',
+                tsVersion:      'latest',
+                parserOptions:  { project: 'tsconfig.json' },
             },
         );
     },
@@ -78,17 +58,17 @@ task
         lint
         (
             {
-                src: ['gulpfile.js', 'make-art.js', 'test/**/*.spec.js'],
-                jsVersion: 2018,
-                envs: 'node',
+                src:        ['gulpfile.js', 'make-art.js', 'test/**/*.spec.js'],
+                jsVersion:  2018,
+                envs:       'node',
             },
             {
                 src: ['test/**/*.js', '!test/**/*.spec.js'],
             },
             {
-                src: 'make-art.d.ts',
-                tsVersion: 'latest',
-                parserOptions: { project: 'tsconfig.json' },
+                src:            'make-art.d.ts',
+                tsVersion:      'latest',
+                parserOptions:  { project: 'tsconfig.json' },
             },
         );
     },
