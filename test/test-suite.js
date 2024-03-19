@@ -1,5 +1,4 @@
-/* eslint-env mocha */
-/* global CSSRule, HTMLElement, art, document, expect, module, require, self, window */
+/* global CSSRule HTMLElement art describe document expect it module require self window */
 
 'use strict';
 

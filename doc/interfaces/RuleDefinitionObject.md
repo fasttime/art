@@ -2,6 +2,6 @@
 
 ## Hierarchy
 
-- `Readonly`<`Record`<`string`, `string`\>\>
+- `Readonly`\<`Record`\<`string`, `string`\>\>
 
   ↳ **`RuleDefinitionObject`**

@@ -1,5 +1,4 @@
-/* eslint-env browser */
-/* global MochaBar, TestSuite, mocha */
+/* global MochaBar TestSuite addEventListener document mocha */
 
 'use strict';
 

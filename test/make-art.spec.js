@@ -1,4 +1,4 @@
-/* eslint-env mocha */
+/* global afterEach before beforeEach describe it */
 
 'use strict';
 

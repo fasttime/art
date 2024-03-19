@@ -12,8 +12,8 @@ Creates or modifies a node.
 
 | Name | Type | Description |
 | :------ | :------ | :------ |
-| `target` | `Node` \| keyof `HTMLElementTagNameMap` \| keyof `HTMLElementDeprecatedTagNameMap` \| (`this`: [`art`](../README.md#art)) => `Node` | A node, a function returning a node, or a string specifying the type of element to be created using `document.createElement()`. |
-| `...attributes` | (`string` \| `void` \| `Node` \| `Readonly`<`Record`<`string`, `unknown`\>\> \| (`this`: [`art`](../README.md#art), `target`: `Node`) => `never`)[] | Each attribute may be a node to be appended to the target node, a function to be called with the target node as its only argument, an object whose properties shall be assigned to the target node, or a string of text to be appended to the target node. `null` and `undefined` arguments are simply ignored. |
+| `target` | `Node` \| keyof HTMLElementTagNameMap \| keyof HTMLElementDeprecatedTagNameMap \| (`this`: [`art`](art.md)) => `Node` | A node, a function returning a node, or a string specifying the type of element to be created using `document.createElement()`. |
+| `...attributes` | (`string` \| `void` \| `Node` \| `Readonly`\<`Record`\<`string`, `unknown`\>\> \| (`this`: [`art`](art.md), `target`: `Node`) => `never`)[] | Each attribute may be a node to be appended to the target node, a function to be called with the target node as its only argument, an object whose properties shall be assigned to the target node, or a string of text to be appended to the target node. `null` and `undefined` arguments are simply ignored. |
 
 #### Returns
 
@@ -63,11 +63,6 @@ argument `type` may be an array specifying multiple event types.
 
 ▸ (`target`): `never`
 
-Returns a callback that can be used to detach a listener from the target node in a call to
-`art`.
-The arguments are the same as in `EventTarget.removeEventListener()`, except that the
-argument `type` may be an array specifying multiple event types.
-
 ##### Parameters
 
 | Name | Type |
@@ -102,11 +97,6 @@ The arguments are the same as in `EventTarget.addEventListener()`, except that t
 `fn`
 
 ▸ (`target`): `never`
-
-Returns a callback that can be used to attach a listener to the target node in a call to
-`art`.
-The arguments are the same as in `EventTarget.addEventListener()`, except that the argument
-`type` may be an array specifying multiple event types.
 
 ##### Parameters
 

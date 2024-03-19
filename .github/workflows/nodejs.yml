@@ -9,10 +9,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
-    - uses: actions/setup-node@v3
+    - uses: actions/checkout@v4
+    - uses: actions/setup-node@v4
       with:
-        node-version: 18 >=18.1
+        node-version: 20
     - run: npm install
     - run: npx gulp lint:other make-api-doc lint:art
 
@@ -24,12 +24,12 @@ jobs:
 
     strategy:
       matrix:
-        node-version: ['14', '16', '18']
+        node-version: ['16', '18', '20', '21']
         os: [macos-latest, ubuntu-latest, windows-latest]
 
     steps:
-    - uses: actions/checkout@v3
-    - uses: actions/setup-node@v3
+    - uses: actions/checkout@v4
+    - uses: actions/setup-node@v4
       with:
         node-version: ${{ matrix.node-version }}
     - run: npm install

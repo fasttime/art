@@ -38,7 +38,7 @@ Creates a new CSS keyframes rule and adds it to the document.
 | Name | Type | Description |
 | :------ | :------ | :------ |
 | `identifier` | `string` | The new keyframes rule identifier. |
-| `ruleObjMap` | `Readonly`<`Record`<`string`, [`RuleDefinitionObject`](RuleDefinitionObject.md)\>\> | An object mapping selectors to rule definition objects. Rule definition objects map style names to their respective values. |
+| `ruleObjMap` | `Readonly`\<`Record`\<`string`, [`RuleDefinitionObject`](RuleDefinitionObject.md)\>\> | An object mapping selectors to rule definition objects. Rule definition objects map style names to their respective values. |
 
 #### Returns
 

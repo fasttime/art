@@ -41,14 +41,17 @@
     "handlebars": ">=4.1"
   },
   "devDependencies": {
-    "@fasttime/lint": "latest",
+    "@origin-1/eslint-config": "latest",
     "c8": "latest",
     "expectations": "latest",
+    "globals": "latest",
     "gulp": "latest",
+    "gulp-eslint-new": "latest",
     "jsdom": "latest",
     "mocha": "3",
     "mocha-bar": "latest",
     "sinon": "latest",
+    "sync-readable": "latest",
     "typedoc": "latest",
     "typedoc-plugin-markdown": "latest"
   },

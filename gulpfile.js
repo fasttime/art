@@ -1,6 +1,7 @@
 'use strict';
 
-const { parallel, series, task } = require('gulp');
+const { parallel, series, src, task }   = require('gulp');
+const syncReadable                      = require('sync-readable');
 
 task
 (
@@ -18,60 +19,110 @@ task
 task
 (
     'lint:art',
-    async () =>
-    {
-        const { lint } = require('@fasttime/lint');
-
-        const rules =
+    syncReadable
+    (
+        async () =>
         {
-            '@origin-1/indent': ['error', -1],
-            'no-unused-vars':
-            ['error', { argsIgnorePattern: '^(identifier|ruleObjMap)$', vars: 'local' }],
-            'padded-blocks':    'off',
-            'strict':           ['error', 'function'],
-        };
-        await
-        lint
-        (
-            {
-                src:    'dist/art.js',
-                envs:   'browser',
-                rules,
-            },
-            {
-                src:            'dist/art.d.ts',
-                tsVersion:      'latest',
-                parserOptions:  { project: 'tsconfig.json' },
-            },
-        );
-    },
+            const { createConfig }  = require('@origin-1/eslint-config');
+            const globals           = require('globals');
+            const gulpESLintNew     = require('gulp-eslint-new');
+
+            const overrideConfig =
+            await createConfig
+            (
+                {
+                    files:              ['dist/art.js'],
+                    jsVersion:          5,
+                    languageOptions:    { globals: globals.browser, sourceType: 'script' },
+                    rules:
+                    {
+                        '@origin-1/indent':         ['error', -1],
+                        'no-unused-vars':
+                        [
+                            'error',
+                            { argsIgnorePattern: '^(identifier|ruleObjMap)$', vars: 'local' },
+                        ],
+                        '@stylistic/padded-blocks': 'off',
+                        'strict':                   ['error', 'function'],
+                    },
+                },
+                {
+                    files:              ['dist/art.d.ts'],
+                    tsVersion:          '2.0.0',
+                    languageOptions:    { parserOptions: { project: 'tsconfig.json' } },
+                },
+            );
+            const stream =
+            src(['dist/art.js', 'dist/art.d.ts'])
+            .pipe
+            (
+                gulpESLintNew
+                (
+                    {
+                        configType:         'flat',
+                        overrideConfig,
+                        overrideConfigFile: true,
+                        warnIgnored:        true,
+                    },
+                ),
+            )
+            .pipe(gulpESLintNew.format('compact'))
+            .pipe(gulpESLintNew.failAfterError());
+            return stream;
+        },
+    ),
 );
 
 task
 (
     'lint:other',
-    async () =>
-    {
-        const { lint } = require('@fasttime/lint');
+    syncReadable
+    (
+        async () =>
+        {
+            const { createConfig }  = require('@origin-1/eslint-config');
+            const globals           = require('globals');
+            const gulpESLintNew     = require('gulp-eslint-new');
 
-        await
-        lint
-        (
-            {
-                src:        ['gulpfile.js', 'make-art.js', 'test/**/*.spec.js'],
-                jsVersion:  2018,
-                envs:       'node',
-            },
-            {
-                src: ['test/**/*.js', '!test/**/*.spec.js'],
-            },
-            {
-                src:            'make-art.d.ts',
-                tsVersion:      'latest',
-                parserOptions:  { project: 'tsconfig.json' },
-            },
-        );
-    },
+            const overrideConfig =
+            await createConfig
+            (
+                {
+                    files:              ['gulpfile.js', 'make-art.js', 'test/**/*.spec.js'],
+                    jsVersion:          2018,
+                    languageOptions:    { globals: globals.node, sourceType: 'commonjs' },
+                },
+                {
+                    files:              ['test/**/*.js'],
+                    ignores:            ['test/**/*.spec.js'],
+                    jsVersion:          5,
+                    languageOptions:    { sourceType: 'script' },
+                },
+                {
+                    files:              ['make-art.d.ts'],
+                    tsVersion:          '2.0.0',
+                    languageOptions:    { parserOptions: { project: 'tsconfig.json' } },
+                },
+            );
+            const stream =
+            src(['*.{js,ts}', 'test/**/*.js'])
+            .pipe
+            (
+                gulpESLintNew
+                (
+                    {
+                        configType:         'flat',
+                        overrideConfig,
+                        overrideConfigFile: true,
+                        warnIgnored:        true,
+                    },
+                ),
+            )
+            .pipe(gulpESLintNew.format('compact'))
+            .pipe(gulpESLintNew.failAfterError());
+            return stream;
+        },
+    ),
 );
 
 task
@@ -92,13 +143,14 @@ task
             readme:             'none',
             tsconfig:           'tsconfig.json',
         };
-        const app = new Application();
-        app.options.addReader(new TSConfigReader());
-        app.bootstrap(options);
-        const project = app.convert();
+        const tsConfigReader = new TSConfigReader();
+        const app = await Application.bootstrapWithPlugins(options, [tsConfigReader]);
+        const project = await app.convert();
+        app.validate(project);
+        const { logger } = app;
+        if (logger.hasErrors() || logger.hasWarnings())
+            throw Error('Problems occurred while generating the documentation');
         await app.renderer.render(project, 'doc');
-        if (app.logger.hasErrors())
-            throw Error('API documentation could not be generated');
     },
 );
 
