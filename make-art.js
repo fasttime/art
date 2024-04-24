@@ -2,9 +2,9 @@
 
 'use strict';
 
-const fs            = require('fs');
+const fs            = require('node:fs');
+const path          = require('node:path');
 const Handlebars    = require('handlebars');
-const path          = require('path');
 
 function createOutput(template, context)
 {
@@ -33,7 +33,7 @@ function makeArt(outDir, options)
 
 function makeArtCallback(outDir, options, callback)
 {
-    const { callbackify } = require('util');
+    const { callbackify } = require('node:util');
 
     validateOutDir(outDir);
     if (arguments.length < 3)

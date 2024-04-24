@@ -8,7 +8,7 @@ task
     'clean',
     async () =>
     {
-        const { rm } = require('fs/promises');
+        const { rm } = require('node:fs/promises');
 
         const paths = ['coverage', 'dist', 'doc'];
         const options = { force: true, recursive: true };
@@ -23,13 +23,14 @@ task
     (
         async () =>
         {
-            const { createConfig }  = require('@origin-1/eslint-config');
-            const globals           = require('globals');
-            const gulpESLintNew     = require('gulp-eslint-new');
+            const { createConfig, noParserConfig }  = require('@origin-1/eslint-config');
+            const globals                           = require('globals');
+            const gulpESLintNew                     = require('gulp-eslint-new');
 
             const overrideConfig =
             await createConfig
             (
+                noParserConfig,
                 {
                     files:              ['dist/art.js'],
                     jsVersion:          5,
@@ -80,16 +81,17 @@ task
     (
         async () =>
         {
-            const { createConfig }  = require('@origin-1/eslint-config');
-            const globals           = require('globals');
-            const gulpESLintNew     = require('gulp-eslint-new');
+            const { createConfig, noParserConfig }  = require('@origin-1/eslint-config');
+            const globals                           = require('globals');
+            const gulpESLintNew                     = require('gulp-eslint-new');
 
             const overrideConfig =
             await createConfig
             (
+                noParserConfig,
                 {
                     files:              ['gulpfile.js', 'make-art.js', 'test/**/*.spec.js'],
-                    jsVersion:          2018,
+                    jsVersion:          2022,
                     languageOptions:    { globals: globals.node, sourceType: 'commonjs' },
                 },
                 {
@@ -171,7 +173,7 @@ task
     'test',
     callback =>
     {
-        const { fork } = require('child_process');
+        const { fork } = require('node:child_process');
 
         const { resolve } = require;
         const c8Path = resolve('c8/bin/c8');
@@ -192,6 +194,5 @@ task
 task
 (
     'default',
-    series
-    (parallel('clean', 'lint:other'), 'make-art', 'test', parallel('make-api-doc', 'lint:art')),
+    series('clean', 'lint:other', 'make-art', 'test', parallel('make-api-doc', 'lint:art')),
 );

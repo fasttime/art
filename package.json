@@ -37,11 +37,11 @@
     "test": "mocha --check-leaks test/**/*.spec.js"
   },
   "dependencies": {
-    "@types/node": ">=14",
+    "@types/node": ">=18",
     "handlebars": ">=4.1"
   },
   "devDependencies": {
-    "@origin-1/eslint-config": "latest",
+    "@origin-1/eslint-config": "eslint-8",
     "c8": "latest",
     "expectations": "latest",
     "globals": "latest",
@@ -56,6 +56,6 @@
     "typedoc-plugin-markdown": "latest"
   },
   "engines": {
-    "node": ">=14"
+    "node": ">=18"
   }
 }

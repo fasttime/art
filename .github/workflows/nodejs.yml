@@ -6,6 +6,8 @@ jobs:
 
   lint:
 
+    name: Lint Files
+
     runs-on: ubuntu-latest
 
     steps:
@@ -13,25 +15,51 @@ jobs:
     - uses: actions/setup-node@v4
       with:
         node-version: 20
-    - run: npm install
-    - run: npx gulp lint:other make-api-doc lint:art
+    - run: |
+        npm install
+        npx gulp lint:other lint:art
+
+  make-api-doc:
+
+    name: Generate Documentation
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-node@v4
+      with:
+        node-version: 20
+    - run: |
+        npm install
+        npx gulp make-api-doc
 
   make-art-and-test:
 
-    name: test (Node.js ${{ matrix.node-version }} on ${{ matrix.os }})
+    name: Test (Node.js ${{ matrix.node-version }} on ${{ matrix.runs-on }})
 
-    runs-on: ${{ matrix.os }}
+    runs-on: ${{ matrix.runs-on }}
 
     strategy:
       matrix:
-        node-version: ['16', '18', '20', '21']
-        os: [macos-latest, ubuntu-latest, windows-latest]
+        node-version: ['18.0.0', '18', '20', '21']
+        runs-on: [ubuntu-latest]
+        include:
+        - node-version: '18.0.0'
+          runs-on: macos-latest
+        - node-version: '18.0.0'
+          runs-on: windows-latest
+        - node-version: '21'
+          runs-on: macos-latest
+        - node-version: '21'
+          runs-on: windows-latest
 
     steps:
     - uses: actions/checkout@v4
     - uses: actions/setup-node@v4
       with:
         node-version: ${{ matrix.node-version }}
-    - run: npm install
-    - run: npx gulp make-art
-    - run: npm test
+    - run: |
+        npm install
+        npx gulp make-art
+        npm test
