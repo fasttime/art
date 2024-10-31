@@ -34,6 +34,8 @@
   },
   "scripts": {
     "build": "npm install && gulp",
+    "release": "npm version -f",
+    "version": "gulp make-art && git add changelog.md dist",
     "test": "mocha --check-leaks test/**/*.spec.js"
   },
   "dependencies": {
