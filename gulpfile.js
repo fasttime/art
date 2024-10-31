@@ -67,7 +67,7 @@ task
                     },
                 ),
             )
-            .pipe(gulpESLintNew.format('compact'))
+            .pipe(gulpESLintNew.format())
             .pipe(gulpESLintNew.failAfterError());
             return stream;
         },
@@ -103,7 +103,6 @@ task
                 {
                     files:              ['make-art.d.ts'],
                     tsVersion:          '2.0.0',
-                    languageOptions:    { parserOptions: { project: 'tsconfig.json' } },
                 },
             );
             const stream =
@@ -120,7 +119,7 @@ task
                     },
                 ),
             )
-            .pipe(gulpESLintNew.format('compact'))
+            .pipe(gulpESLintNew.format())
             .pipe(gulpESLintNew.failAfterError());
             return stream;
         },

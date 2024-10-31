@@ -94,8 +94,7 @@ interface art
     (target: Node) => never;
 }
 
-interface RuleDefinitionObject extends Readonly<Record<string, string>>
-{ }
+type RuleDefinitionObject = Readonly<Record<string, string>>;
 
 interface art
 {

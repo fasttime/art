@@ -41,7 +41,7 @@
     "handlebars": ">=4.1"
   },
   "devDependencies": {
-    "@origin-1/eslint-config": "eslint-8",
+    "@origin-1/eslint-config": "latest",
     "c8": "latest",
     "expectations": "latest",
     "globals": "latest",

@@ -1,44 +1,45 @@
-# Interface: art\_css
+[**art**](../README.md) • **Docs**
 
-## Callable
+***
 
-### art_css
+# Interface: art\_css()
 
-▸ **art_css**(`selectors`, `ruleObj`): `undefined`
+> **art\_css**(`selectors`, `ruleObj`): `undefined`
 
 Creates a new CSS rule and adds it to the document.
 
-#### Parameters
+## Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `selectors` | `string` | The selector of the new rule. |
-| `ruleObj` | [`RuleDefinitionObject`](RuleDefinitionObject.md) | A rule definition object mapping style names to their respective values. |
+• **selectors**: `string`
 
-#### Returns
+The selector of the new rule.
+
+• **ruleObj**: `Readonly`\<`Record`\<`string`, `string`\>\>
+
+A rule definition object mapping style names to their respective values.
+
+## Returns
 
 `undefined`
 
-## Table of contents
-
-### Methods
-
-- [keyframes](art_css.md#keyframes)
-
 ## Methods
 
-### keyframes
+### keyframes()
 
-▸ **keyframes**(`identifier`, `ruleObjMap`): `boolean`
+> **keyframes**(`identifier`, `ruleObjMap`): `boolean`
 
 Creates a new CSS keyframes rule and adds it to the document.
 
 #### Parameters
 
-| Name | Type | Description |
-| :------ | :------ | :------ |
-| `identifier` | `string` | The new keyframes rule identifier. |
-| `ruleObjMap` | `Readonly`\<`Record`\<`string`, [`RuleDefinitionObject`](RuleDefinitionObject.md)\>\> | An object mapping selectors to rule definition objects. Rule definition objects map style names to their respective values. |
+• **identifier**: `string`
+
+The new keyframes rule identifier.
+
+• **ruleObjMap**: `Readonly`\<`Record`\<`string`, `Readonly`\<`Record`\<`string`, `string`\>\>\>\>
+
+An object mapping selectors to rule definition objects.
+Rule definition objects map style names to their respective values.
 
 #### Returns
 
